@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infyra News</title>
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Infyra News">
+    <meta property="og:title" id="ogTitle">
+    <meta property="og:description" id="ogDesc">
+    <meta property="og:image" id="ogImage">
+    <meta property="og:url" id="ogUrl">
+    <script type="application/ld+json" id="schemaArticle"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="news-page">
+
+<header class="header">
+    <div class="header-container">
+        <a href="index.html" class="logo">Infyra</a>
+
+        <!-- Кнопка-бургер (скрыта через CSS) -->
+        <button class="burger" id="burger" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Десктопная навигация (скрыта) -->
+        <nav class="nav-desktop">
+            <ul id="categories" class="categories-list"></ul>
+            <div class="lang-wrapper">
+                <select id="langSelect" class="lang-select"></select>
+            </div>
+        </nav>
+
+        <!-- Мобильное меню (скрыто) -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul id="mobileCategories" class="mobile-categories-list"></ul>
+            <div class="mobile-lang-wrapper">
+                <select id="mobileLangSelect" class="mobile-lang-select"></select>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Основной контент -->
+<main class="news-article">
+    <div class="article-meta">
+        <span id="articleCategory"></span> ·
+        <span id="articleDate"></span> ·
+        <span id="articleSource"></span>
+    </div>
+
+    <h1 id="title">Loading...</h1>
+
+    <img id="image" class="article-image" alt="News image">
+
+    <div class="article-content">
+        <p id="desc"></p>
+        <div id="extendedContent"></div>
+    </div>
+</main>
+
+<!-- Футер (без изменений) -->
+<footer id="main-footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <div class="logo" onclick="window.location.href='index.html'">Infyra</div>
+            <p id="footer-tagline">Breaking news from around the world</p>
+        </div>
+        
+        <div class="footer-links">
+            <h4 id="footer-legal">Legal</h4>
+            <ul>
+                <li><a href="privacy.html" id="footer-privacy">Privacy Policy</a></li>
+                <li><a href="terms.html" id="footer-terms">Terms of Service</a></li>
+                <li><a href="cookie-policy.html" id="footer-cookie">Cookie Policy</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-links">
+            <h4 id="footer-contact-title">Contact</h4>
+            <ul>
+                <li><a href="contact.html" id="footer-contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p id="footer-copyright">© 2026 Infyra News. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Cookie-баннер -->
+<div id="cookie-banner">
+    <p id="cookie-text">🍪 We use cookies to personalize ads and analyze traffic. By continuing to use our site, you agree to our <a href="privacy.html">Privacy Policy</a> and use of cookies.</p>
+    <div>
+        <button class="cookie-accept" id="cookie-accept-btn" onclick="acceptCookies()">Accept</button>
+        <button class="cookie-decline" id="cookie-decline-btn" onclick="declineCookies()">Decline</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

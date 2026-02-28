@@ -1,0 +1,1795 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Contact Us - Infyra News</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background:#0b0f19; color:#fff; font-family:Inter,Arial; line-height:1.6; margin:0; }
+        .container { max-width:800px; margin:40px auto; padding:20px; }
+        h1 { font-size:32px; margin-bottom:10px; color:#4facfe; }
+        .intro-text { color:#a0a8b8; margin-bottom:30px; }
+        .form-group { margin-bottom:20px; }
+        label { display:block; margin-bottom:5px; color:#a0a8b8; font-weight:500; }
+        input, textarea { width:100%; padding:12px; background:#0e1424; border:1px solid #1e2638; border-radius:5px; color:#fff; font-size:16px; font-family:Inter,Arial; }
+        input:focus, textarea:focus { outline:none; border-color:#4facfe; }
+        button { background:#4facfe; color:#fff; border:none; padding:12px 30px; border-radius:5px; font-size:16px; cursor:pointer; transition:background 0.3s; font-weight:600; }
+        button:hover { background:#a855f7; }
+        .note { color:#6a7480; font-size:14px; margin-top:20px; }
+        .logo { font-size:28px; font-weight:700; background:linear-gradient(90deg,#4facfe,#a855f7); -webkit-background-clip:text;-webkit-text-fill-color:transparent; text-decoration:none; }
+        header { padding:15px 30px; background:#0e1424; border-bottom:1px solid #1e2638; }
+        #successMessage { background:#1e3a2e; padding:30px; border-radius:10px; margin-top:20px; color:#4caf50; display:none; text-align:center; }
+        #successMessage strong { display:block; font-size:20px; margin-bottom:10px; }
+        .contact-form { background:#121a2e; padding:30px; border-radius:10px; margin-top:30px; border:1px solid #1e2638; }
+        small { color:#6a7480; display:block; margin-top:5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Infyra</a>
+    </header>
+    
+    <div class="container">
+        <h1 id="contactTitle">Свяжитесь с нами</h1>
+        <p class="intro-text" id="contactIntro">Если у вас есть вопросы, предложения или замечания по работе сайта, заполните форму ниже. Мы ответим вам в ближайшее время.</p>
+        
+        <div class="contact-form">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name" id="nameLabel">Ваше имя *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" id="emailLabel">Ваш Email для ответа *</label>
+                    <input type="email" id="email" name="email" required>
+                    <small id="emailHint">На этот адрес мы отправим ответ</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject" id="subjectLabel">Тема *</label>
+                    <input type="text" id="subject" name="subject" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" id="messageLabel">Сообщение *</label>
+                    <textarea id="message" name="message" rows="6" required></textarea>
+                </div>
+                
+                <button type="submit" id="submitBtn">Отправить сообщение</button>
+                
+                <p class="note" id="contactNote">* — обязательные поля. Нажимая кнопку "Отправить", вы соглашаетесь с <a href="privacy.html" style="color:#4facfe;" id="privacyLink">Политикой конфиденциальности</a>.</p>
+            </form>
+        </div>
+        
+        <div id="successMessage">
+            <strong id="successTitle">Спасибо!</strong>
+            <p id="successText">Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // ПОЛНЫЙ ОБЪЕКТ ПЕРЕВОДОВ ДЛЯ ВСЕХ 112 ЯЗЫКОВ
+        const CONTACT_TRANSLATIONS = {
+            en: {
+                pageTitle: "Contact Us - Infyra News",
+                contactTitle: "Contact Us",
+                intro: "If you have questions, suggestions or comments about the site, fill out the form below. We will respond as soon as possible.",
+                nameLabel: "Your name *",
+                emailLabel: "Your Email for reply *",
+                emailHint: "We will send a response to this address",
+                subjectLabel: "Subject *",
+                messageLabel: "Message *",
+                submitBtn: "Send Message",
+                note: "* - required fields. By clicking \"Send\", you agree to the {privacy}.",
+                privacyLink: "Privacy Policy",
+                successTitle: "Thank you!",
+                successText: "Your message has been sent. We will contact you shortly."
+            },
+            ru: {
+                pageTitle: "Контакты - Infyra News",
+                contactTitle: "Свяжитесь с нами",
+                intro: "Если у вас есть вопросы, предложения или замечания по работе сайта, заполните форму ниже. Мы ответим вам в ближайшее время.",
+                nameLabel: "Ваше имя *",
+                emailLabel: "Ваш Email для ответа *",
+                emailHint: "На этот адрес мы отправим ответ",
+                subjectLabel: "Тема *",
+                messageLabel: "Сообщение *",
+                submitBtn: "Отправить сообщение",
+                note: "* — обязательные поля. Нажимая кнопку \"Отправить\", вы соглашаетесь с {privacy}.",
+                privacyLink: "Политикой конфиденциальности",
+                successTitle: "Спасибо!",
+                successText: "Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время."
+            },
+            et: {
+                pageTitle: "Kontakt - Infyra Uudised",
+                contactTitle: "Võta meiega ühendust",
+                intro: "Kui teil on küsimusi, ettepanekuid või kommentaare saidi kohta, täitke allolev vorm. Vastame esimesel võimalusel.",
+                nameLabel: "Teie nimi *",
+                emailLabel: "Teie e-posti aadress vastuseks *",
+                emailHint: "Saadame vastuse sellele aadressile",
+                subjectLabel: "Teema *",
+                messageLabel: "Sõnum *",
+                submitBtn: "Saada sõnum",
+                note: "* - kohustuslikud väljad. Klõpsates nuppu \"Saada\", nõustute {privacy}.",
+                privacyLink: "Privaatsuspoliitikaga",
+                successTitle: "Aitäh!",
+                successText: "Teie sõnum on saadetud. Võtame teiega peagi ühendust."
+            },
+            de: {
+                pageTitle: "Kontakt - Infyra Nachrichten",
+                contactTitle: "Kontaktiere uns",
+                intro: "Wenn Sie Fragen, Anregungen oder Kommentare zur Website haben, füllen Sie das untenstehende Formular aus. Wir werden uns so schnell wie möglich bei Ihnen melden.",
+                nameLabel: "Ihr Name *",
+                emailLabel: "Ihre E-Mail für Antwort *",
+                emailHint: "Wir senden eine Antwort an diese Adresse",
+                subjectLabel: "Betreff *",
+                messageLabel: "Nachricht *",
+                submitBtn: "Nachricht senden",
+                note: "* - Pflichtfelder. Mit Klick auf \"Senden\" stimmen Sie der {privacy} zu.",
+                privacyLink: "Datenschutzerklärung",
+                successTitle: "Vielen Dank!",
+                successText: "Ihre Nachricht wurde gesendet. Wir werden uns in Kürze bei Ihnen melden."
+            },
+            fr: {
+                pageTitle: "Contact - Infyra Actualités",
+                contactTitle: "Contactez-nous",
+                intro: "Si vous avez des questions, des suggestions ou des commentaires sur le site, remplissez le formulaire ci-dessous. Nous vous répondrons dans les plus brefs délais.",
+                nameLabel: "Votre nom *",
+                emailLabel: "Votre email pour la réponse *",
+                emailHint: "Nous enverrons une réponse à cette adresse",
+                subjectLabel: "Sujet *",
+                messageLabel: "Message *",
+                submitBtn: "Envoyer le message",
+                note: "* - champs obligatoires. En cliquant sur \"Envoyer\", vous acceptez la {privacy}.",
+                privacyLink: "Politique de confidentialité",
+                successTitle: "Merci !",
+                successText: "Votre message a été envoyé. Nous vous contacterons sous peu."
+            },
+            es: {
+                pageTitle: "Contacto - Infyra Noticias",
+                contactTitle: "Contáctenos",
+                intro: "Si tiene preguntas, sugerencias o comentarios sobre el sitio, complete el formulario a continuación. Le responderemos lo antes posible.",
+                nameLabel: "Su nombre *",
+                emailLabel: "Su correo electrónico para respuesta *",
+                emailHint: "Enviaremos una respuesta a esta dirección",
+                subjectLabel: "Asunto *",
+                messageLabel: "Mensaje *",
+                submitBtn: "Enviar mensaje",
+                note: "* - campos obligatorios. Al hacer clic en \"Enviar\", acepta la {privacy}.",
+                privacyLink: "Política de privacidad",
+                successTitle: "¡Gracias!",
+                successText: "Su mensaje ha sido enviado. Nos comunicaremos con usted en breve."
+            },
+            pt: {
+                pageTitle: "Contato - Infyra Notícias",
+                contactTitle: "Fale conosco",
+                intro: "Se você tem perguntas, sugestões ou comentários sobre o site, preencha o formulário abaixo. Responderemos o mais breve possível.",
+                nameLabel: "Seu nome *",
+                emailLabel: "Seu e-mail para resposta *",
+                emailHint: "Enviaremos uma resposta para este endereço",
+                subjectLabel: "Assunto *",
+                messageLabel: "Mensagem *",
+                submitBtn: "Enviar mensagem",
+                note: "* - campos obrigatórios. Ao clicar em \"Enviar\", você concorda com a {privacy}.",
+                privacyLink: "Política de Privacidade",
+                successTitle: "Obrigado!",
+                successText: "Sua mensagem foi enviada. Entraremos em contato em breve."
+            },
+            it: {
+                pageTitle: "Contatti - Infyra Notizie",
+                contactTitle: "Contattaci",
+                intro: "Se hai domande, suggerimenti o commenti sul sito, compila il modulo sottostante. Ti risponderemo il prima possibile.",
+                nameLabel: "Il tuo nome *",
+                emailLabel: "La tua email per la risposta *",
+                emailHint: "Invieremo una risposta a questo indirizzo",
+                subjectLabel: "Oggetto *",
+                messageLabel: "Messaggio *",
+                submitBtn: "Invia messaggio",
+                note: "* - campi obbligatori. Cliccando su \"Invia\", accetti la {privacy}.",
+                privacyLink: "Informativa sulla privacy",
+                successTitle: "Grazie!",
+                successText: "Il tuo messaggio è stato inviato. Ti contatteremo a breve."
+            },
+            nl: {
+                pageTitle: "Contact - Infyra Nieuws",
+                contactTitle: "Neem contact op",
+                intro: "Als u vragen, suggesties of opmerkingen heeft over de site, vul dan onderstaand formulier in. We nemen zo snel mogelijk contact met u op.",
+                nameLabel: "Uw naam *",
+                emailLabel: "Uw e-mail voor antwoord *",
+                emailHint: "We sturen een antwoord naar dit adres",
+                subjectLabel: "Onderwerp *",
+                messageLabel: "Bericht *",
+                submitBtn: "Bericht versturen",
+                note: "* - verplichte velden. Door op \"Verzenden\" te klikken, gaat u akkoord met de {privacy}.",
+                privacyLink: "Privacybeleid",
+                successTitle: "Bedankt!",
+                successText: "Uw bericht is verzonden. We nemen binnenkort contact met u op."
+            },
+            sv: {
+                pageTitle: "Kontakt - Infyra Nyheter",
+                contactTitle: "Kontakta oss",
+                intro: "Om du har frågor, förslag eller kommentarer om webbplatsen, fyll i formuläret nedan. Vi svarar så snart som möjligt.",
+                nameLabel: "Ditt namn *",
+                emailLabel: "Din e-post för svar *",
+                emailHint: "Vi skickar ett svar till denna adress",
+                subjectLabel: "Ämne *",
+                messageLabel: "Meddelande *",
+                submitBtn: "Skicka meddelande",
+                note: "* - obligatoriska fält. Genom att klicka på \"Skicka\" godkänner du {privacy}.",
+                privacyLink: "Integritetspolicy",
+                successTitle: "Tack!",
+                successText: "Ditt meddelande har skickats. Vi kontaktar dig inom kort."
+            },
+            pl: {
+                pageTitle: "Kontakt - Infyra Wiadomości",
+                contactTitle: "Skontaktuj się z nami",
+                intro: "Jeśli masz pytania, sugestie lub uwagi dotyczące strony, wypełnij poniższy formularz. Odpowiemy najszybciej jak to możliwe.",
+                nameLabel: "Twoje imię *",
+                emailLabel: "Twój e-mail do odpowiedzi *",
+                emailHint: "Wyślemy odpowiedź na ten adres",
+                subjectLabel: "Temat *",
+                messageLabel: "Wiadomość *",
+                submitBtn: "Wyślij wiadomość",
+                note: "* - pola wymagane. Klikając \"Wyślij\", akceptujesz {privacy}.",
+                privacyLink: "Politykę prywatności",
+                successTitle: "Dziękujemy!",
+                successText: "Twoja wiadomość została wysłana. Skontaktujemy się wkrótce."
+            },
+            cs: {
+                pageTitle: "Kontakt - Infyra Zprávy",
+                contactTitle: "Kontaktujte nás",
+                intro: "Máte-li dotazy, návrhy nebo připomínky k webu, vyplňte níže uvedený formulář. Odpovíme co nejdříve.",
+                nameLabel: "Vaše jméno *",
+                emailLabel: "Váš e-mail pro odpověď *",
+                emailHint: "Odpověď zašleme na tuto adresu",
+                subjectLabel: "Předmět *",
+                messageLabel: "Zpráva *",
+                submitBtn: "Odeslat zprávu",
+                note: "* - povinná pole. Kliknutím na \"Odeslat\" souhlasíte s {privacy}.",
+                privacyLink: "Zásadami ochrany osobních údajů",
+                successTitle: "Děkujeme!",
+                successText: "Vaše zpráva byla odeslána. Brzy vás budeme kontaktovat."
+            },
+            ro: {
+                pageTitle: "Contact - Infyra Știri",
+                contactTitle: "Contactați-ne",
+                intro: "Dacă aveți întrebări, sugestii sau comentarii despre site, completați formularul de mai jos. Vă vom răspunde cât mai curând posibil.",
+                nameLabel: "Numele dumneavoastră *",
+                emailLabel: "Email-ul dumneavoastră pentru răspuns *",
+                emailHint: "Vom trimite un răspuns la această adresă",
+                subjectLabel: "Subiect *",
+                messageLabel: "Mesaj *",
+                submitBtn: "Trimite mesajul",
+                note: "* - câmpuri obligatorii. Făcând clic pe \"Trimite\", sunteți de acord cu {privacy}.",
+                privacyLink: "Politica de confidențialitate",
+                successTitle: "Mulțumim!",
+                successText: "Mesajul dumneavoastră a fost trimis. Vă vom contacta în curând."
+            },
+            hu: {
+                pageTitle: "Kapcsolat - Infyra Hírek",
+                contactTitle: "Lépjen kapcsolatba velünk",
+                intro: "Ha kérdése, javaslata vagy észrevétele van az oldallal kapcsolatban, töltse ki az alábbi űrlapot. A lehető leghamarabb válaszolunk.",
+                nameLabel: "Az Ön neve *",
+                emailLabel: "Az Ön e-mail címe a válaszhoz *",
+                emailHint: "Választ küldünk erre a címre",
+                subjectLabel: "Tárgy *",
+                messageLabel: "Üzenet *",
+                submitBtn: "Üzenet küldése",
+                note: "* - kötelező mezők. A \"Küldés\" gombra kattintva elfogadja a {privacy}.",
+                privacyLink: "Adatvédelmi irányelveket",
+                successTitle: "Köszönjük!",
+                successText: "Az üzenet elküldve. Hamarosan felvesszük Önnel a kapcsolatot."
+            },
+            bg: {
+                pageTitle: "Контакт - Infyra Новини",
+                contactTitle: "Свържете се с нас",
+                intro: "Ако имате въпроси, предложения или коментари относно сайта, попълнете формата по-долу. Ще отговорим възможно най-скоро.",
+                nameLabel: "Вашето име *",
+                emailLabel: "Вашият имейл за отговор *",
+                emailHint: "Ще изпратим отговор на този адрес",
+                subjectLabel: "Тема *",
+                messageLabel: "Съобщение *",
+                submitBtn: "Изпрати съобщение",
+                note: "* - задължителни полета. Кликвайки върху \"Изпрати\", вие се съгласявате с {privacy}.",
+                privacyLink: "Политика за поверителност",
+                successTitle: "Благодарим!",
+                successText: "Вашето съобщение е изпратено. Ще се свържем с вас скоро."
+            },
+            sr: {
+                pageTitle: "Контакт - Infyra Вести",
+                contactTitle: "Контактирајте нас",
+                intro: "Ако имате питања, предлоге или коментаре о сајту, попуните формулар испод. Одговорићемо у најкраћем могућем року.",
+                nameLabel: "Ваше име *",
+                emailLabel: "Ваш емаил за одговор *",
+                emailHint: "Послаћемо одговор на ову адресу",
+                subjectLabel: "Тема *",
+                messageLabel: "Порука *",
+                submitBtn: "Пошаљи поруку",
+                note: "* - обавезна поља. Кликом на \"Пошаљи\", пристајете на {privacy}.",
+                privacyLink: "Политику приватности",
+                successTitle: "Хвала!",
+                successText: "Ваша порука је послата. Ускоро ћемо вас контактирати."
+            },
+            hr: {
+                pageTitle: "Kontakt - Infyra Vijesti",
+                contactTitle: "Kontaktirajte nas",
+                intro: "Ako imate pitanja, prijedloge ili komentare o stranici, ispunite obrazac u nastavku. Odgovorit ćemo u najkraćem mogućem roku.",
+                nameLabel: "Vaše ime *",
+                emailLabel: "Vaš email za odgovor *",
+                emailHint: "Poslat ćemo odgovor na ovu adresu",
+                subjectLabel: "Tema *",
+                messageLabel: "Poruka *",
+                submitBtn: "Pošalji poruku",
+                note: "* - obavezna polja. Klikom na \"Pošalji\", pristajete na {privacy}.",
+                privacyLink: "Pravila o privatnosti",
+                successTitle: "Hvala!",
+                successText: "Vaša poruka je poslana. Uskoro ćemo vas kontaktirati."
+            },
+            sk: {
+                pageTitle: "Kontakt - Infyra Správy",
+                contactTitle: "Kontaktujte nás",
+                intro: "Ak máte otázky, návrhy alebo pripomienky k stránke, vyplňte formulár nižšie. Odpovieme čo najskôr.",
+                nameLabel: "Vaše meno *",
+                emailLabel: "Váš email pre odpoveď *",
+                emailHint: "Odpoveď pošleme na túto adresu",
+                subjectLabel: "Predmet *",
+                messageLabel: "Správa *",
+                submitBtn: "Odoslať správu",
+                note: "* - povinné polia. Kliknutím na \"Odoslať\" súhlasíte s {privacy}.",
+                privacyLink: "Zásadami ochrany osobných údajov",
+                successTitle: "Ďakujeme!",
+                successText: "Vaša správa bola odoslaná. Čoskoro vás budeme kontaktovať."
+            },
+            sl: {
+                pageTitle: "Kontakt - Infyra Novice",
+                contactTitle: "Kontaktirajte nas",
+                intro: "Če imate vprašanja, predloge ali pripombe o spletnem mestu, izpolnite spodnji obrazec. Odgovorili vam bomo v najkrajšem možnem času.",
+                nameLabel: "Vaše ime *",
+                emailLabel: "Vaš e-poštni naslov za odgovor *",
+                emailHint: "Odgovor bomo poslali na ta naslov",
+                subjectLabel: "Zadeva *",
+                messageLabel: "Sporočilo *",
+                submitBtn: "Pošlji sporočilo",
+                note: "* - obvezna polja. S klikom na \"Pošlji\" se strinjate z {privacy}.",
+                privacyLink: "Pravilnikom o zasebnosti",
+                successTitle: "Hvala!",
+                successText: "Vaše sporočilo je bilo poslano. Kmalu vas bomo kontaktirali."
+            },
+            da: {
+                pageTitle: "Kontakt - Infyra Nyheder",
+                contactTitle: "Kontakt os",
+                intro: "Hvis du har spørgsmål, forslag eller kommentarer til webstedet, skal du udfylde formularen nedenfor. Vi svarer så hurtigt som muligt.",
+                nameLabel: "Dit navn *",
+                emailLabel: "Din e-mail til svar *",
+                emailHint: "Vi sender et svar til denne adresse",
+                subjectLabel: "Emne *",
+                messageLabel: "Besked *",
+                submitBtn: "Send besked",
+                note: "* - obligatoriske felter. Ved at klikke på \"Send\" accepterer du vores {privacy}.",
+                privacyLink: "Fortrolighedspolitik",
+                successTitle: "Tak!",
+                successText: "Din besked er sendt. Vi kontakter dig snart."
+            },
+            fi: {
+                pageTitle: "Yhteystiedot - Infyra Uutiset",
+                contactTitle: "Ota meihin yhteyttä",
+                intro: "Jos sinulla on kysyttävää, ehdotuksia tai kommentteja sivustosta, täytä alla oleva lomake. Vastaamme mahdollisimman pian.",
+                nameLabel: "Nimesi *",
+                emailLabel: "Sähköpostiosoitteesi vastausta varten *",
+                emailHint: "Lähetämme vastauksen tähän osoitteeseen",
+                subjectLabel: "Aihe *",
+                messageLabel: "Viesti *",
+                submitBtn: "Lähetä viesti",
+                note: "* - pakolliset kentät. Napsauttamalla \"Lähetä\" hyväksyt {privacy}.",
+                privacyLink: "Tietosuojakäytännön",
+                successTitle: "Kiitos!",
+                successText: "Viestisi on lähetetty. Otamme sinuun yhteyttä pian."
+            },
+            no: {
+                pageTitle: "Kontakt - Infyra Nyheter",
+                contactTitle: "Kontakt oss",
+                intro: "Hvis du har spørsmål, forslag eller kommentarer til nettstedet, fyll ut skjemaet nedenfor. Vi svarer så snart som mulig.",
+                nameLabel: "Ditt navn *",
+                emailLabel: "Din e-post for svar *",
+                emailHint: "Vi sender et svar til denne adressen",
+                subjectLabel: "Emne *",
+                messageLabel: "Melding *",
+                submitBtn: "Send melding",
+                note: "* - obligatoriske felt. Ved å klikke på \"Send\", godtar du vår {privacy}.",
+                privacyLink: "Personvernerklæring",
+                successTitle: "Takk!",
+                successText: "Meldingen din er sendt. Vi kontakter deg snart."
+            },
+            is: {
+                pageTitle: "Hafðu samband - Infyra Fréttir",
+                contactTitle: "Hafðu samband við okkur",
+                intro: "Ef þú hefur spurningar, ábendingar eða athugasemdir um síðuna, vinsamlegast fylltu út eyðublaðið hér að neðan. Við svörum eins fljótt og auðið er.",
+                nameLabel: "Þitt nafn *",
+                emailLabel: "Netfangið þitt fyrir svar *",
+                emailHint: "Við sendum svar á þetta netfang",
+                subjectLabel: "Efni *",
+                messageLabel: "Skilaboð *",
+                submitBtn: "Senda skilaboð",
+                note: "* - nauðsynlegir reitir. Með því að smella á \"Senda\" samþykkir þú {privacy}.",
+                privacyLink: "Persónuverndarstefnu",
+                successTitle: "Takk fyrir!",
+                successText: "Skilaboðin þín hafa verið send. Við höfum samband fljótlega."
+            },
+            lt: {
+                pageTitle: "Kontaktai - Infyra Naujienos",
+                contactTitle: "Susisiekite su mumis",
+                intro: "Jei turite klausimų, pasiūlymų ar pastabų apie svetainę, užpildykite žemiau esančią formą. Atsakysime kuo greičiau.",
+                nameLabel: "Jūsų vardas *",
+                emailLabel: "Jūsų el. paštas atsakymui *",
+                emailHint: "Atsakymą išsiųsime šiuo adresu",
+                subjectLabel: "Tema *",
+                messageLabel: "Žinutė *",
+                submitBtn: "Siųsti žinutę",
+                note: "* - privalomi laukai. Spustelėdami \"Siųsti\", sutinkate su {privacy}.",
+                privacyLink: "Privatumo politika",
+                successTitle: "Ačiū!",
+                successText: "Jūsų žinutė išsiųsta. Netrukus susisieksime."
+            },
+            lv: {
+                pageTitle: "Kontakti - Infyra Ziņas",
+                contactTitle: "Sazinieties ar mums",
+                intro: "Ja jums ir jautājumi, ieteikumi vai komentāri par vietni, aizpildiet zemāk esošo veidlapu. Mēs atbildēsim pēc iespējas ātrāk.",
+                nameLabel: "Jūsu vārds *",
+                emailLabel: "Jūsu e-pasts atbildei *",
+                emailHint: "Mēs nosūtīsim atbildi uz šo adresi",
+                subjectLabel: "Temats *",
+                messageLabel: "Ziņa *",
+                submitBtn: "Nosūtīt ziņu",
+                note: "* - obligātie lauki. Noklikšķinot uz \"Nosūtīt\", jūs piekrītat {privacy}.",
+                privacyLink: "Privātuma politikai",
+                successTitle: "Paldies!",
+                successText: "Jūsu ziņa ir nosūtīta. Drīz sazināsimies."
+            },
+            ga: {
+                pageTitle: "Teagmháil - Infyra Nuacht",
+                contactTitle: "Déan teagmháil linn",
+                intro: "Má tá ceisteanna, moltaí nó tuairimí agat faoin suíomh, líon isteach an fhoirm thíos. Freagróimid chomh luath agus is féidir.",
+                nameLabel: "D'ainm *",
+                emailLabel: "Do sheoladh ríomhphoist le haghaidh freagra *",
+                emailHint: "Seolfaimid freagra chuig an seoladh seo",
+                subjectLabel: "Ábhar *",
+                messageLabel: "Teachtaireacht *",
+                submitBtn: "Seol teachtaireacht",
+                note: "* - réimsí riachtanacha. Trí chliceáil ar \"Seol\", aontaíonn tú lenár {privacy}.",
+                privacyLink: "mBeartas Príobháideachais",
+                successTitle: "Go raibh maith agat!",
+                successText: "Seoladh do theachtaireacht. Rachaimid i dteagmháil leat go luath."
+            },
+            mt: {
+                pageTitle: "Kuntatt - Infyra Aħbarijiet",
+                contactTitle: "Ikkuntattjana",
+                intro: "Jekk għandek mistoqsijiet, suġġerimenti jew kummenti dwar is-sit, imla l-formola hawn taħt. Nirrispondu kemm jista 'jkun malajr.",
+                nameLabel: "Ismek *",
+                emailLabel: "L-email tiegħek għal tweġiba *",
+                emailHint: "Se nibagħtu tweġiba lil dan l-indirizz",
+                subjectLabel: "Suġġett *",
+                messageLabel: "Messaġġ *",
+                submitBtn: "Ibgħat il-messaġġ",
+                note: "* - oqsma obbligatorji. Billi tikklikkja \"Ibgħat\", taqbel mal-{privacy}.",
+                privacyLink: "Politika tal-Privatezza",
+                successTitle: "Grazzi!",
+                successText: "Il-messaġġ tiegħek intbagħat. Ikkuntattjak dalwaqt."
+            },
+            cy: {
+                pageTitle: "Cyswllt - Infyra Newyddion",
+                contactTitle: "Cysylltwch â ni",
+                intro: "Os oes gennych gwestiynau, awgrymiadau neu sylwadau am y wefan, llenwch y ffurflen isod. Byddwn yn ymateb cyn gynted â phosibl.",
+                nameLabel: "Eich enw *",
+                emailLabel: "Eich e-bost ar gyfer ateb *",
+                emailHint: "Byddwn yn anfon ymateb i'r cyfeiriad hwn",
+                subjectLabel: "Pwnc *",
+                messageLabel: "Neges *",
+                submitBtn: "Anfon neges",
+                note: "* - meysydd gofynnol. Trwy glicio \"Anfon\", rydych yn cytuno i'n {privacy}.",
+                privacyLink: "Polisi Preifatrwydd",
+                successTitle: "Diolch!",
+                successText: "Mae eich neges wedi'i hanfon. Byddwn yn cysylltu â chi cyn bo hir."
+            },
+            eu: {
+                pageTitle: "Kontaktua - Infyra Albisteak",
+                contactTitle: "Jarri gurekin harremanetan",
+                intro: "Guneari buruzko galderak, iradokizunak edo iruzkinak badituzu, bete beheko inprimakia. Ahalik eta azkarren erantzungo dugu.",
+                nameLabel: "Zure izena *",
+                emailLabel: "Zure helbide elektronikoa erantzuna jasotzeko *",
+                emailHint: "Helbide honetara bidaliko dugu erantzuna",
+                subjectLabel: "Gaia *",
+                messageLabel: "Mezua *",
+                submitBtn: "Bidali mezua",
+                note: "* - derrigorrezko eremuak. \"Bidali\" botoian klik eginez gero, onartzen duzu gure {privacy}.",
+                privacyLink: "Pribatutasun politika",
+                successTitle: "Eskerrik asko!",
+                successText: "Zure mezua bidali da. Laster jarriko gara zurekin harremanetan."
+            },
+            ca: {
+                pageTitle: "Contacte - Infyra Notícies",
+                contactTitle: "Poseu-vos en contacte amb nosaltres",
+                intro: "Si teniu preguntes, suggeriments o comentaris sobre el lloc, ompliu el formulari següent. Us respondrem el més aviat possible.",
+                nameLabel: "El vostre nom *",
+                emailLabel: "El vostre correu electrònic per a la resposta *",
+                emailHint: "Enviarem una resposta a aquesta adreça",
+                subjectLabel: "Tema *",
+                messageLabel: "Missatge *",
+                submitBtn: "Envia missatge",
+                note: "* - camps obligatoris. En fer clic a \"Envia\", accepteu la nostra {privacy}.",
+                privacyLink: "Política de privacitat",
+                successTitle: "Gràcies!",
+                successText: "El vostre missatge ha estat enviat. Us contactarem aviat."
+            },
+            gl: {
+                pageTitle: "Contacto - Infyra Noticias",
+                contactTitle: "Póñase en contacto connosco",
+                intro: "Se ten preguntas, suxestións ou comentarios sobre o sitio, encha o seguinte formulario. Responderemos o antes posible.",
+                nameLabel: "O seu nome *",
+                emailLabel: "O seu correo electrónico para a resposta *",
+                emailHint: "Enviaremos unha resposta a este enderezo",
+                subjectLabel: "Asunto *",
+                messageLabel: "Mensaxe *",
+                submitBtn: "Enviar mensaxe",
+                note: "* - campos obrigatorios. Ao facer clic en \"Enviar\", acepta a nosa {privacy}.",
+                privacyLink: "Política de privacidade",
+                successTitle: "Grazas!",
+                successText: "A súa mensaxe foi enviada. Poñerémonos en contacto en breve."
+            },
+            sq: {
+                pageTitle: "Kontakt - Infyra Lajme",
+                contactTitle: "Na kontaktoni",
+                intro: "Nëse keni pyetje, sugjerime ose komente në lidhje me faqen, plotësoni formularin më poshtë. Do të përgjigjemi sa më shpejt të jetë e mundur.",
+                nameLabel: "Emri juaj *",
+                emailLabel: "Email-i juaj për përgjigje *",
+                emailHint: "Do të dërgojmë një përgjigje në këtë adresë",
+                subjectLabel: "Tema *",
+                messageLabel: "Mesazhi *",
+                submitBtn: "Dërgo mesazh",
+                note: "* - fusha të detyrueshme. Duke klikuar \"Dërgo\", ju pranoni {privacy}.",
+                privacyLink: "Politikën e privatësisë",
+                successTitle: "Faleminderit!",
+                successText: "Mesazhi juaj u dërgua. Do t'ju kontaktojmë së shpejti."
+            },
+            mk: {
+                pageTitle: "Контакт - Infyra Вести",
+                contactTitle: "Контактирајте не",
+                intro: "Ако имате прашања, предлози или коментари за страницата, пополнете го формуларот подолу. Ќе одговориме во најкраток можен рок.",
+                nameLabel: "Вашето име *",
+                emailLabel: "Вашиот имејл за одговор *",
+                emailHint: "Ќе испратиме одговор на оваа адреса",
+                subjectLabel: "Тема *",
+                messageLabel: "Порака *",
+                submitBtn: "Испрати порака",
+                note: "* - задолжителни полиња. Со кликнување на \"Испрати\", се согласувате со {privacy}.",
+                privacyLink: "Политиката за приватност",
+                successTitle: "Благодариме!",
+                successText: "Вашата порака е испратена. Ќе ве контактираме наскоро."
+            },
+            bs: {
+                pageTitle: "Kontakt - Infyra Vijesti",
+                contactTitle: "Kontaktirajte nas",
+                intro: "Ako imate pitanja, prijedloge ili komentare o stranici, ispunite obrazac ispod. Odgovorit ćemo u najkraćem mogućem roku.",
+                nameLabel: "Vaše ime *",
+                emailLabel: "Vaš email za odgovor *",
+                emailHint: "Poslat ćemo odgovor na ovu adresu",
+                subjectLabel: "Tema *",
+                messageLabel: "Poruka *",
+                submitBtn: "Pošalji poruku",
+                note: "* - obavezna polja. Klikom na \"Pošalji\", pristajete na {privacy}.",
+                privacyLink: "Politiku privatnosti",
+                successTitle: "Hvala!",
+                successText: "Vaša poruka je poslana. Uskoro ćemo vas kontaktirati."
+            },
+            me: {
+                pageTitle: "Kontakt - Infyra Vijesti",
+                contactTitle: "Kontaktirajte nas",
+                intro: "Ako imate pitanja, prijedloge ili komentare o stranici, ispunite obrazac ispod. Odgovorit ćemo u najkraćem mogućem roku.",
+                nameLabel: "Vaše ime *",
+                emailLabel: "Vaš email za odgovor *",
+                emailHint: "Poslat ćemo odgovor na ovu adresu",
+                subjectLabel: "Tema *",
+                messageLabel: "Poruka *",
+                submitBtn: "Pošalji poruku",
+                note: "* - obavezna polja. Klikom na \"Pošalji\", pristajete na {privacy}.",
+                privacyLink: "Politiku privatnosti",
+                successTitle: "Hvala!",
+                successText: "Vaša poruka je poslana. Uskoro ćemo vas kontaktirati."
+            },
+            ka: {
+                pageTitle: "კონტაქტი - Infyra ახალი ამბები",
+                contactTitle: "დაგვიკავშირდით",
+                intro: "თუ თქვენ გაქვთ შეკითხვები, წინადადებები ან კომენტარები საიტის შესახებ, შეავსეთ ქვემოთ მოცემული ფორმა. ჩვენ ვუპასუხებთ რაც შეიძლება მალე.",
+                nameLabel: "თქვენი სახელი *",
+                emailLabel: "თქვენი ელ.ფოსტა პასუხისთვის *",
+                emailHint: "ჩვენ გამოგიგზავნით პასუხს ამ მისამართზე",
+                subjectLabel: "თემა *",
+                messageLabel: "შეტყობინება *",
+                submitBtn: "შეტყობინების გაგზავნა",
+                note: "* - სავალდებულო ველები. ღილაკზე \"გაგზავნა\" დაჭერით, თქვენ ეთანხმებით {privacy}.",
+                privacyLink: "კონფიდენციალურობის პოლიტიკას",
+                successTitle: "მადლობა!",
+                successText: "თქვენი შეტყობინება გაიგზავნა. ჩვენ დაგიკავშირდებით მალე."
+            },
+            hy: {
+                pageTitle: "Կապ - Infyra Նորություններ",
+                contactTitle: "Կապնվեք մեզ հետ",
+                intro: "Եթե ունեք հարցեր, առաջարկներ կամ մեկնաբանություններ կայքի վերաբերյալ, լրացրեք ստորև բերված ձևը: Մենք կպատասխանենք որքան հնարավոր է շուտ:",
+                nameLabel: "Ձեր անունը *",
+                emailLabel: "Ձեր էլ. փոստը պատասխանի համար *",
+                emailHint: "Մենք պատասխանը կուղարկենք այս հասցեին",
+                subjectLabel: "Թեմա *",
+                messageLabel: "Հաղորդագրություն *",
+                submitBtn: "Ուղարկել հաղորդագրություն",
+                note: "* - պարտադիր դաշտեր: Սեղմելով \"Ուղարկել\" կոճակը, դուք համաձայնում եք {privacy}.",
+                privacyLink: "Գաղտնիության քաղաքականությանը",
+                successTitle: "Շնորհակալություն!",
+                successText: "Ձեր հաղորդագրությունն ուղարկվել է: Մենք շուտով կկապնվենք ձեզ հետ:"
+            },
+            az: {
+                pageTitle: "Əlaqə - Infyra Xəbərləri",
+                contactTitle: "Bizimlə əlaqə saxlayın",
+                intro: "Saytla bağlı suallarınız, təklifləriniz və ya şərhləriniz varsa, aşağıdakı formu doldurun. Ən qısa zamanda cavab verəcəyik.",
+                nameLabel: "Adınız *",
+                emailLabel: "Cavab üçün e-poçtunuz *",
+                emailHint: "Cavabı bu ünvana göndərəcəyik",
+                subjectLabel: "Mövzu *",
+                messageLabel: "Mesaj *",
+                submitBtn: "Mesaj göndər",
+                note: "* - məcburi sahələr. \"Göndər\" düyməsini klikləməklə, {privacy} razılaşırsınız.",
+                privacyLink: "Məxfilik Siyasəti",
+                successTitle: "Təşəkkür edirik!",
+                successText: "Mesajınız göndərildi. Qısa zamanda sizinlə əlaqə saxlayacağıq."
+            },
+            ar: {
+                pageTitle: "اتصل بنا - Infyra أخبار",
+                contactTitle: "اتصل بنا",
+                intro: "إذا كان لديك أسئلة أو اقتراحات أو تعليقات حول الموقع، يرجى ملء النموذج أدناه. سوف نقوم بالرد في أقرب وقت ممكن.",
+                nameLabel: "اسمك *",
+                emailLabel: "بريدك الإلكتروني للرد *",
+                emailHint: "سوف نرسل الرد على هذا العنوان",
+                subjectLabel: "الموضوع *",
+                messageLabel: "الرسالة *",
+                submitBtn: "إرسال الرسالة",
+                note: "* - الحقول الإلزامية. بالنقر على \"إرسال\"، فإنك توافق على {privacy}.",
+                privacyLink: "سياسة الخصوصية",
+                successTitle: "شكراً!",
+                successText: "تم إرسال رسالتك. سوف نتصل بك قريباً."
+            },
+            ja: {
+                pageTitle: "お問い合わせ - Infyraニュース",
+                contactTitle: "お問い合わせ",
+                intro: "サイトに関するご質問、ご提案、コメントがございましたら、以下のフォームにご記入ください。できるだけ早くご回答いたします。",
+                nameLabel: "お名前 *",
+                emailLabel: "返信用メールアドレス *",
+                emailHint: "このアドレスに返信を送信します",
+                subjectLabel: "件名 *",
+                messageLabel: "メッセージ *",
+                submitBtn: "送信",
+                note: "* - 必須項目。「送信」をクリックすると、{privacy}に同意したことになります。",
+                privacyLink: "プライバシーポリシー",
+                successTitle: "ありがとうございます！",
+                successText: "メッセージは送信されました。すぐにご連絡いたします。"
+            },
+            zh: {
+                pageTitle: "联系我们 - Infyra新闻",
+                contactTitle: "联系我们",
+                intro: "如果您对网站有任何问题、建议或意见，请填写以下表格。我们将尽快回复。",
+                nameLabel: "您的姓名 *",
+                emailLabel: "您的电子邮箱（用于回复）*",
+                emailHint: "我们将回复至此地址",
+                subjectLabel: "主题 *",
+                messageLabel: "消息 *",
+                submitBtn: "发送消息",
+                note: "* - 必填字段。点击“发送”，即表示您同意我们的{privacy}。",
+                privacyLink: "隐私政策",
+                successTitle: "谢谢！",
+                successText: "您的消息已发送。我们将尽快与您联系。"
+            },
+            ko: {
+                pageTitle: "문의하기 - Infyra 뉴스",
+                contactTitle: "문의하기",
+                intro: "사이트에 대한 질문, 제안 또는 의견이 있으시면 아래 양식을 작성해 주세요. 가능한 한 빨리 답변해 드리겠습니다.",
+                nameLabel: "이름 *",
+                emailLabel: "답변 받으실 이메일 *",
+                emailHint: "이 주소로 답변을 보내드립니다",
+                subjectLabel: "제목 *",
+                messageLabel: "메시지 *",
+                submitBtn: "메시지 보내기",
+                note: "* - 필수 입력 항목. \"보내기\"를 클릭하면 {privacy}에 동의하는 것으로 간주됩니다.",
+                privacyLink: "개인정보처리방침",
+                successTitle: "감사합니다!",
+                successText: "메시지가 전송되었습니다. 곧 연락드리겠습니다."
+            },
+            tr: {
+                pageTitle: "İletişim - Infyra Haberleri",
+                contactTitle: "Bize Ulaşın",
+                intro: "Siteyle ilgili sorularınız, önerileriniz veya yorumlarınız varsa, aşağıdaki formu doldurun. En kısa sürede cevap vereceğiz.",
+                nameLabel: "Adınız *",
+                emailLabel: "Cevap için e-postanız *",
+                emailHint: "Cevabı bu adrese göndereceğiz",
+                subjectLabel: "Konu *",
+                messageLabel: "Mesaj *",
+                submitBtn: "Mesaj Gönder",
+                note: "* - zorunlu alanlar. \"Gönder\" düğmesine tıklayarak, {privacy} kabul etmiş olursunuz.",
+                privacyLink: "Gizlilik Politikasını",
+                successTitle: "Teşekkürler!",
+                successText: "Mesajınız gönderildi. En kısa sürede sizinle iletişime geçeceğiz."
+            },
+            hi: {
+                pageTitle: "संपर्क करें - Infyra समाचार",
+                contactTitle: "संपर्क करें",
+                intro: "यदि आपके पास साइट के बारे में प्रश्न, सुझाव या टिप्पणियाँ हैं, तो नीचे दिया गया फॉर्म भरें। हम जल्द से जल्द जवाब देंगे।",
+                nameLabel: "आपका नाम *",
+                emailLabel: "जवाब के लिए आपका ईमेल *",
+                emailHint: "हम इस पते पर जवाब भेजेंगे",
+                subjectLabel: "विषय *",
+                messageLabel: "संदेश *",
+                submitBtn: "संदेश भेजें",
+                note: "* - आवश्यक फ़ील्ड। \"भेजें\" पर क्लिक करके, आप {privacy} से सहमत होते हैं।",
+                privacyLink: "गोपनीयता नीति",
+                successTitle: "धन्यवाद!",
+                successText: "आपका संदेश भेज दिया गया है। हम शीघ्र ही आपसे संपर्क करेंगे।"
+            },
+            id: {
+                pageTitle: "Kontak - Infyra Berita",
+                contactTitle: "Hubungi Kami",
+                intro: "Jika Anda memiliki pertanyaan, saran, atau komentar tentang situs, isi formulir di bawah ini. Kami akan merespons sesegera mungkin.",
+                nameLabel: "Nama Anda *",
+                emailLabel: "Email Anda untuk balasan *",
+                emailHint: "Kami akan mengirim balasan ke alamat ini",
+                subjectLabel: "Subjek *",
+                messageLabel: "Pesan *",
+                submitBtn: "Kirim Pesan",
+                note: "* - bidang wajib. Dengan mengklik \"Kirim\", Anda menyetujui {privacy}.",
+                privacyLink: "Kebijakan Privasi",
+                successTitle: "Terima kasih!",
+                successText: "Pesan Anda telah terkirim. Kami akan segera menghubungi Anda."
+            },
+            th: {
+                pageTitle: "ติดต่อเรา - Infyra ข่าว",
+                contactTitle: "ติดต่อเรา",
+                intro: "หากคุณมีคำถาม ข้อเสนอแนะ หรือความคิดเห็นเกี่ยวกับเว็บไซต์ กรุณากรอกแบบฟอร์มด้านล่าง เราจะตอบกลับโดยเร็วที่สุด",
+                nameLabel: "ชื่อของคุณ *",
+                emailLabel: "อีเมลของคุณสำหรับการตอบกลับ *",
+                emailHint: "เราจะส่งคำตอบไปยังที่อยู่นี้",
+                subjectLabel: "หัวข้อ *",
+                messageLabel: "ข้อความ *",
+                submitBtn: "ส่งข้อความ",
+                note: "* - ฟิลด์ที่ต้องกรอก การคลิก \"ส่ง\" แสดงว่าคุณยอมรับ {privacy}",
+                privacyLink: "นโยบายความเป็นส่วนตัว",
+                successTitle: "ขอบคุณ!",
+                successText: "ข้อความของคุณถูกส่งแล้ว เราจะติดต่อคุณโดยเร็ว"
+            },
+            vi: {
+                pageTitle: "Liên hệ - Infyra Tin tức",
+                contactTitle: "Liên hệ với chúng tôi",
+                intro: "Nếu bạn có câu hỏi, đề xuất hoặc nhận xét về trang web, hãy điền vào mẫu dưới đây. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.",
+                nameLabel: "Tên của bạn *",
+                emailLabel: "Email của bạn để trả lời *",
+                emailHint: "Chúng tôi sẽ gửi phản hồi đến địa chỉ này",
+                subjectLabel: "Chủ đề *",
+                messageLabel: "Tin nhắn *",
+                submitBtn: "Gửi tin nhắn",
+                note: "* - trường bắt buộc. Bằng cách nhấp vào \"Gửi\", bạn đồng ý với {privacy}.",
+                privacyLink: "Chính sách bảo mật",
+                successTitle: "Cảm ơn!",
+                successText: "Tin nhắn của bạn đã được gửi. Chúng tôi sẽ liên hệ với bạn shortly."
+            },
+            bn: {
+                pageTitle: "যোগাযোগ - Infyra খবর",
+                contactTitle: "যোগাযোগ করুন",
+                intro: "সাইট সম্পর্কে আপনার প্রশ্ন, পরামর্শ বা মন্তব্য থাকলে, নীচের ফর্মটি পূরণ করুন। আমরা যত তাড়াতাড়ি সম্ভব উত্তর দেব।",
+                nameLabel: "আপনার নাম *",
+                emailLabel: "উত্তরের জন্য আপনার ইমেল *",
+                emailHint: "আমরা এই ঠিকানায় উত্তর পাঠাব",
+                subjectLabel: "বিষয় *",
+                messageLabel: "বার্তা *",
+                submitBtn: "বার্তা পাঠান",
+                note: "* - প্রয়োজনীয় ক্ষেত্র। \"পাঠান\" ক্লিক করে, আপনি {privacy} সম্মত হন।",
+                privacyLink: "গোপনীয়তা নীতি",
+                successTitle: "ধন্যবাদ!",
+                successText: "আপনার বার্তা পাঠানো হয়েছে। আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।"
+            },
+            ta: {
+                pageTitle: "தொடர்பு கொள்ள - Infyra செய்திகள்",
+                contactTitle: "எங்களை தொடர்பு கொள்ள",
+                intro: "தளம் பற்றி கேள்விகள், பரிந்துரைகள் அல்லது கருத்துகள் இருந்தால், கீழே உள்ள படிவத்தை நிரப்பவும். முடிந்தவரை விரைவில் பதிலளிப்போம்.",
+                nameLabel: "உங்கள் பெயர் *",
+                emailLabel: "பதிலுக்கான உங்கள் மின்னஞ்சல் *",
+                emailHint: "இந்த முகவரிக்கு பதில் அனுப்புவோம்",
+                subjectLabel: "பொருள் *",
+                messageLabel: "செய்தி *",
+                submitBtn: "செய்தி அனுப்பு",
+                note: "* - கட்டாய புலங்கள். \"அனுப்பு\" என்பதைக் கிளிக் செய்வதன் மூலம், {privacy} ஏற்கிறீர்கள்.",
+                privacyLink: "தனியுரிமைக் கொள்கை",
+                successTitle: "நன்றி!",
+                successText: "உங்கள் செய்தி அனுப்பப்பட்டது. விரைவில் உங்களை தொடர்பு கொள்வோம்."
+            },
+            te: {
+                pageTitle: "సంప్రదించండి - Infyra వార్తలు",
+                contactTitle: "మమ్మల్ని సంప్రదించండి",
+                intro: "సైట్ గురించి మీకు ప్రశ్నలు, సూచనలు లేదా వ్యాఖ్యలు ఉంటే, దిగువ ఫారమ్ను పూరించండి. మేము వీలైనంత త్వరగా స్పందిస్తాము.",
+                nameLabel: "మీ పేరు *",
+                emailLabel: "ప్రత్యుత్తరం కోసం మీ ఇమెయిల్ *",
+                emailHint: "మేము ఈ చిరునామాకు ప్రత్యుత్తరం పంపుతాము",
+                subjectLabel: "విషయం *",
+                messageLabel: "సందేశం *",
+                submitBtn: "సందేశం పంపండి",
+                note: "* - తప్పనిసరి ఫీల్డ్లు. \"పంపండి\" క్లిక్ చేయడం ద్వారా, మీరు {privacy} అంగీకరిస్తున్నారు.",
+                privacyLink: "గోప్యతా విధానం",
+                successTitle: "ధన్యవాదాలు!",
+                successText: "మీ సందేశం పంపబడింది. మేము త్వరలో మిమ్మల్ని సంప్రదిస్తాము."
+            },
+            ms: {
+                pageTitle: "Hubungi - Infyra Berita",
+                contactTitle: "Hubungi Kami",
+                intro: "Jika anda mempunyai soalan, cadangan atau komen tentang laman web, isikan borang di bawah. Kami akan membalas secepat mungkin.",
+                nameLabel: "Nama anda *",
+                emailLabel: "E-mel anda untuk balasan *",
+                emailHint: "Kami akan menghantar balasan ke alamat ini",
+                subjectLabel: "Subjek *",
+                messageLabel: "Mesej *",
+                submitBtn: "Hantar Mesej",
+                note: "* - medan wajib. Dengan mengklik \"Hantar\", anda bersetuju dengan {privacy}.",
+                privacyLink: "Dasar Privasi",
+                successTitle: "Terima kasih!",
+                successText: "Mesej anda telah dihantar. Kami akan menghubungi anda tidak lama lagi."
+            },
+            fil: {
+                pageTitle: "Makipag-ugnayan - Infyra Balita",
+                contactTitle: "Makipag-ugnayan sa Amin",
+                intro: "Kung mayroon kang mga tanong, mungkahi, o komento tungkol sa site, punan ang form sa ibaba. Sasagot kami sa lalong madaling panahon.",
+                nameLabel: "Ang iyong pangalan *",
+                emailLabel: "Ang iyong Email para sa tugon *",
+                emailHint: "Magpapadala kami ng tugon sa address na ito",
+                subjectLabel: "Paksa *",
+                messageLabel: "Mensahe *",
+                submitBtn: "Ipadala ang Mensahe",
+                note: "* - mga kinakailangang field. Sa pag-click sa \"Ipadala\", sumasang-ayon ka sa aming {privacy}.",
+                privacyLink: "Patakaran sa Privacy",
+                successTitle: "Salamat!",
+                successText: "Naipadala na ang iyong mensahe. Makikipag-ugnayan kami sa iyo sa lalong madaling panahon."
+            },
+            my: {
+                pageTitle: "ဆက်သွယ်ရန် - Infyra သတင်း",
+                contactTitle: "ကြှနျုပျတို့ကိုဆကျသှယျရနျ",
+                intro: "ဆိုက်နှင့်ပတ်သက်ပြီး မေးခွန်းများ၊ အကြံပြုချက်များ သို့မဟုတ် မှတ်ချက်များရှိပါက အောက်ပါပုံစံကိုဖြည့်ပါ။ ကျွန်ုပ်တို့သည် အမြန်ဆုံးတုံ့ပြန်ပါမည်။",
+                nameLabel: "သင့်အမည် *",
+                emailLabel: "အကြောင်းပြန်ရန် သင့်အီးမေးလ် *",
+                emailHint: "ဤလိပ်စာသို့ အကြောင်းပြန်ပို့ပါမည်",
+                subjectLabel: "အကြောင်းအရာ *",
+                messageLabel: "စာတို *",
+                submitBtn: "စာတိုပို့ရန်",
+                note: "* - လိုအပ်သောအကွက်များ။ \"ပို့ရန်\" ကိုနှိပ်ခြင်းဖြင့်၊ သင်သည် {privacy} ကိုသဘောတူပါသည်။",
+                privacyLink: "ကိုယ်ရေးအချက်အလက်ဆိုင်ရာမူဝါဒ",
+                successTitle: "ကျေးဇူးတင်ပါသည်!",
+                successText: "သင့်စာတိုပေးပို့ပြီးပါပြီ။ မကြာမီ သင့်ထံ ဆက်သွယ်ပါမည်။"
+            },
+            km: {
+                pageTitle: "ទំនាក់ទំនង - Infyra ព័ត៌មាន",
+                contactTitle: "ទាក់ទង​មក​ពួក​យើង",
+                intro: "ប្រសិនបើអ្នកមានសំណួរ យោបល់ ឬមតិយោបល់អំពីគេហទំព័រ សូមបំពេញទម្រង់ខាងក្រោម។ យើងនឹងឆ្លើយតបឱ្យបានឆាប់តាមដែលអាចធ្វើទៅបាន។",
+                nameLabel: "ឈ្មោះរបស់អ្នក *",
+                emailLabel: "អ៊ីមែលរបស់អ្នកសម្រាប់ការឆ្លើយតប *",
+                emailHint: "យើងនឹងផ្ញើការឆ្លើយតបទៅកាន់អាសយដ្ឋាននេះ",
+                subjectLabel: "ប្រធានបទ *",
+                messageLabel: "សារ *",
+                submitBtn: "ផ្ញើសារ",
+                note: "* - វាលដែលត្រូវការ។ ដោយចុច \"ផ្ញើ\" អ្នកយល់ព្រមចំពោះ {privacy} របស់យើង។",
+                privacyLink: "គោលការណ៍ឯកជនភាព",
+                successTitle: "សូមអរគុណ!",
+                successText: "សាររបស់អ្នកត្រូវបានផ្ញើ។ យើងនឹងទាក់ទងអ្នកក្នុងពេលឆាប់ៗនេះ។"
+            },
+            lo: {
+                pageTitle: "ຕິດຕໍ່ - Infyra ຂ່າວ",
+                contactTitle: "ຕິດຕໍ່ພວກເຮົາ",
+                intro: "ຖ້າທ່ານມີຄໍາຖາມ, ຄໍາແນະນໍາຫຼືຄໍາເຫັນກ່ຽວກັບເວັບໄຊທ໌, ກະລຸນາຕື່ມແບບຟອມຂ້າງລຸ່ມນີ້. ພວກເຮົາຈະຕອບກັບໄວເທົ່າທີ່ຈະໄວໄດ້.",
+                nameLabel: "ຊື່ຂອງທ່ານ *",
+                emailLabel: "ອີເມວຂອງທ່ານສໍາລັບການຕອບກັບ *",
+                emailHint: "ພວກເຮົາຈະສົ່ງຄໍາຕອບໄປທີ່ຢູ່ນີ້",
+                subjectLabel: "ຫົວຂໍ້ *",
+                messageLabel: "ຂໍ້ຄວາມ *",
+                submitBtn: "ສົ່ງຂໍ້ຄວາມ",
+                note: "* - ຊ່ອງຂໍ້ມູນທີ່ຕ້ອງການ. ໂດຍການຄລິກ \"ສົ່ງ\", ທ່ານຕົກລົງເຫັນດີກັບ {privacy} ຂອງພວກເຮົາ.",
+                privacyLink: "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ",
+                successTitle: "ຂອບໃຈ!",
+                successText: "ຂໍ້ຄວາມຂອງທ່ານຖືກສົ່ງແລ້ວ. ພວກເຮົາຈະຕິດຕໍ່ຫາທ່ານໃນໄວໆນີ້."
+            },
+            ne: {
+                pageTitle: "सम्पर्क - Infyra समाचार",
+                contactTitle: "हामीलाई सम्पर्क गर्नुहोस्",
+                intro: "यदि तपाइँसँग साइटको बारेमा प्रश्नहरू, सुझावहरू वा टिप्पणीहरू छन् भने, तलको फारम भर्नुहोस्। हामी सकेसम्म चाँडो जवाफ दिनेछौं।",
+                nameLabel: "तपाईंको नाम *",
+                emailLabel: "जवाफको लागि तपाईंको इमेल *",
+                emailHint: "हामी यस ठेगानामा जवाफ पठाउनेछौं",
+                subjectLabel: "विषय *",
+                messageLabel: "सन्देश *",
+                submitBtn: "सन्देश पठाउनुहोस्",
+                note: "* - आवश्यक फिल्डहरू। \"पठाउनुहोस्\" क्लिक गरेर, तपाईं हाम्रो {privacy} सहमत हुनुहुन्छ।",
+                privacyLink: "गोपनीयता नीति",
+                successTitle: "धन्यवाद!",
+                successText: "तपाईंको सन्देश पठाइएको छ। हामी चाँडै तपाईंलाई सम्पर्क गर्नेछौं।"
+            },
+            si: {
+                pageTitle: "අමතන්න - Infyra පුවත්",
+                contactTitle: "අප අමතන්න",
+                intro: "ඔබට වෙබ් අඩවිය පිළිබඳ ප්‍රශ්න, යෝජනා හෝ අදහස් ඇත්නම්, පහත පෝරමය පුරවන්න. අපි හැකි ඉක්මනින් ප්‍රතිචාර දක්වන්නෙමු.",
+                nameLabel: "ඔබේ නම *",
+                emailLabel: "ප්‍රතිචාරය සඳහා ඔබගේ ඊමේල් *",
+                emailHint: "අපි මෙම ලිපිනයට ප්‍රතිචාරයක් එවන්නෙමු",
+                subjectLabel: "විෂය *",
+                messageLabel: "පණිවිඩය *",
+                submitBtn: "පණිවිඩය යවන්න",
+                note: "* - අවශ්‍ය ක්ෂේත්‍ර. \"යවන්න\" ක්ලික් කිරීමෙන්, ඔබ අපගේ {privacy} එකඟ වේ.",
+                privacyLink: "රහස්‍යතා ප්‍රතිපත්තිය",
+                successTitle: "ස්තුතියි!",
+                successText: "ඔබගේ පණිවිඩය යවන ලදී. අපි ඉක්මනින් ඔබව සම්බන්ධ කර ගන්නෙමු."
+            },
+            mn: {
+                pageTitle: "Холбоо барих - Infyra Мэдээ",
+                contactTitle: "Бидэнтэй холбогдох",
+                intro: "Хэрэв та сайтын талаар асуулт, санал эсвэл сэтгэгдэлтэй бол доорх маягтыг бөглөнө үү. Бид аль болох хурдан хариу өгөх болно.",
+                nameLabel: "Таны нэр *",
+                emailLabel: "Хариу авах имэйл *",
+                emailHint: "Бид энэ хаяг руу хариу илгээх болно",
+                subjectLabel: "Сэдэв *",
+                messageLabel: "Зурвас *",
+                submitBtn: "Зурвас илгээх",
+                note: "* - шаардлагатай талбарууд. \"Илгээх\" дээр дарснаар та манай {privacy} зөвшөөрч байна.",
+                privacyLink: "Нууцлалын бодлого",
+                successTitle: "Баярлалаа!",
+                successText: "Таны зурвас илгээгдсэн. Бид тантай удахгүй холбогдох болно."
+            },
+            kk: {
+                pageTitle: "Байланыс - Infyra Жаңалықтар",
+                contactTitle: "Бізбен байланысу",
+                intro: "Сайтқа қатысты сұрақтарыңыз, ұсыныстарыңыз немесе пікірлеріңіз болса, төмендегі форманы толтырыңыз. Біз мүмкіндігінше тезірек жауап береміз.",
+                nameLabel: "Сіздің атыңыз *",
+                emailLabel: "Жауап алу үшін электрондық поштаңыз *",
+                emailHint: "Біз осы мекенжайға жауап жібереміз",
+                subjectLabel: "Тақырып *",
+                messageLabel: "Хабарлама *",
+                submitBtn: "Хабарлама жіберу",
+                note: "* - міндетті өрістер. \"Жіберу\" түймесін басу арқылы сіз {privacy} келісесіз.",
+                privacyLink: "Құпиялылық саясаты",
+                successTitle: "Рахмет!",
+                successText: "Сіздің хабарламаңыз жіберілді. Біз сізбен жақын арада байланысамыз."
+            },
+            uz: {
+                pageTitle: "Bog'lanish - Infyra Yangiliklar",
+                contactTitle: "Biz bilan bog'lanish",
+                intro: "Sayt haqida savollaringiz, takliflaringiz yoki sharhlaringiz bo'lsa, quyidagi shaklni to'ldiring. Biz imkon qadar tezroq javob beramiz.",
+                nameLabel: "Ismingiz *",
+                emailLabel: "Javob uchun elektron pochtangiz *",
+                emailHint: "Javobni ushbu manzilga yuboramiz",
+                subjectLabel: "Mavzu *",
+                messageLabel: "Xabar *",
+                submitBtn: "Xabarni yuborish",
+                note: "* - majburiy maydonlar. \"Yuborish\" tugmasini bosish orqali siz {privacy} rozilik bildirasiz.",
+                privacyLink: "Maxfiylik siyosati",
+                successTitle: "Rahmat!",
+                successText: "Xabaringiz yuborildi. Tez orada siz bilan bog'lanamiz."
+            },
+            ky: {
+                pageTitle: "Байланыш - Infyra Жаңылыктар",
+                contactTitle: "Биз менен байланышуу",
+                intro: "Сайтка байланыштуу суроолоруңуз, сунуштарыңыз же пикирлериңиз болсо, төмөнкү форманы толтуруңуз. Биз мүмкүн болушунча тезирээк жооп беребиз.",
+                nameLabel: "Сиздин атыңыз *",
+                emailLabel: "Жооп алуу үчүн электрондук почтаңыз *",
+                emailHint: "Биз ушул дарекке жооп жөнөтөбүз",
+                subjectLabel: "Тема *",
+                messageLabel: "Билдирүү *",
+                submitBtn: "Билдирүү жөнөтүү",
+                note: "* - милдеттүү талаалар. \"Жөнөтүү\" баскычын басуу менен, сиз {privacy} макулдугуңузду билдиресиз.",
+                privacyLink: "Купуялык саясаты",
+                successTitle: "Рахмат!",
+                successText: "Сиздин билдирүүңүз жөнөтүлдү. Жакында сиз менен байланышабыз."
+            },
+            tk: {
+                pageTitle: "Habarlaşmak - Infyra Habarlary",
+                contactTitle: "Bize ýüz tutuň",
+                intro: "Saýt barada soraglaryňyz, teklifleriňiz ýa-da teswirleriňiz bar bolsa, aşakdaky formany dolduryň. Mümkin boldugyça çalt jogap bereris.",
+                nameLabel: "Adyňyz *",
+                emailLabel: "Jogap üçin e-poçtaňyz *",
+                emailHint: "Jogaby bu salgya ibereris",
+                subjectLabel: "Mowzuk *",
+                messageLabel: "Habaryňyz *",
+                submitBtn: "Habary iber",
+                note: "* - hökmany meýdanlar. \"Iber\" düwmesine basmak bilen, siz {privacy} ylalaşýarsyňyz.",
+                privacyLink: "Gizlinlik syýasaty",
+                successTitle: "Sag boluň!",
+                successText: "Habaryňyz iberildi. Soonaky wagtda sizin bilen habarlaşarys."
+            },
+            ps: {
+                pageTitle: "اړیکه - Infyra خبرونه",
+                contactTitle: "موږ سره اړیکه ونیسئ",
+                intro: "که تاسو د سایټ په اړه پوښتنې، وړاندیزونه یا نظرونه لرئ، لاندې فورمه ډکه کړئ. موږ به ژر تر ژره ځواب ووایو.",
+                nameLabel: "ستاسو نوم *",
+                emailLabel: "د ځواب لپاره ستاسو بریښنالیک *",
+                emailHint: "موږ به دې پتې ته ځواب واستوو",
+                subjectLabel: "موضوع *",
+                messageLabel: "پیغام *",
+                submitBtn: "پیغام واستوئ",
+                note: "* - اړین ساحې. د \"لیږل\" په کلیک کولو سره، تاسو زموږ {privacy} سره موافق یاست.",
+                privacyLink: "د پټنتيا تګلاره",
+                successTitle: "مننه!",
+                successText: "ستاسو پیغام لیږل شوی. موږ به ژر له تاسو سره اړیکه ونیسو."
+            },
+            fa: {
+                pageTitle: "تماس با ما - Infyra اخبار",
+                contactTitle: "تماس با ما",
+                intro: "اگر سوال، پیشنهاد یا نظری در مورد سایت دارید، فرم زیر را پر کنید. در اسرع وقت پاسخ خواهیم داد.",
+                nameLabel: "نام شما *",
+                emailLabel: "ایمیل شما برای پاسخ *",
+                emailHint: "پاسخ را به این آدرس ارسال خواهیم کرد",
+                subjectLabel: "موضوع *",
+                messageLabel: "پیام *",
+                submitBtn: "ارسال پیام",
+                note: "* - فیلدهای اجباری. با کلیک روی \"ارسال\"، با {privacy} موافقت می‌کنید.",
+                privacyLink: "سیاست حفظ حریم خصوصی",
+                successTitle: "متشکریم!",
+                successText: "پیام شما ارسال شد. به زودی با شما تماس خواهیم گرفت."
+            },
+            ur: {
+                pageTitle: "رابطہ - Infyra خبریں",
+                contactTitle: "ہم سے رابطہ کریں",
+                intro: "اگر آپ کے پاس سائٹ کے بارے میں سوالات، تجاویز یا تبصرے ہیں تو براہ کرم نیچے دیئے گئے فارم کو پُر کریں۔ ہم جلد از جلد جواب دیں گے۔",
+                nameLabel: "آپ کا نام *",
+                emailLabel: "جواب کے لیے آپ کا ای میل *",
+                emailHint: "ہم اس پتے پر جواب بھیجیں گے",
+                subjectLabel: "موضوع *",
+                messageLabel: "پیغام *",
+                submitBtn: "پیغام بھیجیں",
+                note: "* - ضروری فیلڈز۔ \"بھیجیں\" پر کلک کرکے، آپ ہماری {privacy} سے اتفاق کرتے ہیں۔",
+                privacyLink: "رازداری کی پالیسی",
+                successTitle: "شکریہ!",
+                successText: "آپ کا پیغام بھیج دیا گیا ہے۔ ہم جلد ہی آپ سے رابطہ کریں گے۔"
+            },
+            sd: {
+                pageTitle: "رابطو - Infyra خبرون",
+                contactTitle: "اسان سان رابطو ڪريو",
+                intro: "جيڪڏهن توهان وٽ سائيٽ بابت سوال، تجويزون يا رايا آهن، مهرباني ڪري هيٺ ڏنل فارم ڀريو. اسان جلد کان جلد جواب ڏينداسين.",
+                nameLabel: "توهان جو نالو *",
+                emailLabel: "جواب لاءِ توهان جي اي ميل *",
+                emailHint: "اسان هن پتي تي جواب موڪلينداسين",
+                subjectLabel: "موضوع *",
+                messageLabel: "پيغام *",
+                submitBtn: "پيغام موڪليو",
+                note: "* - گهربل فيلڊ. \"موڪليو\" تي ڪلڪ ڪرڻ سان، توهان اسان جي {privacy} سان متفق آهيو.",
+                privacyLink: "رازداري جي پاليسي",
+                successTitle: "مهرباني!",
+                successText: "توهان جو پيغام موڪليو ويو. اسان جلد توهان سان رابطو ڪنداسين."
+            },
+            ku: {
+                pageTitle: "Têkilî - Infyra Nûçe",
+                contactTitle: "Têkilî bi me re",
+                intro: "Heke di derbarê malperê de pirs, pêşniyar an şîrove hebin, ji kerema xwe forma jêrîn tije bikin. Em ê di zûtirîn dem de bersiv bidin.",
+                nameLabel: "Navê te *",
+                emailLabel: "E-nameya te ji bo bersivê *",
+                emailHint: "Em ê bersivê bi vê navnîşanê re bişînin",
+                subjectLabel: "Mijar *",
+                messageLabel: "Peyam *",
+                submitBtn: "Peyamê bişîne",
+                note: "* - qadên pêwîst. Bi tikandina \"Bişîne\", hûn bi {privacy} ya me re dipejirînin.",
+                privacyLink: "Siyaseta Taybetiyê",
+                successTitle: "Spas!",
+                successText: "Peyama te hate şandin. Em ê di demek nêzîk de bi te re têkilî daynin."
+            },
+            he: {
+                pageTitle: "צור קשר - Infyra חדשות",
+                contactTitle: "צור קשר",
+                intro: "אם יש לך שאלות, הצעות או הערות לגבי האתר, אנא מלא את הטופס למטה. נשיב בהקדם האפשרי.",
+                nameLabel: "שמך *",
+                emailLabel: "האימייל שלך לתשובה *",
+                emailHint: "נשלח תשובה לכתובת זו",
+                subjectLabel: "נושא *",
+                messageLabel: "הודעה *",
+                submitBtn: "שלח הודעה",
+                note: "* - שדות חובה. בלחיצה על \"שלח\", אתה מסכים ל{privacy} שלנו.",
+                privacyLink: "מדיניות הפרטיות",
+                successTitle: "תודה!",
+                successText: "הודעתך נשלחה. ניצור איתך קשר בקרוב."
+            },
+            yi: {
+                pageTitle: "קאָנטאַקט - Infyra נייַעס",
+                contactTitle: "קאָנטאַקט אונדז",
+                intro: "אויב איר האָט פֿראגן, פֿאָרשלאָגן אָדער באַמערקונגען וועגן דעם פּלאַץ, ביטע פּלאָמבירן די פאָרעם אונטן. מיר וועלן ענטפערן ווי באַלד ווי מעגלעך.",
+                nameLabel: "דיין נאָמען *",
+                emailLabel: "דיין בליצפּאָסט פֿאַר ענטפער *",
+                emailHint: "מיר וועלן שיקן אַ ענטפער צו דער אַדרעס",
+                subjectLabel: "טעמע *",
+                messageLabel: "אָנזאָג *",
+                submitBtn: "שיקן אָנזאָג",
+                note: "* - פארלאנגט פעלדער. דורך געבן אַ קליק אויף \"שיקן\", איר שטימען צו אונדזער {privacy}.",
+                privacyLink: "פּריוואַטקייט פּאָליטיק",
+                successTitle: "אַ דאַנק!",
+                successText: "דיין אָנזאָג איז געשיקט. מיר וועלן קאָנטאַקט איר באַלד."
+            },
+            am: {
+                pageTitle: "አግኙን - Infyra ዜና",
+                contactTitle: "አግኙን",
+                intro: "ስለ ጣቢያው ጥያቄዎች፣ አስተያየቶች ወይም አስተያየቶች ካሉዎት ከዚህ በታች ያለውን ቅጽ ይሙሉ። በተቻለ ፍጥነት ምላሽ እንሰጣለን።",
+                nameLabel: "ስምዎ *",
+                emailLabel: "ለመልስ ኢሜይልዎ *",
+                emailHint: "ወደዚህ አድራሻ መልስ እንልካለን",
+                subjectLabel: "ርዕስ *",
+                messageLabel: "መልእክት *",
+                submitBtn: "መልእክት ላክ",
+                note: "* - አስፈላጊ መስኮች. \"ላክ\" ን ጠቅ በማድረግ፣ የኛን {privacy} ተስማምተዋል።",
+                privacyLink: "የግላዊነት ፖሊሲ",
+                successTitle: "አመሰግናለሁ!",
+                successText: "መልእክትዎ ተልኳል። በቅርቡ እናገኝዎታለን።"
+            },
+            ti: {
+                pageTitle: "ርኸቡና - Infyra ዜናታት",
+                contactTitle: "ተወከሱና",
+                intro: "ብዛዕባ እቲ ዌብሳይት ሕቶታት፡ ሓሳባት ወይ ርእይቶት እንተሃልዩኩም፡ እቲ ኣብ ታሕቲ ዘሎ ቅጥዒ ምላእ። ከምኡ’ውን ብቕልጡፍ ክንመልስ ኢና።",
+                nameLabel: "ስምኩም *",
+                emailLabel: "ንመልሲ ኢመይልኩም *",
+                emailHint: "ናብዚ ኣድራሻ መልሲ ክንሰድድ ኢና",
+                subjectLabel: "ኣርእስቲ *",
+                messageLabel: "መልእኽቲ *",
+                submitBtn: "መልእኽቲ ስደድ",
+                note: "* - ኣድላዪ መሮጺታት። \"ስደድ\" ብምጠውቓው፡ ምስ {privacy} ትሰማምዑ ኣለኹም።",
+                privacyLink: "ስለ ብሕታዊነት ፖሊሲ",
+                successTitle: "የመስግን!",
+                successText: "መልእኽትኹም ተልኢኹም ኣሎ። ንሕና ንሕና ክንረክብኩም ኢና።"
+            },
+            or: {
+                pageTitle: "ଯୋଗାଯୋଗ - Infyra ଖବର",
+                contactTitle: "ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ",
+                intro: "ଯଦି ଆପଣଙ୍କର ସାଇଟ୍ ବିଷୟରେ ପ୍ରଶ୍ନ, ପରାମର୍ଶ କିମ୍ବା ମନ୍ତବ୍ୟ ଅଛି, ତଳେ ଥିବା ଫର୍ମଟି ପୂରଣ କରନ୍ତୁ। ଆମେ ଯଥାଶୀଘ୍ର ଉତ୍ତର ଦେବୁ।",
+                nameLabel: "ଆପଣଙ୍କ ନାମ *",
+                emailLabel: "ଉତ୍ତର ପାଇଁ ଆପଣଙ୍କ ଇମେଲ୍ *",
+                emailHint: "ଆମେ ଏହି ଠିକଣାରେ ଏକ ଉତ୍ତର ପଠାଇବୁ",
+                subjectLabel: "ବିଷୟ *",
+                messageLabel: "ବାର୍ତ୍ତା *",
+                submitBtn: "ବାର୍ତ୍ତା ପଠାନ୍ତୁ",
+                note: "* - ଆବଶ୍ୟକ କ୍ଷେତ୍ର। \"ପଠାନ୍ତୁ\" କ୍ଲିକ୍ କରି, ଆପଣ ଆମର {privacy} ସହମତ ହୁଅନ୍ତି।",
+                privacyLink: "ଗୋପନୀୟତା ନୀତି",
+                successTitle: "ଧନ୍ୟବାଦ!",
+                successText: "ଆପଣଙ୍କ ବାର୍ତ୍ତା ପଠାଯାଇଛି। ଆମେ ଶୀଘ୍ର ଆପଣଙ୍କ ସହିତ ଯୋଗାଯୋଗ କରିବୁ।"
+            },
+            as: {
+                pageTitle: "যোগাযোগ - Infyra বাতৰি",
+                contactTitle: "আমাৰ সৈতে যোগাযোগ কৰক",
+                intro: "আপোনাৰ চাইট সম্পৰ্কে প্ৰশ্ন, পৰামৰ্শ বা মন্তব্য থাকিলে, তলৰ ফৰ্মটো পূৰণ কৰক। আমি যত সোনকালে পাৰোঁ সঁহাৰি জনাম।",
+                nameLabel: "আপোনাৰ নাম *",
+                emailLabel: "উত্তৰৰ বাবে আপোনাৰ ইমেইল *",
+                emailHint: "আমি এই ঠিকনালৈ উত্তৰ পঠিয়াম",
+                subjectLabel: "বিষয় *",
+                messageLabel: "বাৰ্তা *",
+                submitBtn: "বাৰ্তা পঠিয়াওক",
+                note: "* - প্ৰয়োজনীয় ক্ষেত্ৰ। \"পঠিয়াওক\" ক্লিক কৰি, আপুনি আমাৰ {privacy} সন্মতি দিয়ে।",
+                privacyLink: "গোপনীয়তা নীতি",
+                successTitle: "ধন্যবাদ!",
+                successText: "আপোনাৰ বাৰ্তা পঠিওৱা হৈছে। আমি শীঘ্ৰে আপোনাৰ সৈতে যোগাযোগ কৰিম।"
+            },
+            pa: {
+                pageTitle: "ਸੰਪਰਕ - Infyra ਖਬਰਾਂ",
+                contactTitle: "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+                intro: "ਜੇਕਰ ਤੁਹਾਡੇ ਕੋਲ ਸਾਈਟ ਬਾਰੇ ਸਵਾਲ, ਸੁਝਾਅ ਜਾਂ ਟਿੱਪਣੀਆਂ ਹਨ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਹੇਠਾਂ ਦਿੱਤਾ ਫਾਰਮ ਭਰੋ। ਅਸੀਂ ਜਿੰਨੀ ਜਲਦੀ ਹੋ ਸਕੇ ਜਵਾਬ ਦੇਵਾਂਗੇ।",
+                nameLabel: "ਤੁਹਾਡਾ ਨਾਮ *",
+                emailLabel: "ਜਵਾਬ ਲਈ ਤੁਹਾਡੀ ਈਮੇਲ *",
+                emailHint: "ਅਸੀਂ ਇਸ ਪਤੇ 'ਤੇ ਜਵਾਬ ਭੇਜਾਂਗੇ",
+                subjectLabel: "ਵਿਸ਼ਾ *",
+                messageLabel: "ਸੁਨੇਹਾ *",
+                submitBtn: "ਸੁਨੇਹਾ ਭੇਜੋ",
+                note: "* - ਲੋੜੀਂਦੇ ਖੇਤਰ। \"ਭੇਜੋ\" 'ਤੇ ਕਲਿੱਕ ਕਰਕੇ, ਤੁਸੀਂ ਸਾਡੀ {privacy} ਨਾਲ ਸਹਿਮਤ ਹੁੰਦੇ ਹੋ।",
+                privacyLink: "ਪਰਦੇਦਾਰੀ ਨੀਤੀ",
+                successTitle: "ਧੰਨਵਾਦ!",
+                successText: "ਤੁਹਾਡਾ ਸੁਨੇਹਾ ਭੇਜ ਦਿੱਤਾ ਗਿਆ ਹੈ। ਅਸੀਂ ਜਲਦੀ ਹੀ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰਾਂਗੇ।"
+            },
+            gu: {
+                pageTitle: "સંપર્ક - Infyra સમાચાર",
+                contactTitle: "અમારો સંપર્ક કરો",
+                intro: "જો તમારી પાસે સાઇટ વિશે પ્રશ્નો, સૂચનો અથવા ટિપ્પણીઓ હોય, તો કૃપા કરીને નીચે આપેલ ફોર્મ ભરો. અમે શક્ય તેટલી વહેલી તકે જવાબ આપીશું.",
+                nameLabel: "તમારું નામ *",
+                emailLabel: "જવાબ માટે તમારો ઇમેઇલ *",
+                emailHint: "અમે આ સરનામા પર જવાબ મોકલીશું",
+                subjectLabel: "વિષય *",
+                messageLabel: "સંદેશ *",
+                submitBtn: "સંદેશ મોકલો",
+                note: "* - ફરજિયાત ક્ષેત્રો. \"મોકલો\" પર ક્લિક કરીને, તમે અમારી {privacy} સાથે સંમત થાઓ છો.",
+                privacyLink: "ગોપનીયતા નીતિ",
+                successTitle: "આભાર!",
+                successText: "તમારો સંદેશ મોકલવામાં આવ્યો છે. અમે ટૂંક સમયમાં તમારો સંપર્ક કરીશું."
+            },
+            mr: {
+                pageTitle: "संपर्क - Infyra बातम्या",
+                contactTitle: "आमच्याशी संपर्क साधा",
+                intro: "साइटबद्दल तुमचे प्रश्न, सूचना किंवा टिप्पण्या असल्यास, कृपया खालील फॉर्म भरा. आम्ही शक्य तितक्या लवकर प्रतिसाद देऊ.",
+                nameLabel: "तुमचे नाव *",
+                emailLabel: "उत्तरासाठी तुमचा ईमेल *",
+                emailHint: "आम्ही या पत्त्यावर उत्तर पाठवू",
+                subjectLabel: "विषय *",
+                messageLabel: "संदेश *",
+                submitBtn: "संदेश पाठवा",
+                note: "* - आवश्यक फील्ड. \"पाठवा\" वर क्लिक करून, तुम्ही आमच्या {privacy} शी सहमत आहात.",
+                privacyLink: "गोपनीयता धोरण",
+                successTitle: "धन्यवाद!",
+                successText: "तुमचा संदेश पाठवला गेला आहे. आम्ही लवकरच तुमच्याशी संपर्क साधू."
+            },
+            kn: {
+                pageTitle: "ಸಂಪರ್ಕಿಸಿ - Infyra ಸುದ್ದಿ",
+                contactTitle: "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
+                intro: "ಸೈಟ್ ಬಗ್ಗೆ ನೀವು ಪ್ರಶ್ನೆಗಳು, ಸಲಹೆಗಳು ಅಥವಾ ಕಾಮೆಂಟ್ಗಳನ್ನು ಹೊಂದಿದ್ದರೆ, ದಯವಿಟ್ಟು ಕೆಳಗಿನ ಫಾರ್ಮ್ ಅನ್ನು ಭರ್ತಿ ಮಾಡಿ. ನಾವು ಸಾಧ್ಯವಾದಷ್ಟು ಬೇಗ ಪ್ರತಿಕ್ರಿಯಿಸುತ್ತೇವೆ.",
+                nameLabel: "ನಿಮ್ಮ ಹೆಸರು *",
+                emailLabel: "ಉತ್ತರಕ್ಕಾಗಿ ನಿಮ್ಮ ಇಮೇಲ್ *",
+                emailHint: "ನಾವು ಈ ವಿಳಾಸಕ್ಕೆ ಉತ್ತರವನ್ನು ಕಳುಹಿಸುತ್ತೇವೆ",
+                subjectLabel: "ವಿಷಯ *",
+                messageLabel: "ಸಂದೇಶ *",
+                submitBtn: "ಸಂದೇಶ ಕಳುಹಿಸಿ",
+                note: "* - ಕಡ್ಡಾಯ ಕ್ಷೇತ್ರಗಳು. \"ಕಳುಹಿಸಿ\" ಕ್ಲಿಕ್ ಮಾಡುವ ಮೂಲಕ, ನೀವು ನಮ್ಮ {privacy} ಒಪ್ಪುತ್ತೀರಿ.",
+                privacyLink: "ಗೌಪ್ಯತಾ ನೀತಿ",
+                successTitle: "ಧನ್ಯವಾದಗಳು!",
+                successText: "ನಿಮ್ಮ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲಾಗಿದೆ. ನಾವು ಶೀಘ್ರದಲ್ಲೇ ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸುತ್ತೇವೆ."
+            },
+            ml: {
+                pageTitle: "ബന്ധപ്പെടുക - Infyra വാർത്തകൾ",
+                contactTitle: "ഞങ്ങളെ ബന്ധപ്പെടുക",
+                intro: "സൈറ്റിനെക്കുറിച്ച് നിങ്ങൾക്ക് ചോദ്യങ്ങളോ നിർദ്ദേശങ്ങളോ അഭിപ്രായങ്ങളോ ഉണ്ടെങ്കിൽ, ദയവായി ചുവടെയുള്ള ഫോം പൂരിപ്പിക്കുക. എത്രയും വേഗം ഞങ്ങൾ പ്രതികരിക്കും.",
+                nameLabel: "നിങ്ങളുടെ പേര് *",
+                emailLabel: "മറുപടിക്കായി നിങ്ങളുടെ ഇമെയിൽ *",
+                emailHint: "ഞങ്ങൾ ഈ വിലാസത്തിലേക്ക് മറുപടി അയയ്ക്കും",
+                subjectLabel: "വിഷയം *",
+                messageLabel: "സന്ദേശം *",
+                submitBtn: "സന്ദേശം അയയ്ക്കുക",
+                note: "* - ആവശ്യമായ ഫീൽഡുകൾ. \"അയയ്ക്കുക\" ക്ലിക്കുചെയ്യുന്നതിലൂടെ, നിങ്ങൾ ഞങ്ങളുടെ {privacy} അംഗീകരിക്കുന്നു.",
+                privacyLink: "സ്വകാര്യതാ നയം",
+                successTitle: "നന്ദി!",
+                successText: "നിങ്ങളുടെ സന്ദേശം അയച്ചു. ഉടൻ തന്നെ ഞങ്ങൾ നിങ്ങളെ ബന്ധപ്പെടും."
+            },
+            sw: {
+                pageTitle: "Wasiliana nasi - Infyra Habari",
+                contactTitle: "Wasiliana nasi",
+                intro: "Ikiwa una maswali, mapendekezo au maoni kuhusu tovuti, jaza fomu iliyo hapa chini. Tutajibu haraka iwezekanavyo.",
+                nameLabel: "Jina lako *",
+                emailLabel: "Barua pepe yako kwa jibu *",
+                emailHint: "Tutatuma jibu kwa anwani hii",
+                subjectLabel: "Mada *",
+                messageLabel: "Ujumbe *",
+                submitBtn: "Tuma Ujumbe",
+                note: "* - sehemu zinazohitajika. Kwa kubofya \"Tuma\", unakubali {privacy} yetu.",
+                privacyLink: "Sera ya Faragha",
+                successTitle: "Asante!",
+                successText: "Ujumbe wako umetumwa. Tutawasiliana nawe hivi karibuni."
+            },
+            ha: {
+                pageTitle: "Tuntube mu - Infyra Labarai",
+                contactTitle: "Tuntube mu",
+                intro: "Idan kuna tambayoyi, shawarwari ko sharhi game da rukunin yanar gizon, cika fom ɗin da ke ƙasa. Za mu amsa da wuri-wuri.",
+                nameLabel: "Sunanka *",
+                emailLabel: "Imel ɗinka don amsa *",
+                emailHint: "Za mu aika amsa zuwa wannan adireshin",
+                subjectLabel: "Maudu'i *",
+                messageLabel: "Saƙo *",
+                submitBtn: "Aika Saƙo",
+                note: "* - filayen da ake buƙata. Ta danna \"Aika\", kun yarda da {privacy} mu.",
+                privacyLink: "Manufar Sirri",
+                successTitle: "Na gode!",
+                successText: "An aika saƙonka. Za mu tuntube ka nan ba da jimawa ba."
+            },
+            ig: {
+                pageTitle: "Kpọtụrụ anyị - Infyra Akụkọ",
+                contactTitle: "Kpọtụrụ anyị",
+                intro: "Ọ bụrụ na ị nwere ajụjụ, ntụnye ma ọ bụ nkwupụta gbasara saịtị ahụ, dejupụta fọm dị n'okpuru. Anyị ga-aza ngwa ngwa o kwere mee.",
+                nameLabel: "Aha gị *",
+                emailLabel: "Email gị maka azịza *",
+                emailHint: "Anyị ga-eziga azịza na adreesị a",
+                subjectLabel: "Isiokwu *",
+                messageLabel: "Ozi *",
+                submitBtn: "Ziga Ozi",
+                note: "* - ubi ndị achọrọ. Site na ịpị \"Ziga\", ị kwenyere na {privacy} anyị.",
+                privacyLink: "Amụma Nzuzo",
+                successTitle: "Daalụ!",
+                successText: "Ezigaala ozi gị. Anyị ga-akpọtụrụ gị n'oge na-adịghị anya."
+            },
+            yo: {
+                pageTitle: "Kàn si wa - Infyra Àwọn ìròyìn",
+                contactTitle: "Kàn si wa",
+                intro: "Ti o ba ni ibeere, awọn imọran tabi awọn asọye nipa aaye naa, fọwọsi fọọmu ti o wa ni isalẹ. A yoo dahun ni kete bi o ti ṣee.",
+                nameLabel: "Orukọ rẹ *",
+                emailLabel: "Imeeli rẹ fun idahun *",
+                emailHint: "A yoo fi idahun ranṣẹ si adirẹsi yii",
+                subjectLabel: "Koko-ọrọ *",
+                messageLabel: "Ifiranṣẹ *",
+                submitBtn: "Firanṣẹ Ifiranṣẹ",
+                note: "* - awọn aaye ti o nilo. Nipa titẹ \"Firanṣẹ\", o gba pẹlu {privacy} wa.",
+                privacyLink: "Eto Aṣiri",
+                successTitle: "O ṣeun!",
+                successText: "A ti fi ifiranṣẹ rẹ ranṣẹ. A yoo kan si ọ laipe."
+            },
+            zu: {
+                pageTitle: "Xhumana nathi - Infyra Izindaba",
+                contactTitle: "Xhumana nathi",
+                intro: "Uma unemibuzo, iziphakamiso noma ukuphawula mayelana nesayithi, gcwalisa ifomu elingezansi. Sizophendula ngokushesha okukhulu.",
+                nameLabel: "Igama lakho *",
+                emailLabel: "I-imeyili yakho yempendulo *",
+                emailHint: "Sizothumela impendulo kuleli kheli",
+                subjectLabel: "Isihloko *",
+                messageLabel: "Umlayezo *",
+                submitBtn: "Thumela Umlayezo",
+                note: "* - izinkambu ezidingekayo. Ngokuchofoza \"Thumela\", uyavumelana ne-{privacy} yethu.",
+                privacyLink: "Inqubomgomo Yobumfihlo",
+                successTitle: "Ngiyabonga!",
+                successText: "Umlayezo wakho uthunyelwe. Sizokuthinta kungekudala."
+            },
+            xh: {
+                pageTitle: "Qhagamshelana nathi - Infyra Iindaba",
+                contactTitle: "Qhagamshelana nathi",
+                intro: "Ukuba unemibuzo, iingcebiso okanye izimvo malunga nesi sayithi, gcwalisa le fomu ingezantsi. Siya kuphendula ngokukhawuleza okukhulu.",
+                nameLabel: "Igama lakho *",
+                emailLabel: "I-imeyile yakho yempendulo *",
+                emailHint: "Siya kuthumela impendulo kule dilesi",
+                subjectLabel: "Umxholo *",
+                messageLabel: "Umyalezo *",
+                submitBtn: "Thumela Umyalezo",
+                note: "* - iindawo eziyimfuneko. Ngokucofa \"Thumela\", uyavumelana ne-{privacy} yethu.",
+                privacyLink: "Umgaqo-nkqubo Wabucala",
+                successTitle: "Enkosi!",
+                successText: "Umyalezo wakho uthunyelwe. Siya kuqhagamshelana nawe kungekudala."
+            },
+            st: {
+                pageTitle: "Iteketisano - Infyra Ditaba",
+                contactTitle: "Iteketisano le rona",
+                intro: "Haeba u na le lipotso, litlhahiso kapa maikutlo mabapi le sebaka sa marang-rang, tlatsa foromo e ka tlase. Re tla arabela kapele kamoo ho ka khonehang.",
+                nameLabel: "Lebitso la hao *",
+                emailLabel: "Imeile ea hao bakeng sa karabo *",
+                emailHint: "Re tla romela karabo atereseng ena",
+                subjectLabel: "Sehlooho *",
+                messageLabel: "Molaetsa *",
+                submitBtn: "Romela Molaetsa",
+                note: "* - masimo a hlokahalang. Ka ho tobetsa \"Romela\", u lumellana le {privacy} ea rona.",
+                privacyLink: "Leano la Lekunutu",
+                successTitle: "Kea leboha!",
+                successText: "Molaetsa oa hao o rometsoe. Re tla ikopanya le uena haufinyane."
+            },
+            tn: {
+                pageTitle: "Ikgolaganye - Infyra Dikgang",
+                contactTitle: "Ikgolaganye le rona",
+                intro: "Fa o na le dipotso, ditlhahiso kana dikakgelo ka lefelo la maranyane, tlatsa foromo e e kwa tlase. Re tla araba ka bonako jo bo kgonegang.",
+                nameLabel: "Leina la gago *",
+                emailLabel: "Imeile ya gago ya karabo *",
+                emailHint: "Re tla romela karabo kwa atereseng e",
+                subjectLabel: "Setlhogo *",
+                messageLabel: "Molaetsa *",
+                submitBtn: "Romela Molaetsa",
+                note: "* - mafelo a a tlhokegang. Ka go tobetsa \"Romela\", o dumalana le {privacy} ya rona.",
+                privacyLink: "Pholisi ya Sephiri",
+                successTitle: "Ke a leboga!",
+                successText: "Molaetsa wa gago o rometswe. Re tla ikgolaganya le weno ka bonako."
+            },
+            ss: {
+                pageTitle: "Thintana - Infyra Tindzaba",
+                contactTitle: "Thintana natsi",
+                intro: "Uma unemibuto, emaphakamiso noma imibono mayelana nendzawo, gcwalisa lifomu lelitingeza. Sitawuphendvula masinyane.",
+                nameLabel: "Ligama lakho *",
+                emailLabel: "I-imeyili yakho yemphendvulo *",
+                emailHint: "Sitawuthumela imphendvulo kuleli kheli",
+                subjectLabel: "Sihloko *",
+                messageLabel: "Umlayeto *",
+                submitBtn: "Thumela Umlayeto",
+                note: "* - emkhakheni ladzingekako. Ngekuchofoza \"Thumela\", uyavumelana ne-{privacy} yetfu.",
+                privacyLink: "Inqubomgomo Yemfihlo",
+                successTitle: "Ngiyabonga!",
+                successText: "Umlayeto wakho uthunyelwe. Sitakuthinta kungekudze."
+            },
+            ve: {
+                pageTitle: "Vhudzisani - Infyra Nyambo",
+                contactTitle: "Vhudzisani",
+                intro: "Arali vha na mbudziso, themendelo kana mafhungo nga ha heyi saiti, vha tshidzule fomo i afho fhasi. Ri do fhindula nga u avhanya.",
+                nameLabel: "Dzina ḽaṋu *",
+                emailLabel: "I-imeili yaṋu ya phindulo *",
+                emailHint: "Ri do rumela phindulo kha heyi adiresi",
+                subjectLabel: "Ndaela *",
+                messageLabel: "Mulaedza *",
+                submitBtn: "Rumela Mulaedza",
+                note: "* - maga a ndayelo. Nga u tobetsa \"Rumela\", ni tendelana na {privacy} yashu.",
+                privacyLink: "Pholisi ya Zwa Siphiris",
+                successTitle: "Ndaa!",
+                successText: "Mulaedza waṋu wo rumelwa. Ri do vhudzisana na inwi nga u avhanya."
+            },
+            ts: {
+                pageTitle: "Tihlanganisa - Infyra Tihungu",
+                contactTitle: "Tihlanganisa na hina",
+                intro: "Loko u na swivutiso, swiringanyeto kana mavonelo hi mayelana na sayiti yili, tata fomo leyi nga laha hansi. Hi ta hlamula hi ku hatlisa.",
+                nameLabel: "Vito ra wena *",
+                emailLabel: "I-imeyili ya wena ya nhlamulo *",
+                emailHint: "Hi ta rhumela nhlamulo eka adiresi leyi",
+                subjectLabel: "Nhlokomhaka *",
+                messageLabel: "Rungula *",
+                submitBtn: "Rhuma Rungula",
+                note: "* - swilaveko leswi lavekaka. Hi ku tinya \"Rhuma\", u pfumelelana na {privacy} ya hina.",
+                privacyLink: "Pholisi ya Vuhlayiseki",
+                successTitle: "Inkomu!",
+                successText: "Rungula ra wena ri rhumiwile. Hi ta tihlanganisa na wena ku nga ri khale."
+            },
+            rn: {
+                pageTitle: "Twandikire - Infyra Amakuru",
+                contactTitle: "Twandikire",
+                intro: "Nimwo mufise ibibazo, ibitekerezo canke ibivugirizo kuri uru rubuga, mwuzuze ifishi iri kw'isi. Tuzobishura vuba.",
+                nameLabel: "Izina ryawe *",
+                emailLabel: "Imeri yawe yo kuronka igisubizo *",
+                emailHint: "Tuzohereza igisubizo kuri iyi aderesi",
+                subjectLabel: "Ingingo *",
+                messageLabel: "Ubutumwa *",
+                submitBtn: "Ohereza Ubutumwa",
+                note: "* - ibice bikenewe. Mukanda \"Ohereza\", mwemera {privacy} yacu.",
+                privacyLink: "Politiki y'ibanga",
+                successTitle: "Urakoze!",
+                successText: "Ubutumwa bwawe bwoherejwe. Tuzokwumira ubutumwa bwanyuma."
+            },
+            rw: {
+                pageTitle: "Twandikire - Infyra Amakuru",
+                contactTitle: "Twandikire",
+                intro: "Niba mufite ibibazo, ibitekerezo cyangwa ibivugirizo kuri uru rubuga, mwuzuze ifishi iri hepfo. Tuzabasubiza vuba.",
+                nameLabel: "Izina ryawe *",
+                emailLabel: "Imeri yawe yo kubona igisubizo *",
+                emailHint: "Tuzohereza igisubizo kuri iyi aderesi",
+                subjectLabel: "Ingingo *",
+                messageLabel: "Ubutumwa *",
+                submitBtn: "Ohereza Ubutumwa",
+                note: "* - ibice bikenewe. Mukanda \"Ohereza\", mwemera {privacy} yacu.",
+                privacyLink: "Politiki y'ibanga",
+                successTitle: "Murakoze!",
+                successText: "Ubutumwa bwawe bwoherejwe. Tuzabakura vuba."
+            },
+            lg: {
+                pageTitle: "Tukwasiganye - Infyra Amawulire",
+                contactTitle: "Tukwasiganye",
+                intro: "Bwoba olina ebibuuzo, ebiteeso oba ebirowoozo ku mukutu guno, jjuza foomu eno wammanga. Tujja kuddamu mangu.",
+                nameLabel: "Erinnya lyo *",
+                emailLabel: "Imeyiro yo okufuna ekiddibwamu *",
+                emailHint: "Tujja kutuma ekiddibwamu ku yeero eno",
+                subjectLabel: "Omutwe *",
+                messageLabel: "Obubaka *",
+                submitBtn: "Tuma Obubaka",
+                note: "* - ebifo ebisaanidde. Bw'onyika \"Tuma\", okkiriziganya ne {privacy} yaffe.",
+                privacyLink: "Enkola y'obukyama",
+                successTitle: "Webale!",
+                successText: "Obubaka bwo butumye. Tujja kukwatagana nawe mangu."
+            },
+            ny: {
+                pageTitle: "Tumizani - Infyra Nkhani",
+                contactTitle: "Tumizani",
+                intro: "Ngati muli ndi mafunso, malingaliro kapena ndemanga za tsambali, chonde lembani fomu ili m'munsi. Tidzayankha posachedwa.",
+                nameLabel: "Dzina lanu *",
+                emailLabel: "Imelo yanu yoyankhidwa *",
+                emailHint: "Tidzatumiza yankho ku adilesi iyi",
+                subjectLabel: "Mutu *",
+                messageLabel: "Uthenga *",
+                submitBtn: "Tumizani Uthenga",
+                note: "* - minda yofunikira. Podina \"Tumiza\", mukuvomereza {privacy} yathu.",
+                privacyLink: "Mfundo Zachinsinsi",
+                successTitle: "Zikomo!",
+                successText: "Uthenga wanu watumizidwa. Tidzalumikizana nanu posachedwa."
+            },
+            mg: {
+                pageTitle: "Mifandraisa - Infyra Vaovao",
+                contactTitle: "Mifandraisa",
+                intro: "Raha manana fanontaniana, soso-kevitra na hevitra momba ny tranokala ianao, fenoy ny taratasy eto ambany. Hamaly haingana izahay.",
+                nameLabel: "Ny anaranao *",
+                emailLabel: "Ny mailakao ho valiny *",
+                emailHint: "Handefa valiny any amin'ity adiresy ity izahay",
+                subjectLabel: "Lohahevitra *",
+                messageLabel: "Hafatra *",
+                submitBtn: "Alefaso ny Hafatra",
+                note: "* - saha ilaina. Amin'ny fipihana ny \"Alefaso\", dia manaiky ny {privacy} anay ianao.",
+                privacyLink: "Politika momba ny fiainana manokana",
+                successTitle: "Misaotra!",
+                successText: "Nalefa ny hafatrao. Hifandray aminao tsy ho ela izahay."
+            },
+            om: {
+                pageTitle: "Nuti quunnamaa - Infyra Oduu",
+                contactTitle: "Nuti quunnamaa",
+                intro: "Yoo gaaffii, yaada ykn ilaalcha waa'ee marsariitii kaa qabaattan, gabatee armaan gadii guutaa. Dafnee deebisna.",
+                nameLabel: "Maqaa kee *",
+                emailLabel: "Imeelii kee deebiif *",
+                emailHint: "Deebii gara teessoo kanaa ni ergina",
+                subjectLabel: "Mata duree *",
+                messageLabel: "Ergaa *",
+                submitBtn: "Ergaa ergi",
+                note: "* - dirree barbaachisoo ta'an. \"Ergi\" irratti cuqaasuun, {privacy} keenya walli gala.",
+                privacyLink: "Imaammata dhoksaa",
+                successTitle: "Galatoomi!",
+                successText: "Ergaan kee ergamee jira. Daftee si quunnamna."
+            },
+            so: {
+                pageTitle: "Nala soo xidhiidh - Infyra Wararka",
+                contactTitle: "Nala soo xidhiidh",
+                intro: "Haddii aad qabto su'aalo, talooyin ama faallooyin ku saabsan goobta, fadlan buuxi foomka hoose. Waxaan u jawaabi doonnaa sida ugu dhakhsaha badan.",
+                nameLabel: "Magacaaga *",
+                emailLabel: "Iimaylkaaga jawaabta *",
+                emailHint: "Waxaan u diri doonnaa jawaabta cinwaankan",
+                subjectLabel: "Mawduuca *",
+                messageLabel: "Fariinta *",
+                submitBtn: "Dir Fariinta",
+                note: "* - goobaha loo baahan yahay. Adigoo gujinaya \"Dir\", waxaad ogolaatay {privacy}.",
+                privacyLink: "Siyaasadda Asturnaanta",
+                successTitle: "Mahadsanid!",
+                successText: "Fariintaada waa la diray. Waxaan kula soo xidhiidhi doonnaa dhawaan."
+            },
+            sn: {
+                pageTitle: "Tibate - Infyra Nhau",
+                contactTitle: "Tibate",
+                intro: "Kana uine mibvunzo, mazano kana mifungo pamusoro pe saiti, ndapota zadza fomu iri pazasi. Tichapindura nekukurumidza.",
+                nameLabel: "Zita rako *",
+                emailLabel: "E-mail yako yemhinduro *",
+                emailHint: "Tichatumira mhinduro kune iyi kero",
+                subjectLabel: "Musoro *",
+                messageLabel: "Mharidzo *",
+                submitBtn: "Tumira Mharidzo",
+                note: "* - minda inodiwa. Nekudzvanya \"Tumira\", unobvuma {privacy} yedu.",
+                privacyLink: "Mutemo wekuvanzika",
+                successTitle: "Ndatenda!",
+                successText: "Mharidzo yako yatumirwa. Tichakubata nekukurumidza."
+            },
+            wo: {
+                pageTitle: "Takk - Infyra Xibaar",
+                contactTitle: "Takk",
+                intro: "Su fekk nga laaj, mbindum xibaar walla ay xibaar ci jàll bi, nangul selfar bi ci suuf si. Dannay jaay leen.",
+                nameLabel: "Sa tur *",
+                emailLabel: "Sa imel ngir tontu *",
+                emailHint: "Dannay yonne tontu kaani adrese bii",
+                subjectLabel: "Liggéey *",
+                messageLabel: "Xibaar *",
+                submitBtn: "Yonne Xibaar",
+                note: "* - yeneen xeet. Ci topp \"Yonne\", nga nangu {privacy}.",
+                privacyLink: "Jëfandikukat yi",
+                successTitle: "Jërëjëf!",
+                successText: "Sa xibaar yonne na. Dannay gis la rekk."
+            },
+            ff: {
+                pageTitle: "Jokkondir - Infyra Kabaruuji",
+                contactTitle: "Jokkondir e amen",
+                intro: "Si tawaa lamji, wasiyeeji walla ciyaaji jowtugo lowre ndee, timmin foomuuru nduu ley les. Men jaaboto haa yaawi.",
+                nameLabel: "Innde maaɗa *",
+                emailLabel: "Iimeel maaɗa ngam jaabawol *",
+                emailHint: "Men neldan jaabawol haa adres nduu",
+                subjectLabel: "Toɓɓere *",
+                messageLabel: "Nulaa *",
+                submitBtn: "Nulu Nulaa",
+                note: "* - nokkuuje ɗe ɗaɓɓitii. Ɓaawo ɗoftaade \"Nulu\", a jaɓi {privacy}.",
+                privacyLink: "Siyasa sirlu",
+                successTitle: "A jaaraama!",
+                successText: "Nulaa maaɗa nuliima. Men jokkondir e maaɗa ko yaawi."
+            },
+            dy: {
+                pageTitle: "འབྲེལ་གཏུགས། - Infyra གསར་འགྱུར།",
+                contactTitle: "ང་ཚོ་དང་འབྲེལ་གཏུགས།",
+                intro: "གལ་ཏེ་ཁྱེད་རང་ལ་ས་ཚིགས་སྐོར་གྱི་དྲི་བ། བསམ་ཚུལ། ཡང་ན་དགོངས་ཚུལ་ཡོད་ན། གོང་གསལ་རེའུ་མིག་འདི་གཏན་འབེབས་གནང་དང་། ང་ཚོས་ཐུབ་ཐུབ་ཀྱི་སྐབས་སུ་ལན་འདེབས་རྒྱུ་ཡིན།",
+                nameLabel: "ཁྱེད་ཀྱི་མིང་། *",
+                emailLabel: "ལན་འདེབས་ཀྱི་ཁྱེད་ཀྱི་ཡིག་ཚང་། *",
+                emailHint: "ང་ཚོས་ཡིག་ཚང་འདིར་ལན་འདེབས་རྒྱུ་ཡིན།",
+                subjectLabel: "བརྗོད་གཞི། *",
+                messageLabel: "འཕྲིན་ཡིག *",
+                submitBtn: "འཕྲིན་ཡིག་སྐུར།",
+                note: "* - དགོས་ངེས་ཀྱི་ས་ཆ། \"སྐུར།\" ཐོག་མཐེབ་གཏང་བའི་སྒོ་ནས་ཁྱེད་ཀྱིས་ང་ཚོའི་{privacy} ལ་མོས་མཐུན་བྱེད་ཀྱི་ཡོད།",
+                privacyLink: "སྒེར་གྱི་གསང་བའི་སྲིད་བྱུས།",
+                successTitle: "བཀའ་དྲིན་ཆེ།",
+                successText: "ཁྱེད་ཀྱི་འཕྲིན་ཡིག་བསྐུར་ཟིན། ང་ཚོས་ཐུང་ཐུང་གི་སྐབས་སུ་ཁྱེད་དང་འབྲེལ་གཏུགས་རྒྱུ་ཡིན།"
+            },
+            bm: {
+                pageTitle: "Ngwanafo - Infyra Kibaru",
+                contactTitle: "Ngwanafo",
+                intro: "Ni e bɛ hakili la, hakili bɔ, walima fɔli kɛ ɲɛ ni siti ye, a kɛ fɔli nin bɛ se ka kɛ. An bɛ segin ka ban tuma dɔw la.",
+                nameLabel: "E tɔgɔ *",
+                emailLabel: "E imɛli ye pakiyɔrɔ *",
+                emailHint: "An bɛ pakiyɔrɔ ci nin adrɛsɛ in na",
+                subjectLabel: "Kunkolodɔ *",
+                messageLabel: "Kibaru *",
+                submitBtn: "Ci kibaru",
+                note: "* - dugukolow minnu ka kan ka kɛ. Ni e bɛ sɔn ka \"Ci\" digi, i bɛ sɔn an ka {privacy} la.",
+                privacyLink: "Siriya ladilikan",
+                successTitle: "A ni ce!",
+                successText: "E kibaru cilen don. An bɛ na i fɛ ka ban tuma dɔw la."
+            },
+            be: {
+                pageTitle: "Кантакты - Infyra Навіны",
+                contactTitle: "Звяжыцеся з намі",
+                intro: "Калі ў вас ёсць пытанні, прапановы ці заўвагі адносна сайта, калі ласка, запоўніце форму ніжэй. Мы адкажам як мага хутчэй.",
+                nameLabel: "Ваша імя *",
+                emailLabel: "Ваш email для адказу *",
+                emailHint: "Мы адправім адказ на гэты адрас",
+                subjectLabel: "Тэма *",
+                messageLabel: "Паведамленне *",
+                submitBtn: "Адправіць паведамленне",
+                note: "* - абавязковыя палі. Націскаючы \"Адправіць\", вы згаджаецеся з нашай {privacy}.",
+                privacyLink: "Палітыкай прыватнасці",
+                successTitle: "Дзякуй!",
+                successText: "Ваша паведамленне адпраўлена. Мы сувяжамся з вамі ў бліжэйшы час."
+            },
+            uk: {
+                pageTitle: "Контакти - Infyra Новини",
+                contactTitle: "Зв'яжіться з нами",
+                intro: "Якщо у вас є питання, пропозиції чи зауваження щодо роботи сайту, заповніть форму нижче. Ми відповімо вам найближчим часом.",
+                nameLabel: "Ваше ім'я *",
+                emailLabel: "Ваш Email для відповіді *",
+                emailHint: "На цю адресу ми відправимо відповідь",
+                subjectLabel: "Тема *",
+                messageLabel: "Повідомлення *",
+                submitBtn: "Відправити повідомлення",
+                note: "* — обов'язкові поля. Натискаючи кнопку \"Відправити\", ви погоджуєтесь з {privacy}.",
+                privacyLink: "Політикою конфіденційності",
+                successTitle: "Дякуємо!",
+                successText: "Ваше повідомлення відправлено. Ми зв'яжемося з вами найближчим часом."
+            },
+            el: {
+                pageTitle: "Επικοινωνία - Infyra Ειδήσεις",
+                contactTitle: "Επικοινωνήστε μαζί μας",
+                intro: "Εάν έχετε ερωτήσεις, προτάσεις ή σχόλια σχετικά με τον ιστότοπο, συμπληρώστε την παρακάτω φόρμα. Θα απαντήσουμε το συντομότερο δυνατό.",
+                nameLabel: "Το όνομά σας *",
+                emailLabel: "Το email σας για απάντηση *",
+                emailHint: "Θα στείλουμε απάντηση σε αυτήν τη διεύθυνση",
+                subjectLabel: "Θέμα *",
+                messageLabel: "Μήνυμα *",
+                submitBtn: "Αποστολή μηνύματος",
+                note: "* - υποχρεωτικά πεδία. Κάνοντας κλικ στο \"Αποστολή\", συμφωνείτε με την {privacy} μας.",
+                privacyLink: "Πολιτική Απορρήτου",
+                successTitle: "Ευχαριστούμε!",
+                successText: "Το μήνυμά σας στάλθηκε. Θα επικοινωνήσουμε σύντομα μαζί σας."
+            },
+            la: {
+                pageTitle: "Contactus - Infyra Nuntii",
+                contactTitle: "Contactus",
+                intro: "Si quaestiones, suggestiones vel commenta de situ habes, formulam infra imple. Quam celerrime respondebimus.",
+                nameLabel: "Nomen tuum *",
+                emailLabel: "Tua email pro responso *",
+                emailHint: "Responsum ad hanc inscriptionem mittemus",
+                subjectLabel: "Argumentum *",
+                messageLabel: "Nuntius *",
+                submitBtn: "Mitte nuntium",
+                note: "* - campi necessarii. Premendo \"Mitte\", consentis cum {privacy} nostra.",
+                privacyLink: "Politica secreta",
+                successTitle: "Gratias!",
+                successText: "Nuntius tuus missus est. Te mox contacturi sumus."
+            },
+            eo: {
+                pageTitle: "Kontakto - Infyra Novaĵoj",
+                contactTitle: "Kontaktu nin",
+                intro: "Se vi havas demandojn, sugestojn aŭ komentojn pri la retejo, bonvolu plenigi la suban formularon. Ni respondos kiel eble plej baldaŭ.",
+                nameLabel: "Via nomo *",
+                emailLabel: "Via retpoŝto por respondo *",
+                emailHint: "Ni sendos respondon al ĉi tiu adreso",
+                subjectLabel: "Temo *",
+                messageLabel: "Mesaĝo *",
+                submitBtn: "Sendu mesaĝon",
+                note: "* - devigaj kampoj. Alklakante \"Sendu\", vi konsentas kun nia {privacy}.",
+                privacyLink: "Politiko pri privateco",
+                successTitle: "Dankon!",
+                successText: "Via mesaĝo estas sendita. Ni baldaŭ kontakti vin."
+            },
+            ia: {
+                pageTitle: "Contacto - Infyra Notitias",
+                contactTitle: "Contacta nos",
+                intro: "Si vos ha questiones, suggestiones o commentos super le sito, per favor completa le formulario infra. Nos respondera quanto plus tosto possibile.",
+                nameLabel: "Vostre nomine *",
+                emailLabel: "Vostre email pro responsa *",
+                emailHint: "Nos inviara un responsa a iste adresse",
+                subjectLabel: "Subjecto *",
+                messageLabel: "Message *",
+                submitBtn: "Inviar message",
+                note: "* - campos obligatori. Cliccante \"Inviar\", vos accepta nostre {privacy}.",
+                privacyLink: "Politica de confidentialitate",
+                successTitle: "Gratias!",
+                successText: "Vostre message ha essite inviate. Nos contactera vos tosto."
+            },
+            co: {
+                pageTitle: "Cuntattu - Infyra Nutizie",
+                contactTitle: "Cuntattateci",
+                intro: "Sè avete dumande, suggerimenti o cumenti annantu à u situ, compilate u furmulariu quì sottu. Risponderemu u più prestu pussibule.",
+                nameLabel: "U vostru nome *",
+                emailLabel: "U vostru email per risposta *",
+                emailHint: "Invieremu una risposta à questu indirizzu",
+                subjectLabel: "Sughjettu *",
+                messageLabel: "Messaghju *",
+                submitBtn: "Invià messaghju",
+                note: "* - campi obbligatori. Clicchendu \"Invià\", accettate a nostra {privacy}.",
+                privacyLink: "Pulitica di cunfidenzialità",
+                successTitle: "Grazie!",
+                successText: "U vostru messaghju hè statu inviatu. Vi cuntatteremu prestu."
+            },
+            gd: {
+                pageTitle: "Cuir fios - Infyra Naidheachdan",
+                contactTitle: "Cuir fios thugainn",
+                intro: "Ma tha ceistean, molaidhean no beachdan agad mun làrach, lìon a-steach am foirm gu h-ìosal. Freagraidh sinn cho luath 's as urrainn.",
+                nameLabel: "D' ainm *",
+                emailLabel: "Do phost-d airson freagairt *",
+                emailHint: "Cuiridh sinn freagairt chun an t-seòlaidh seo",
+                subjectLabel: "Cuspair *",
+                messageLabel: "Teachdaireachd *",
+                submitBtn: "Cuir teachdaireachd",
+                note: "* - raointean riatanach. Le bhith a' briogadh \"Cuir\", tha thu ag aontachadh ris an {privacy} againn.",
+                privacyLink: "Poileasaidh Dìomhaireachd",
+                successTitle: "Tapadh leibh!",
+                successText: "Chaidh do theachdaireachd a chur. Cuiridh sinn fios thugad a dh'aithghearr."
+            }
+        };
+
+        function translateContactPage() {
+            const lang = window.lang || 'en';
+            const t = CONTACT_TRANSLATIONS[lang] || CONTACT_TRANSLATIONS.en;
+
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('contactTitle').textContent = t.contactTitle;
+            document.getElementById('contactIntro').textContent = t.intro;
+            document.getElementById('nameLabel').textContent = t.nameLabel;
+            document.getElementById('emailLabel').textContent = t.emailLabel;
+            document.getElementById('emailHint').textContent = t.emailHint;
+            document.getElementById('subjectLabel').textContent = t.subjectLabel;
+            document.getElementById('messageLabel').textContent = t.messageLabel;
+            document.getElementById('submitBtn').textContent = t.submitBtn;
+            document.getElementById('privacyLink').textContent = t.privacyLink;
+            document.getElementById('successTitle').textContent = t.successTitle;
+            document.getElementById('successText').textContent = t.successText;
+            
+            const contactNote = document.getElementById('contactNote');
+            contactNote.innerHTML = t.note.replace('{privacy}', `<a href="privacy.html" style="color:#4facfe;">${t.privacyLink}</a>`);
+        }
+
+        // Ждем загрузки app.js
+        let checkInterval = setInterval(function() {
+            if (typeof window.lang !== 'undefined') {
+                clearInterval(checkInterval);
+                translateContactPage();
+            }
+        }, 50);
+
+        window.addEventListener('languageChanged', translateContactPage);
+
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Блокируем кнопку отправки
+    const submitBtn = document.getElementById('submitBtn');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Отправка...';
+    submitBtn.disabled = true;
+    
+    // Собираем данные
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+    };
+    
+    try {
+        // Отправляем на Formspree
+        const response = await fetch('https://formspree.io/f/mjgeajnq', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+            // Успех
+            document.querySelector('.contact-form').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('contactForm').reset();
+        } else {
+            // Ошибка
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+    } catch (error) {
+        // Ошибка сети
+        document.getElementById('errorMessage').style.display = 'block';
+        console.error('Error:', error);
+    } finally {
+        // Разблокируем кнопку
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
+});
+    </script>
+</body>
+</html>
