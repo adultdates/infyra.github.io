@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- LICENSE_ID: UNLICENSED — replaced per sale by seller-tools/personalize-package.js. Do not remove: identifies which purchase a leaked copy came from. -->
 <html lang="en" id="html-root">
 <head>
 <meta charset="UTF-8">
@@ -166,6 +167,7 @@ button{font-family:inherit;}
   word-wrap:break-word; overflow-wrap:break-word;
 }
 #preview-target, .tpl-frame .resume-doc { min-height:1123px; }
+#print-target{ position:fixed; top:0; left:-99999px; }
 .resume-doc h1,.resume-doc h2,.resume-doc .name{font-family:var(--doc-display-font);}
 .resume-doc .name{font-size:30px; font-weight:700; margin:0;}
 .resume-doc .role{font-size:14.5px; color:var(--doc-accent); margin-top:3px; font-weight:600;}
@@ -392,7 +394,6 @@ button{font-family:inherit;}
       <div class="spacer"></div>
       <button class="btn btn-ghost btn-sm" id="btn-load-sample" data-t="btn_sample">Load Sample Resume</button>
       <button class="btn btn-ghost btn-sm" id="btn-choose-template" data-t="btn_template">Choose Template</button>
-      <button class="btn btn-ghost btn-sm" id="btn-print" data-t="btn_print">Print</button>
       <button class="btn btn-primary btn-sm" id="btn-download-pdf" data-t="btn_pdf">Download PDF</button>
     </div>
     <div class="editor-body">
@@ -403,7 +404,7 @@ button{font-family:inherit;}
 
 </div>
 
-<div class="resume-doc hidden" id="print-target"></div>
+<div class="resume-doc" id="print-target"></div>
 
 <div class="modal-overlay hidden" id="template-modal">
   <div class="modal-box">
@@ -459,7 +460,7 @@ const I18N = {
     feat_1:"20 professional templates", feat_2:"Unlimited resumes", feat_3:"No subscription",
     feat_4:"Works offline", feat_5:"Export to PDF",
     saved_label:"All changes saved", saving_label:"Saving…",
-    btn_sample:"Load Sample Resume", btn_template:"Choose Template", btn_print:"Print", btn_pdf:"Download PDF",
+    btn_sample:"Load Sample Resume", btn_template:"Choose Template", btn_pdf:"Download PDF",
     tpl_modal_title:"Choose a template", settings_language:"Language",
     onboard_title:"Welcome", onboard_sub:"Three steps to your first resume.",
     onboard_step1:"Enter your information", onboard_step2:"Choose a template", onboard_step3:"Download your resume",
@@ -494,7 +495,7 @@ const I18N = {
     feat_1:"20 professionelle Vorlagen", feat_2:"Unbegrenzte Lebensläufe", feat_3:"Kein Abonnement",
     feat_4:"Funktioniert offline", feat_5:"Export als PDF",
     saved_label:"Alle Änderungen gespeichert", saving_label:"Speichern…",
-    btn_sample:"Beispiel laden", btn_template:"Vorlage wählen", btn_print:"Drucken", btn_pdf:"PDF herunterladen",
+    btn_sample:"Beispiel laden", btn_template:"Vorlage wählen", btn_pdf:"PDF herunterladen",
     tpl_modal_title:"Vorlage wählen", settings_language:"Sprache",
     onboard_title:"Willkommen", onboard_sub:"Drei Schritte zu Ihrem ersten Lebenslauf.",
     onboard_step1:"Geben Sie Ihre Daten ein", onboard_step2:"Wählen Sie eine Vorlage", onboard_step3:"Laden Sie Ihren Lebenslauf herunter",
@@ -529,7 +530,7 @@ const I18N = {
     feat_1:"20 plantillas profesionales", feat_2:"CV ilimitados", feat_3:"Sin suscripción",
     feat_4:"Funciona sin conexión", feat_5:"Exportar a PDF",
     saved_label:"Todos los cambios guardados", saving_label:"Guardando…",
-    btn_sample:"Cargar ejemplo", btn_template:"Elegir plantilla", btn_print:"Imprimir", btn_pdf:"Descargar PDF",
+    btn_sample:"Cargar ejemplo", btn_template:"Elegir plantilla", btn_pdf:"Descargar PDF",
     tpl_modal_title:"Elegir plantilla", settings_language:"Idioma",
     onboard_title:"Bienvenido", onboard_sub:"Tres pasos para tu primer CV.",
     onboard_step1:"Introduce tus datos", onboard_step2:"Elige una plantilla", onboard_step3:"Descarga tu CV",
@@ -564,7 +565,7 @@ const I18N = {
     feat_1:"20 modèles professionnels", feat_2:"CV illimités", feat_3:"Sans abonnement",
     feat_4:"Fonctionne hors ligne", feat_5:"Export PDF",
     saved_label:"Toutes les modifications sont enregistrées", saving_label:"Enregistrement…",
-    btn_sample:"Charger un exemple", btn_template:"Choisir un modèle", btn_print:"Imprimer", btn_pdf:"Télécharger le PDF",
+    btn_sample:"Charger un exemple", btn_template:"Choisir un modèle", btn_pdf:"Télécharger le PDF",
     tpl_modal_title:"Choisir un modèle", settings_language:"Langue",
     onboard_title:"Bienvenue", onboard_sub:"Trois étapes pour votre premier CV.",
     onboard_step1:"Saisissez vos informations", onboard_step2:"Choisissez un modèle", onboard_step3:"Téléchargez votre CV",
@@ -575,7 +576,7 @@ const I18N = {
     fld_photo:"Photo (optionnelle)", fld_photo_select:"Choisir un fichier", fld_fullname:"Nom complet", fld_title:"Titre professionnel", fld_city:"Ville / pays",
     fld_phone:"Téléphone", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Site web",
     fld_summary:"2–3 phrases sur vous et vos objectifs",
-    fld_job_title:"Poste", fld_company:"Entreprise", fld_location:"Lieu", fld_start:"Début", fld_end:"Fin (ou «aujourd’hui»)",
+    fld_job_title:"Poste", fld_company:"Entreprise", fld_location:"Lieu", fld_start:"Début", fld_end:"Fin (ou «aujourd'hui»)",
     fld_description:"Réalisations / responsabilités — une par ligne",
     fld_degree:"Diplôme", fld_school:"Université", fld_edu_desc:"Détails (optionnel)",
     fld_skills:"Saisissez une compétence et appuyez sur Entrée", fld_languages:"Saisissez une langue et appuyez sur Entrée",
@@ -583,14 +584,14 @@ const I18N = {
     fld_project_link:"Lien (optionnel)", fld_awards:"Un par ligne", fld_volunteer:"Un par ligne",
     fld_interests:"Un par ligne", fld_references:"Un par ligne, ou «Disponibles sur demande»",
     add_experience:"+ Ajouter une expérience", add_education:"+ Ajouter une formation", add_project:"+ Ajouter un projet",
-    opt_awards:"Récompenses", opt_volunteer:"Bénévolat", opt_interests:"Centres d’intérêt", opt_references:"Références",
+    opt_awards:"Récompenses", opt_volunteer:"Bénévolat", opt_interests:"Centres d'intérêt", opt_references:"Références",
     delete:"Supprimer", rename:"Renommer", duplicate:"Dupliquer", edit:"Ouvrir",
     confirm_delete:"Supprimer ce CV ? Action irréversible.",
     prompt_rename:"Nouveau nom pour ce CV :",
     untitled:"CV sans titre", updated:"Mis à jour",
     cat_all:"Tous", cat_classic:"Classique", cat_modern:"Moderne", cat_minimal:"Minimaliste", cat_executive:"Exécutif",
     cat_creative:"Créatif", cat_ats:"ATS", cat_timeline:"Chronologie", cat_sidebar:"Barre latérale",
-    sample_summary:"Responsable marketing axé résultats avec plus de 8 ans d’expérience en stratégie de marque et gestion d’équipes transversales. Capable de transformer les données en croissance."
+    sample_summary:"Responsable marketing axé résultats avec plus de 8 ans d'expérience en stratégie de marque et gestion d'équipes transversales. Capable de transformer les données en croissance."
   },
   pt: {
     dash_title:"Criador de CV", dash_sub:"Crie currículos profissionais em minutos. Tudo fica neste dispositivo.",
@@ -599,7 +600,7 @@ const I18N = {
     feat_1:"20 modelos profissionais", feat_2:"CV ilimitados", feat_3:"Sem assinatura",
     feat_4:"Funciona offline", feat_5:"Exportar em PDF",
     saved_label:"Todas as alterações foram salvas", saving_label:"Salvando…",
-    btn_sample:"Carregar exemplo", btn_template:"Escolher modelo", btn_print:"Imprimir", btn_pdf:"Baixar PDF",
+    btn_sample:"Carregar exemplo", btn_template:"Escolher modelo", btn_pdf:"Baixar PDF",
     tpl_modal_title:"Escolher modelo", settings_language:"Idioma",
     onboard_title:"Bem-vindo", onboard_sub:"Três passos para o seu primeiro CV.",
     onboard_step1:"Insira suas informações", onboard_step2:"Escolha um modelo", onboard_step3:"Baixe seu CV",
@@ -634,7 +635,7 @@ const I18N = {
     feat_1:"20 modelli professionali", feat_2:"CV illimitati", feat_3:"Nessun abbonamento",
     feat_4:"Funziona offline", feat_5:"Esporta in PDF",
     saved_label:"Tutte le modifiche salvate", saving_label:"Salvataggio…",
-    btn_sample:"Carica esempio", btn_template:"Scegli modello", btn_print:"Stampa", btn_pdf:"Scarica PDF",
+    btn_sample:"Carica esempio", btn_template:"Scegli modello", btn_pdf:"Scarica PDF",
     tpl_modal_title:"Scegli modello", settings_language:"Lingua",
     onboard_title:"Benvenuto", onboard_sub:"Tre passi per il tuo primo CV.",
     onboard_step1:"Inserisci i tuoi dati", onboard_step2:"Scegli un modello", onboard_step3:"Scarica il tuo CV",
@@ -1209,7 +1210,6 @@ function buildTplGrid(){
 function doPrint(){
   const tpl = TEMPLATES.find(x => x.id === currentResume.templateId) || TEMPLATES[0];
   renderInto(document.getElementById('print-target'), tpl, currentResume.data);
-  document.getElementById('print-target').classList.remove('hidden');
   window.print();
 }
 
@@ -1233,7 +1233,6 @@ document.getElementById('btn-load-sample').addEventListener('click', () => {
 });
 document.getElementById('btn-choose-template').addEventListener('click', openTemplateModal);
 document.getElementById('btn-close-template-modal').addEventListener('click', () => document.getElementById('template-modal').classList.add('hidden'));
-document.getElementById('btn-print').addEventListener('click', doPrint);
 document.getElementById('btn-download-pdf').addEventListener('click', doPrint);
 document.getElementById('btn-open-language').addEventListener('click', () => document.getElementById('language-modal').classList.remove('hidden'));
 document.getElementById('btn-close-language-modal').addEventListener('click', () => document.getElementById('language-modal').classList.add('hidden'));
