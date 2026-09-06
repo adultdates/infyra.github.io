@@ -119,9 +119,15 @@ button{font-family:inherit;}
 .repeat-item-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
 .repeat-item-head span{font-size:12.5px; font-weight:600; color:var(--ink-faint);}
 
-.photo-row{display:flex; align-items:center; gap:12px;}
+.photo-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
 .photo-preview-img{width:48px; height:48px; border-radius:50%; object-fit:cover; background:var(--line-soft); border:1px solid var(--line); flex-shrink:0;}
-.photo-row input[type=file]{font-size:12.5px; flex:1;}
+.photo-row input[type=file]{display:none;}
+.photo-select-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:500; padding:8px 14px; border-radius:var(--radius);
+  border:1px solid var(--line); background:var(--panel); cursor:pointer; color:var(--ink);
+}
+.photo-select-btn:hover{border-color:var(--accent); color:var(--accent-deep);}
 
 .add-link-btn{background:none; border:1px dashed var(--line); color:var(--ink-soft); border-radius:var(--radius); padding:9px 12px; font-size:13.5px; cursor:pointer; width:100%; text-align:left; font-weight:500;}
 .add-link-btn:hover{border-color:var(--accent); color:var(--accent-deep);}
@@ -332,6 +338,20 @@ button{font-family:inherit;}
   .editor-preview-pane .resume-doc{transform:scale(.86); transform-origin:top center;}
   .two-col{grid-template-columns:1fr;}
 }
+
+@media (max-width:600px){
+  .editor-preview-pane{
+    display:block;
+    overflow:auto;
+    text-align:center;
+  }
+  .editor-preview-pane .resume-doc{
+    transform:scale(0.48);
+    transform-origin:top center;
+    margin:0 auto;
+    display:inline-block;
+  }
+}
 </style>
 </head>
 <body>
@@ -445,7 +465,7 @@ const I18N = {
     sec_personal:"Personal information", sec_summary:"Professional summary", sec_experience:"Work experience",
     sec_education:"Education", sec_skills:"Skills", sec_languages:"Languages", sec_certs:"Certifications",
     sec_projects:"Projects", sec_optional:"Optional sections",
-    fld_photo:"Photo (optional)", fld_fullname:"Full name", fld_title:"Professional title", fld_city:"City / country",
+    fld_photo:"Photo (optional)", fld_photo_select:"Choose file", fld_fullname:"Full name", fld_title:"Professional title", fld_city:"City / country",
     fld_phone:"Phone", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Website",
     fld_summary:"2–3 sentences about you and your goals",
     fld_job_title:"Job title", fld_company:"Company", fld_location:"Location", fld_start:"Start date", fld_end:"End date (or Present)",
@@ -480,7 +500,7 @@ const I18N = {
     sec_personal:"Persönliche Daten", sec_summary:"Berufliches Profil", sec_experience:"Berufserfahrung",
     sec_education:"Ausbildung", sec_skills:"Fähigkeiten", sec_languages:"Sprachen", sec_certs:"Zertifikate",
     sec_projects:"Projekte", sec_optional:"Optionale Abschnitte",
-    fld_photo:"Foto (optional)", fld_fullname:"Vollständiger Name", fld_title:"Berufsbezeichnung", fld_city:"Stadt / Land",
+    fld_photo:"Foto (optional)", fld_photo_select:"Datei wählen", fld_fullname:"Vollständiger Name", fld_title:"Berufsbezeichnung", fld_city:"Stadt / Land",
     fld_phone:"Telefon", fld_email:"E-Mail", fld_linkedin:"LinkedIn", fld_website:"Website",
     fld_summary:"2–3 Sätze über Sie und Ihre Ziele",
     fld_job_title:"Position", fld_company:"Unternehmen", fld_location:"Ort", fld_start:"Start", fld_end:"Ende (oder „heute“)",
@@ -515,7 +535,7 @@ const I18N = {
     sec_personal:"Datos personales", sec_summary:"Perfil profesional", sec_experience:"Experiencia laboral",
     sec_education:"Educación", sec_skills:"Habilidades", sec_languages:"Idiomas", sec_certs:"Certificados",
     sec_projects:"Proyectos", sec_optional:"Secciones opcionales",
-    fld_photo:"Foto (opcional)", fld_fullname:"Nombre completo", fld_title:"Título profesional", fld_city:"Ciudad / país",
+    fld_photo:"Foto (opcional)", fld_photo_select:"Elegir archivo", fld_fullname:"Nombre completo", fld_title:"Título profesional", fld_city:"Ciudad / país",
     fld_phone:"Teléfono", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Sitio web",
     fld_summary:"2–3 frases sobre ti y tus objetivos",
     fld_job_title:"Puesto", fld_company:"Empresa", fld_location:"Ubicación", fld_start:"Inicio", fld_end:"Fin (o «actualidad»)",
@@ -550,7 +570,7 @@ const I18N = {
     sec_personal:"Informations personnelles", sec_summary:"Profil professionnel", sec_experience:"Expérience professionnelle",
     sec_education:"Formation", sec_skills:"Compétences", sec_languages:"Langues", sec_certs:"Certifications",
     sec_projects:"Projets", sec_optional:"Sections optionnelles",
-    fld_photo:"Photo (optionnelle)", fld_fullname:"Nom complet", fld_title:"Titre professionnel", fld_city:"Ville / pays",
+    fld_photo:"Photo (optionnelle)", fld_photo_select:"Choisir un fichier", fld_fullname:"Nom complet", fld_title:"Titre professionnel", fld_city:"Ville / pays",
     fld_phone:"Téléphone", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Site web",
     fld_summary:"2–3 phrases sur vous et vos objectifs",
     fld_job_title:"Poste", fld_company:"Entreprise", fld_location:"Lieu", fld_start:"Début", fld_end:"Fin (ou «aujourd’hui»)",
@@ -585,7 +605,7 @@ const I18N = {
     sec_personal:"Informações pessoais", sec_summary:"Perfil profissional", sec_experience:"Experiência profissional",
     sec_education:"Educação", sec_skills:"Habilidades", sec_languages:"Idiomas", sec_certs:"Certificados",
     sec_projects:"Projetos", sec_optional:"Seções opcionais",
-    fld_photo:"Foto (opcional)", fld_fullname:"Nome completo", fld_title:"Título profissional", fld_city:"Cidade / país",
+    fld_photo:"Foto (opcional)", fld_photo_select:"Escolher arquivo", fld_fullname:"Nome completo", fld_title:"Título profissional", fld_city:"Cidade / país",
     fld_phone:"Telefone", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Website",
     fld_summary:"2–3 frases sobre você e seus objetivos",
     fld_job_title:"Cargo", fld_company:"Empresa", fld_location:"Local", fld_start:"Início", fld_end:"Fim (ou «atual»)",
@@ -620,7 +640,7 @@ const I18N = {
     sec_personal:"Dati personali", sec_summary:"Profilo professionale", sec_experience:"Esperienza lavorativa",
     sec_education:"Istruzione", sec_skills:"Competenze", sec_languages:"Lingue", sec_certs:"Certificazioni",
     sec_projects:"Progetti", sec_optional:"Sezioni opzionali",
-    fld_photo:"Foto (opzionale)", fld_fullname:"Nome completo", fld_title:"Titolo professionale", fld_city:"Città / paese",
+    fld_photo:"Foto (opzionale)", fld_photo_select:"Scegli file", fld_fullname:"Nome completo", fld_title:"Titolo professionale", fld_city:"Città / paese",
     fld_phone:"Telefono", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Sito web",
     fld_summary:"2–3 frasi su di te e i tuoi obiettivi",
     fld_job_title:"Posizione", fld_company:"Azienda", fld_location:"Luogo", fld_start:"Inizio", fld_end:"Fine (o «attuale»)",
@@ -642,7 +662,13 @@ const I18N = {
   }
 };
 
-let LANG = localStorage.getItem('rb_lang') || 'en';
+let LANG = localStorage.getItem('rb_lang');
+if (!LANG) {
+  const browserLang = (navigator.language || navigator.userLanguage || '').substring(0,2).toLowerCase();
+  const supported = ['en','de','es','fr','pt','it'];
+  LANG = supported.includes(browserLang) ? browserLang : 'en';
+}
+
 function t(key){ return (I18N[LANG] && I18N[LANG][key]) || I18N.en[key] || key; }
 function applyStaticTranslations(){
   document.getElementById('html-root').lang = LANG;
@@ -938,7 +964,10 @@ function renderEditorForm(){
         <label>${t('fld_photo')}</label>
         <div class="photo-row">
           <img id="photo-preview" class="photo-preview-img" src="${d.photo || ''}" alt="">
-          <input id="photo-input" type="file" accept="image/*">
+          <label class="photo-select-btn">
+            ${t('fld_photo_select')}
+            <input id="photo-input" type="file" accept="image/*">
+          </label>
           ${d.photo ? `<button class="icon-btn" id="photo-remove" title="${t('delete')}">&times;</button>` : ''}
         </div>
       </div>
