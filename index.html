@@ -342,14 +342,16 @@ button{font-family:inherit;}
 @media (max-width:600px){
   .editor-preview-pane{
     display:block;
-    overflow:auto;
+    overflow:hidden;
     text-align:center;
+    padding:16px 0;
   }
   .editor-preview-pane .resume-doc{
-    transform:scale(0.48);
+    transform:scale(0.46);
     transform-origin:top center;
     margin:0 auto;
     display:inline-block;
+    width:794px;
   }
 }
 </style>
@@ -923,6 +925,7 @@ function openEditor(id){
   renderEditorForm();
   updatePreview();
   showScreen('editor');
+  fitPreviewToScreen();
 }
 
 function scheduleSave(){
@@ -941,6 +944,22 @@ function updatePreview(){
   const tpl = TEMPLATES.find(x => x.id === currentResume.templateId) || TEMPLATES[0];
   renderInto(document.getElementById('preview-target'), tpl, currentResume.data);
 }
+
+function fitPreviewToScreen(){
+  if (window.innerWidth <= 600) {
+    const preview = document.querySelector('.editor-preview-pane .resume-doc');
+    const pane = document.querySelector('.editor-preview-pane');
+    if (preview && pane) {
+      const availableWidth = pane.clientWidth - 16;
+      const scale = Math.min(0.86, availableWidth / 794);
+      preview.style.transform = `scale(${scale})`;
+    }
+  } else {
+    const preview = document.querySelector('.editor-preview-pane .resume-doc');
+    if (preview) preview.style.transform = 'scale(0.86)';
+  }
+}
+window.addEventListener('resize', fitPreviewToScreen);
 
 function field(id, labelKey, type, value, extra){
   const isTextarea = type === 'textarea';
