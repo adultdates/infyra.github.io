@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Builder — Lifetime Edition</title>
+<style>
+:root{
+  --paper:#f3f3f0; --panel:#ffffff; --panel-2:#fafaf8;
+  --ink:#1c2230; --ink-soft:#4d566b; --ink-faint:#8b93a3;
+  --accent:#a9772f; --accent-deep:#7f5a22;
+  --line:#dcdcd5; --line-soft:#ecece6;
+  --ok:#3e6259; --err:#a23b2e;
+  --radius:4px;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.5; -webkit-font-smoothing:antialiased;}
+button{font-family:inherit;}
+::selection{background:var(--accent); color:#fff;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.hidden{display:none !important;}
+
+#app{min-height:100vh; display:flex; flex-direction:column;}
+
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 24px; border-bottom:1px solid var(--line-soft); background:var(--panel);
+  flex-shrink:0;
+}
+.brand{font-family:var(--serif); font-weight:700; font-size:17px;}
+.brand span{color:var(--accent);}
+.topbar-actions{display:flex; align-items:center; gap:10px;}
+.saved-indicator{font-size:12.5px; color:var(--ink-faint); opacity:0; transition:opacity .4s ease;}
+.saved-indicator.show{opacity:1;}
+
+.btn{
+  font-size:14px; font-weight:600; padding:9px 16px; border-radius:var(--radius);
+  border:1px solid transparent; cursor:pointer; white-space:nowrap;
+}
+.btn-primary{background:var(--ink); color:#fff;}
+.btn-primary:hover{background:#000;}
+.btn-accent{background:var(--accent); color:#fff;}
+.btn-accent:hover{background:var(--accent-deep);}
+.btn-ghost{background:transparent; color:var(--ink); border-color:var(--line);}
+.btn-ghost:hover{border-color:var(--ink);}
+.btn-danger{background:transparent; color:var(--err); border-color:#e6c9c4;}
+.btn-danger:hover{background:#f6eae8;}
+.btn-sm{padding:6px 11px; font-size:12.5px;}
+.icon-btn{background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:16px; padding:4px;}
+.icon-btn:hover{color:var(--ink);}
+
+#screen-dashboard{flex:1; padding:44px 24px 80px;}
+.dash-wrap{max-width:980px; margin:0 auto;}
+.dash-hero h1{font-family:var(--serif); font-size:32px; font-weight:700; margin:0 0 8px;}
+.dash-hero p{color:var(--ink-soft); margin:0 0 28px; max-width:56ch;}
+.dash-actions{display:flex; gap:12px; margin-bottom:36px; flex-wrap:wrap;}
+
+.feature-strip{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:44px;}
+.feature-pill{
+  font-size:12.5px; color:var(--ink-soft); background:var(--panel);
+  border:1px solid var(--line-soft); border-radius:20px; padding:6px 13px;
+}
+
+.resume-list h2{font-size:15px; font-weight:600; margin:0 0 16px; color:var(--ink-soft);}
+.resume-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:16px;}
+.resume-card{
+  background:var(--panel); border:1px solid var(--line-soft); border-radius:var(--radius);
+  padding:18px; cursor:pointer; transition:border-color .15s ease;
+}
+.resume-card:hover{border-color:var(--accent);}
+.resume-card-name{font-weight:600; font-size:15px; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.resume-card-meta{font-size:12.5px; color:var(--ink-faint); margin-bottom:14px;}
+.resume-card-actions{display:flex; gap:6px; flex-wrap:wrap;}
+.empty-state{
+  border:1px dashed var(--line); border-radius:var(--radius); padding:44px 24px;
+  text-align:center; color:var(--ink-soft);
+}
+
+#screen-editor{flex:1; display:flex; flex-direction:column; min-height:0;}
+.editor-topbar{display:flex; align-items:center; gap:14px; padding:12px 20px; border-bottom:1px solid var(--line-soft); background:var(--panel); flex-wrap:wrap;}
+.editor-name-input{
+  font-family:var(--serif); font-size:17px; font-weight:700; border:none; background:none;
+  padding:4px 2px; min-width:160px; flex:1; border-bottom:1px solid transparent;
+}
+.editor-name-input:focus{outline:none; border-bottom-color:var(--accent);}
+.editor-topbar .spacer{flex:1;}
+
+.editor-body{flex:1; display:grid; grid-template-columns:440px 1fr; min-height:0;}
+.editor-form-pane{overflow-y:auto; border-right:1px solid var(--line-soft); background:var(--panel);}
+.editor-preview-pane{overflow-y:auto; background:#dadad4; display:flex; justify-content:center; padding:32px;}
+.editor-preview-pane .resume-doc{box-shadow:0 3px 18px rgba(0,0,0,.14); flex-shrink:0;}
+
+.form-section{padding:22px 24px; border-bottom:1px solid var(--line-soft);}
+.form-section-title{font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft); margin:0 0 16px;}
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:13px; font-weight:500; margin-bottom:5px;}
+.field .hint{font-weight:400; color:var(--ink-faint); font-size:12px;}
+.field input[type=text], .field input[type=email], .field input[type=tel], .field input[type=url], .field input[type=month], .field textarea{
+  width:100%; font-family:var(--sans); font-size:14px; color:var(--ink);
+  background:var(--panel-2); border:1px solid var(--line); border-radius:var(--radius); padding:9px 11px; resize:vertical;
+}
+.field textarea{min-height:64px;}
+.field input:focus, .field textarea:focus{border-color:var(--accent); background:var(--panel);}
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+
+.chip-input-box{
+  display:flex; flex-wrap:wrap; gap:6px; padding:8px; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel-2);
+}
+.chip-input-box:focus-within{border-color:var(--accent); background:var(--panel);}
+.chip{display:flex; align-items:center; gap:6px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:3px 4px 3px 10px; font-size:13px;}
+.chip button{background:none; border:none; cursor:pointer; color:var(--ink-faint); font-size:13px; line-height:1; padding:2px 5px;}
+.chip-input-box input{flex:1; min-width:80px; border:none; background:none; font-size:13.5px; padding:4px;}
+.chip-input-box input:focus{outline:none;}
+
+.repeat-item{border:1px solid var(--line-soft); border-radius:var(--radius); padding:14px; margin-bottom:12px; background:var(--panel-2); position:relative;}
+.repeat-item-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+.repeat-item-head span{font-size:12.5px; font-weight:600; color:var(--ink-faint);}
+
+.photo-row{display:flex; align-items:center; gap:12px;}
+.photo-preview-img{width:48px; height:48px; border-radius:50%; object-fit:cover; background:var(--line-soft); border:1px solid var(--line); flex-shrink:0;}
+.photo-row input[type=file]{font-size:12.5px; flex:1;}
+
+.add-link-btn{background:none; border:1px dashed var(--line); color:var(--ink-soft); border-radius:var(--radius); padding:9px 12px; font-size:13.5px; cursor:pointer; width:100%; text-align:left; font-weight:500;}
+.add-link-btn:hover{border-color:var(--accent); color:var(--accent-deep);}
+
+.modal-overlay{position:fixed; inset:0; background:rgba(20,20,20,.55); display:flex; align-items:center; justify-content:center; z-index:1000; padding:24px;}
+.modal-box{background:var(--panel); border-radius:var(--radius); max-width:1040px; width:100%; max-height:88vh; display:flex; flex-direction:column;}
+.modal-head{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--line-soft);}
+.modal-head h2{font-family:var(--serif); font-size:20px; margin:0;}
+.modal-body{overflow-y:auto; padding:20px 24px;}
+.filter-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+.filter-chip{font-size:12.5px; padding:6px 13px; border-radius:16px; border:1px solid var(--line); background:var(--panel); cursor:pointer; color:var(--ink-soft);}
+.filter-chip.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+.tpl-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:16px;}
+.tpl-card{border:2px solid var(--line-soft); border-radius:var(--radius); cursor:pointer; overflow:hidden; background:#fff;}
+.tpl-card.selected{border-color:var(--accent);}
+.tpl-card:hover{border-color:var(--accent);}
+.tpl-frame{width:100%; aspect-ratio:210/297; overflow:hidden; position:relative; background:#fff; border-bottom:1px solid var(--line-soft);}
+.tpl-frame .resume-doc{position:absolute; top:0; left:0; width:794px; transform:scale(.215); transform-origin:top left; pointer-events:none;}
+.tpl-label{padding:9px 11px;}
+.tpl-name{font-size:12.5px; font-weight:600;}
+.tpl-cat{font-size:11px; color:var(--ink-faint);}
+
+.onboard-box{max-width:420px; text-align:center; padding:36px 30px;}
+.onboard-box h2{font-family:var(--serif); font-size:22px; margin:0 0 6px;}
+.onboard-box p{color:var(--ink-soft); font-size:14.5px; margin:0 0 22px;}
+.onboard-steps{text-align:left; margin:0 0 24px; padding:0; list-style:none;}
+.onboard-steps li{display:flex; gap:12px; padding:10px 0; border-top:1px solid var(--line-soft); font-size:14px;}
+.onboard-steps li:first-child{border-top:none;}
+.onboard-steps b{color:var(--accent-deep); font-family:var(--serif); font-size:15px; flex-shrink:0; width:18px;}
+
+.lang-row{display:flex; flex-wrap:wrap; gap:8px;}
+
+.resume-doc{
+  width:794px; background:#fff; padding:50px 54px;
+  font-family:var(--doc-body-font); color:#1c1c1c; font-size:13px; line-height:1.5;
+  word-wrap:break-word; overflow-wrap:break-word;
+}
+#preview-target, .tpl-frame .resume-doc { min-height:1123px; }
+.resume-doc h1,.resume-doc h2,.resume-doc .name{font-family:var(--doc-display-font);}
+.resume-doc .name{font-size:30px; font-weight:700; margin:0;}
+.resume-doc .role{font-size:14.5px; color:var(--doc-accent); margin-top:3px; font-weight:600;}
+.resume-doc .sec-title{font-family:var(--doc-display-font); font-size:12.5px; color:var(--doc-accent); margin:0 0 9px; font-weight:700;}
+.resume-doc .body-block{margin-bottom:22px; break-inside:avoid; page-break-inside:avoid;}
+.resume-doc .contact-list{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:12px; font-size:12px;}
+.resume-doc .item-block{margin-bottom:14px; break-inside:avoid; page-break-inside:avoid;}
+.resume-doc .item-block:last-child{margin-bottom:0;}
+.resume-doc .item-title{font-weight:700;}
+.resume-doc .item-sub{color:#555; font-size:12px; margin-bottom:3px;}
+.resume-doc .item-bullets{margin:4px 0 0; padding-left:16px;}
+.resume-doc .item-bullets li{margin-bottom:2px;}
+.resume-doc .tag-list{display:flex; flex-wrap:wrap; gap:7px; list-style:none; margin:0; padding:0; font-size:12px;}
+.resume-doc .tag-list li{border:1px solid var(--doc-accent); border-radius:2px; padding:2px 8px; color:#2a2a2a;}
+.resume-doc .plain-list{margin:0; padding-left:16px; font-size:12.5px;}
+.resume-doc .plain-list li{margin-bottom:2px;}
+.resume-doc .doc-photo{width:60px; height:60px; border-radius:50%; object-fit:cover; display:block; margin-bottom:11px; border:2px solid var(--doc-accent);}
+
+.resume-doc .resume-header{margin-bottom:24px;}
+.resume-doc .resume-body{display:grid; row-gap:22px;}
+.resume-doc .sec-contact{grid-area:contact;}
+.resume-doc .sec-profile{grid-area:profile;}
+.resume-doc .sec-experience{grid-area:experience;}
+.resume-doc .sec-education{grid-area:education;}
+.resume-doc .sec-skills{grid-area:skills;}
+.resume-doc .sec-languages{grid-area:languages;}
+.resume-doc .sec-certs{grid-area:certs;}
+.resume-doc .extra-sections .body-block{margin-bottom:20px;}
+.resume-doc .extra-sections .body-block:last-child{margin-bottom:0;}
+
+.resume-doc[data-structure="classic"] .resume-body,
+.resume-doc[data-structure="modern"] .resume-body,
+.resume-doc[data-structure="minimal"] .resume-body,
+.resume-doc[data-structure="executive"] .resume-body,
+.resume-doc[data-structure="ats"] .resume-body,
+.resume-doc[data-structure="timeline"] .resume-body{
+  grid-template-columns:1fr;
+  grid-template-areas:"contact" "profile" "experience" "education" "skills" "languages" "certs";
+}
+
+.resume-doc[data-structure="classic"] .resume-header{text-align:center; padding-bottom:16px; border-bottom:2px solid var(--doc-accent);}
+.resume-doc[data-structure="classic"] .contact-list{justify-content:center;}
+
+.resume-doc[data-structure="modern"] .resume-header{padding-bottom:14px; border-bottom:4px solid var(--doc-accent);}
+.resume-doc[data-structure="modern"] .name{font-size:32px;}
+.resume-doc[data-structure="modern"] .contact-list li{background:color-mix(in srgb, var(--doc-accent) 12%, white); border-radius:12px; padding:3px 11px;}
+
+.resume-doc[data-structure="minimal"] .resume-header{padding-bottom:12px; border-bottom:1px solid #d8d8d8;}
+.resume-doc[data-structure="minimal"] .sec-title{text-transform:none; letter-spacing:.02em; font-weight:600;}
+.resume-doc[data-structure="minimal"] .name{font-weight:600;}
+.resume-doc[data-structure="minimal"] .tag-list li{border:none; padding:0; margin-right:2px;}
+.resume-doc[data-structure="minimal"] .tag-list{gap:2px;}
+.resume-doc[data-structure="minimal"] .tag-list li:not(:last-child)::after{content:","; margin-left:-4px;}
+
+.resume-doc[data-structure="executive"]{line-height:1.65;}
+.resume-doc[data-structure="executive"] .resume-header{text-align:center; padding:14px 0; border-top:1px solid var(--doc-accent); border-bottom:1px solid var(--doc-accent);}
+.resume-doc[data-structure="executive"] .name{letter-spacing:.05em; font-weight:700;}
+.resume-doc[data-structure="executive"] .contact-list{justify-content:center;}
+.resume-doc[data-structure="executive"] .sec-title{letter-spacing:.06em; border-bottom:1px solid var(--doc-accent); padding-bottom:5px;}
+
+.resume-doc[data-structure="ats"] .resume-header{padding-bottom:10px; border-bottom:1px solid #999;}
+.resume-doc[data-structure="ats"] .name{font-size:24px;}
+.resume-doc[data-structure="ats"] .role{color:#333;}
+.resume-doc[data-structure="ats"] .sec-title{text-transform:uppercase; letter-spacing:.03em; color:#111; border-bottom:1px solid #999; padding-bottom:4px;}
+.resume-doc[data-structure="ats"] .tag-list li{border:none; padding:0; margin-right:2px;}
+.resume-doc[data-structure="ats"] .tag-list li:not(:last-child)::after{content:",";}
+.resume-doc[data-structure="ats"] .doc-photo{display:none;}
+
+.resume-doc[data-structure="timeline"] .resume-header{text-align:center; padding-bottom:16px; border-bottom:2px solid var(--doc-accent);}
+.resume-doc[data-structure="timeline"] .contact-list{justify-content:center;}
+.resume-doc[data-structure="timeline"] .item-block{position:relative; padding-left:18px; border-left:2px solid var(--doc-accent);}
+.resume-doc[data-structure="timeline"] .item-block::before{content:""; position:absolute; left:-6px; top:3px; width:9px; height:9px; border-radius:50%; background:var(--doc-accent);}
+
+.resume-doc[data-structure="sidebar-left"] .resume-body,
+.resume-doc[data-structure="creative-left"] .resume-body{
+  grid-template-columns:205px 1fr; column-gap:30px;
+  grid-template-areas:"contact profile" "skills experience" "languages experience" "certs education";
+}
+.resume-doc[data-structure="sidebar-right"] .resume-body,
+.resume-doc[data-structure="creative-right"] .resume-body{
+  grid-template-columns:1fr 205px; column-gap:30px;
+  grid-template-areas:"profile contact" "experience skills" "experience languages" "education certs";
+}
+.resume-doc[data-structure="sidebar-left"] .sec-contact, .resume-doc[data-structure="sidebar-left"] .sec-skills,
+.resume-doc[data-structure="sidebar-left"] .sec-languages, .resume-doc[data-structure="sidebar-left"] .sec-certs,
+.resume-doc[data-structure="sidebar-right"] .sec-contact, .resume-doc[data-structure="sidebar-right"] .sec-skills,
+.resume-doc[data-structure="sidebar-right"] .sec-languages, .resume-doc[data-structure="sidebar-right"] .sec-certs{
+  background:color-mix(in srgb, var(--doc-accent) 8%, white); padding:14px 16px; margin:0 -16px;
+}
+.resume-doc[data-structure="sidebar-left"] .sec-contact, .resume-doc[data-structure="sidebar-left"] .sec-skills,
+.resume-doc[data-structure="sidebar-left"] .sec-languages, .resume-doc[data-structure="sidebar-left"] .sec-certs{border-left:3px solid var(--doc-accent);}
+.resume-doc[data-structure="sidebar-right"] .sec-contact, .resume-doc[data-structure="sidebar-right"] .sec-skills,
+.resume-doc[data-structure="sidebar-right"] .sec-languages, .resume-doc[data-structure="sidebar-right"] .sec-certs{border-right:3px solid var(--doc-accent);}
+.resume-doc[data-structure="sidebar-left"] .tag-list, .resume-doc[data-structure="sidebar-right"] .tag-list,
+.resume-doc[data-structure="sidebar-left"] .contact-list, .resume-doc[data-structure="sidebar-right"] .contact-list{flex-direction:column; gap:6px;}
+.resume-doc[data-structure="sidebar-left"] .tag-list li, .resume-doc[data-structure="sidebar-right"] .tag-list li{border:none; padding:0;}
+
+.resume-doc[data-structure="creative-left"] .sec-contact, .resume-doc[data-structure="creative-left"] .sec-skills,
+.resume-doc[data-structure="creative-left"] .sec-languages, .resume-doc[data-structure="creative-left"] .sec-certs,
+.resume-doc[data-structure="creative-right"] .sec-contact, .resume-doc[data-structure="creative-right"] .sec-skills,
+.resume-doc[data-structure="creative-right"] .sec-languages, .resume-doc[data-structure="creative-right"] .sec-certs{
+  background:color-mix(in srgb, var(--doc-accent) 18%, white); padding:16px 18px; margin:0 -18px; border-radius:8px;
+}
+.resume-doc[data-structure="creative-left"] .tag-list, .resume-doc[data-structure="creative-right"] .tag-list,
+.resume-doc[data-structure="creative-left"] .contact-list, .resume-doc[data-structure="creative-right"] .contact-list{flex-direction:column; gap:7px;}
+.resume-doc[data-structure="creative-left"] .tag-list li, .resume-doc[data-structure="creative-right"] .tag-list li{
+  border:none; background:var(--doc-accent); color:#fff; border-radius:12px; padding:3px 11px;
+}
+.resume-doc[data-structure="creative-left"] .doc-photo, .resume-doc[data-structure="creative-right"] .doc-photo{
+  width:74px; height:74px; border-width:3px;
+}
+.resume-doc[data-structure="creative-left"] .sec-title, .resume-doc[data-structure="creative-right"] .sec-title{font-size:13.5px;}
+
+.resume-doc[data-title-style="underline"] .sec-title{border-bottom:1px solid currentColor; padding-bottom:4px;}
+.resume-doc[data-title-style="rule"] .sec-title{border-bottom:none; border-left:3px solid var(--doc-accent); padding-left:8px;}
+.resume-doc[data-title-style="box"] .sec-title{border-bottom:none; background:var(--doc-accent); color:#fff; display:inline-block; padding:3px 10px; border-radius:2px;}
+.resume-doc[data-title-style="tag"] .sec-title{border-bottom:none; border:1px solid var(--doc-accent); display:inline-block; padding:2px 10px; border-radius:20px; font-size:11.5px;}
+.resume-doc[data-title-style="plain"] .sec-title{border-bottom:none; letter-spacing:.03em;}
+
+@media print{
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff;
+  }
+
+  #app,
+  .modal-overlay {
+    display: none !important;
+  }
+
+  #print-target {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 50px 54px;
+    width: 210mm;
+    min-height: 0 !important;
+    height: auto !important;
+    box-shadow: none;
+    visibility: visible !important;
+  }
+
+  #print-target * {
+    visibility: visible !important;
+  }
+
+  .resume-doc {
+    min-height: 0 !important;
+    height: auto !important;
+    padding-bottom: 0 !important;
+  }
+
+  .sec-certs:empty {
+    display: none;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+@media (max-width:900px){
+  .editor-body{grid-template-columns:1fr; grid-auto-rows:min-content;}
+  .editor-form-pane{border-right:none; border-bottom:1px solid var(--line-soft);}
+  .editor-preview-pane{padding:16px;}
+  .editor-preview-pane .resume-doc{transform:scale(.86); transform-origin:top center;}
+  .two-col{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <section id="screen-dashboard">
+    <div class="dash-wrap">
+      <div class="dash-hero">
+        <h1 data-t="dash_title">Resume Builder</h1>
+        <p data-t="dash_sub">Create professional resumes in minutes. Everything stays on this device.</p>
+      </div>
+      <div class="dash-actions">
+        <button class="btn btn-accent" id="btn-create-resume" data-t="dash_create">+ Create New Resume</button>
+        <button class="btn btn-ghost" id="btn-open-language" data-t="dash_language">Language</button>
+      </div>
+      <div class="feature-strip">
+        <span class="feature-pill" data-t="feat_1">20 professional templates</span>
+        <span class="feature-pill" data-t="feat_2">Unlimited resumes</span>
+        <span class="feature-pill" data-t="feat_3">No subscription</span>
+        <span class="feature-pill" data-t="feat_4">Works offline</span>
+        <span class="feature-pill" data-t="feat_5">Export to PDF</span>
+      </div>
+      <div class="resume-list">
+        <h2 data-t="dash_my_resumes">My resumes</h2>
+        <div id="resume-grid" class="resume-grid"></div>
+        <div id="empty-state" class="empty-state hidden" data-t="dash_empty">No resumes yet — create your first one above.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-editor" class="hidden">
+    <div class="editor-topbar">
+      <button class="icon-btn" id="btn-back-dashboard" title="Back">&larr;</button>
+      <input id="editor-name-input" class="editor-name-input" type="text">
+      <span class="saved-indicator" id="saved-indicator" data-t="saved_label">All changes saved</span>
+      <div class="spacer"></div>
+      <button class="btn btn-ghost btn-sm" id="btn-load-sample" data-t="btn_sample">Load Sample Resume</button>
+      <button class="btn btn-ghost btn-sm" id="btn-choose-template" data-t="btn_template">Choose Template</button>
+      <button class="btn btn-ghost btn-sm" id="btn-print" data-t="btn_print">Print</button>
+      <button class="btn btn-primary btn-sm" id="btn-download-pdf" data-t="btn_pdf">Download PDF</button>
+    </div>
+    <div class="editor-body">
+      <div class="editor-form-pane" id="editor-form-pane"></div>
+      <div class="editor-preview-pane"><div class="resume-doc" id="preview-target"></div></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="resume-doc hidden" id="print-target"></div>
+
+<div class="modal-overlay hidden" id="template-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 data-t="tpl_modal_title">Choose a template</h2>
+      <button class="icon-btn" id="btn-close-template-modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="filter-row" id="filter-row"></div>
+      <div class="tpl-grid" id="tpl-grid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="language-modal">
+  <div class="modal-box" style="max-width:420px;">
+    <div class="modal-head">
+      <h2 data-t="settings_language">Language</h2>
+      <button class="icon-btn" id="btn-close-language-modal">&times;</button>
+    </div>
+    <div class="modal-body" style="padding:20px 24px;">
+      <div class="lang-row">
+        <button class="btn btn-ghost btn-sm" data-lang="en">English</button>
+        <button class="btn btn-ghost btn-sm" data-lang="de">Deutsch</button>
+        <button class="btn btn-ghost btn-sm" data-lang="es">Español</button>
+        <button class="btn btn-ghost btn-sm" data-lang="fr">Français</button>
+        <button class="btn btn-ghost btn-sm" data-lang="pt">Português</button>
+        <button class="btn btn-ghost btn-sm" data-lang="it">Italiano</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay hidden" id="onboard-modal">
+  <div class="modal-box onboard-box">
+    <h2 data-t="onboard_title">Welcome</h2>
+    <p data-t="onboard_sub">Three steps to your first resume.</p>
+    <ul class="onboard-steps">
+      <li><b>1</b><span data-t="onboard_step1">Enter your information</span></li>
+      <li><b>2</b><span data-t="onboard_step2">Choose a template</span></li>
+      <li><b>3</b><span data-t="onboard_step3">Download your resume</span></li>
+    </ul>
+    <button class="btn btn-accent" id="btn-onboard-done" data-t="onboard_cta" style="width:100%;">Get Started</button>
+  </div>
+</div>
+
+<script>
+const I18N = {
+  en: {
+    dash_title:"Resume Builder", dash_sub:"Create professional resumes in minutes. Everything stays on this device.",
+    dash_create:"+ Create New Resume", dash_language:"Language", dash_my_resumes:"My resumes",
+    dash_empty:"No resumes yet — create your first one above.",
+    feat_1:"20 professional templates", feat_2:"Unlimited resumes", feat_3:"No subscription",
+    feat_4:"Works offline", feat_5:"Export to PDF",
+    saved_label:"All changes saved", saving_label:"Saving…",
+    btn_sample:"Load Sample Resume", btn_template:"Choose Template", btn_print:"Print", btn_pdf:"Download PDF",
+    tpl_modal_title:"Choose a template", settings_language:"Language",
+    onboard_title:"Welcome", onboard_sub:"Three steps to your first resume.",
+    onboard_step1:"Enter your information", onboard_step2:"Choose a template", onboard_step3:"Download your resume",
+    onboard_cta:"Get Started",
+    sec_personal:"Personal information", sec_summary:"Professional summary", sec_experience:"Work experience",
+    sec_education:"Education", sec_skills:"Skills", sec_languages:"Languages", sec_certs:"Certifications",
+    sec_projects:"Projects", sec_optional:"Optional sections",
+    fld_photo:"Photo (optional)", fld_fullname:"Full name", fld_title:"Professional title", fld_city:"City / country",
+    fld_phone:"Phone", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Website",
+    fld_summary:"2–3 sentences about you and your goals",
+    fld_job_title:"Job title", fld_company:"Company", fld_location:"Location", fld_start:"Start date", fld_end:"End date (or Present)",
+    fld_description:"Achievements / responsibilities — one per line",
+    fld_degree:"Degree", fld_school:"School / university", fld_edu_desc:"Details (optional)",
+    fld_skills:"Type a skill and press Enter", fld_languages:"Type a language and press Enter",
+    fld_certs:"One certification per line", fld_project_name:"Project name", fld_project_desc:"Description",
+    fld_project_link:"Link (optional)", fld_awards:"One per line", fld_volunteer:"One per line",
+    fld_interests:"One per line", fld_references:"One per line, or \"Available upon request\"",
+    add_experience:"+ Add experience", add_education:"+ Add education", add_project:"+ Add project",
+    opt_awards:"Awards", opt_volunteer:"Volunteer experience", opt_interests:"Interests", opt_references:"References",
+    delete:"Delete", rename:"Rename", duplicate:"Duplicate", edit:"Edit",
+    confirm_delete:"Delete this resume? This cannot be undone.",
+    prompt_rename:"New name for this resume:",
+    untitled:"Untitled resume", updated:"Updated",
+    cat_all:"All", cat_classic:"Classic", cat_modern:"Modern", cat_minimal:"Minimal", cat_executive:"Executive",
+    cat_creative:"Creative", cat_ats:"ATS", cat_timeline:"Timeline", cat_sidebar:"Sidebar",
+    sample_summary:"Results-driven marketing manager with 8+ years of experience building brand strategy and leading cross-functional teams. Skilled at turning data into growth."
+  },
+  de: {
+    dash_title:"Lebenslauf-Builder", dash_sub:"Erstellen Sie professionelle Lebensläufe in wenigen Minuten. Alles bleibt auf diesem Gerät.",
+    dash_create:"+ Neuer Lebenslauf", dash_language:"Sprache", dash_my_resumes:"Meine Lebensläufe",
+    dash_empty:"Noch keine Lebensläufe — erstellen Sie Ihren ersten oben.",
+    feat_1:"20 professionelle Vorlagen", feat_2:"Unbegrenzte Lebensläufe", feat_3:"Kein Abonnement",
+    feat_4:"Funktioniert offline", feat_5:"Export als PDF",
+    saved_label:"Alle Änderungen gespeichert", saving_label:"Speichern…",
+    btn_sample:"Beispiel laden", btn_template:"Vorlage wählen", btn_print:"Drucken", btn_pdf:"PDF herunterladen",
+    tpl_modal_title:"Vorlage wählen", settings_language:"Sprache",
+    onboard_title:"Willkommen", onboard_sub:"Drei Schritte zu Ihrem ersten Lebenslauf.",
+    onboard_step1:"Geben Sie Ihre Daten ein", onboard_step2:"Wählen Sie eine Vorlage", onboard_step3:"Laden Sie Ihren Lebenslauf herunter",
+    onboard_cta:"Loslegen",
+    sec_personal:"Persönliche Daten", sec_summary:"Berufliches Profil", sec_experience:"Berufserfahrung",
+    sec_education:"Ausbildung", sec_skills:"Fähigkeiten", sec_languages:"Sprachen", sec_certs:"Zertifikate",
+    sec_projects:"Projekte", sec_optional:"Optionale Abschnitte",
+    fld_photo:"Foto (optional)", fld_fullname:"Vollständiger Name", fld_title:"Berufsbezeichnung", fld_city:"Stadt / Land",
+    fld_phone:"Telefon", fld_email:"E-Mail", fld_linkedin:"LinkedIn", fld_website:"Website",
+    fld_summary:"2–3 Sätze über Sie und Ihre Ziele",
+    fld_job_title:"Position", fld_company:"Unternehmen", fld_location:"Ort", fld_start:"Start", fld_end:"Ende (oder „heute“)",
+    fld_description:"Erfolge / Aufgaben — eine pro Zeile",
+    fld_degree:"Abschluss", fld_school:"Universität", fld_edu_desc:"Details (optional)",
+    fld_skills:"Fähigkeit eingeben und Enter drücken", fld_languages:"Sprache eingeben und Enter drücken",
+    fld_certs:"Ein Zertifikat pro Zeile", fld_project_name:"Projektname", fld_project_desc:"Beschreibung",
+    fld_project_link:"Link (optional)", fld_awards:"Eine pro Zeile", fld_volunteer:"Eine pro Zeile",
+    fld_interests:"Eine pro Zeile", fld_references:"Eine pro Zeile oder „Auf Anfrage“",
+    add_experience:"+ Erfahrung hinzufügen", add_education:"+ Ausbildung hinzufügen", add_project:"+ Projekt hinzufügen",
+    opt_awards:"Auszeichnungen", opt_volunteer:"Ehrenamt", opt_interests:"Interessen", opt_references:"Referenzen",
+    delete:"Löschen", rename:"Umbenennen", duplicate:"Duplizieren", edit:"Öffnen",
+    confirm_delete:"Diesen Lebenslauf löschen? Das kann nicht rückgängig gemacht werden.",
+    prompt_rename:"Neuer Name für diesen Lebenslauf:",
+    untitled:"Unbenannter Lebenslauf", updated:"Aktualisiert",
+    cat_all:"Alle", cat_classic:"Klassisch", cat_modern:"Modern", cat_minimal:"Minimal", cat_executive:"Executive",
+    cat_creative:"Kreativ", cat_ats:"ATS", cat_timeline:"Zeitleiste", cat_sidebar:"Seitenleiste",
+    sample_summary:"Ergebnisorientierter Marketingmanager mit über 8 Jahren Erfahrung in Markenstrategie und Führung cross-funktionaler Teams. Fähig, Daten in Wachstum zu verwandeln."
+  },
+  es: {
+    dash_title:"Creador de CV", dash_sub:"Crea currículums profesionales en minutos. Todo queda en este dispositivo.",
+    dash_create:"+ Nuevo CV", dash_language:"Idioma", dash_my_resumes:"Mis currículums",
+    dash_empty:"Aún no hay CV — crea el primero arriba.",
+    feat_1:"20 plantillas profesionales", feat_2:"CV ilimitados", feat_3:"Sin suscripción",
+    feat_4:"Funciona sin conexión", feat_5:"Exportar a PDF",
+    saved_label:"Todos los cambios guardados", saving_label:"Guardando…",
+    btn_sample:"Cargar ejemplo", btn_template:"Elegir plantilla", btn_print:"Imprimir", btn_pdf:"Descargar PDF",
+    tpl_modal_title:"Elegir plantilla", settings_language:"Idioma",
+    onboard_title:"Bienvenido", onboard_sub:"Tres pasos para tu primer CV.",
+    onboard_step1:"Introduce tus datos", onboard_step2:"Elige una plantilla", onboard_step3:"Descarga tu CV",
+    onboard_cta:"Empezar",
+    sec_personal:"Datos personales", sec_summary:"Perfil profesional", sec_experience:"Experiencia laboral",
+    sec_education:"Educación", sec_skills:"Habilidades", sec_languages:"Idiomas", sec_certs:"Certificados",
+    sec_projects:"Proyectos", sec_optional:"Secciones opcionales",
+    fld_photo:"Foto (opcional)", fld_fullname:"Nombre completo", fld_title:"Título profesional", fld_city:"Ciudad / país",
+    fld_phone:"Teléfono", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Sitio web",
+    fld_summary:"2–3 frases sobre ti y tus objetivos",
+    fld_job_title:"Puesto", fld_company:"Empresa", fld_location:"Ubicación", fld_start:"Inicio", fld_end:"Fin (o «actualidad»)",
+    fld_description:"Logros / responsabilidades — uno por línea",
+    fld_degree:"Título", fld_school:"Universidad", fld_edu_desc:"Detalles (opcional)",
+    fld_skills:"Escribe una habilidad y pulsa Enter", fld_languages:"Escribe un idioma y pulsa Enter",
+    fld_certs:"Un certificado por línea", fld_project_name:"Nombre del proyecto", fld_project_desc:"Descripción",
+    fld_project_link:"Enlace (opcional)", fld_awards:"Uno por línea", fld_volunteer:"Uno por línea",
+    fld_interests:"Uno por línea", fld_references:"Uno por línea, o «Disponibles a petición»",
+    add_experience:"+ Añadir experiencia", add_education:"+ Añadir educación", add_project:"+ Añadir proyecto",
+    opt_awards:"Premios", opt_volunteer:"Voluntariado", opt_interests:"Intereses", opt_references:"Referencias",
+    delete:"Eliminar", rename:"Renombrar", duplicate:"Duplicar", edit:"Abrir",
+    confirm_delete:"¿Eliminar este CV? No se puede deshacer.",
+    prompt_rename:"Nuevo nombre para este CV:",
+    untitled:"CV sin título", updated:"Actualizado",
+    cat_all:"Todos", cat_classic:"Clásico", cat_modern:"Moderno", cat_minimal:"Minimalista", cat_executive:"Ejecutivo",
+    cat_creative:"Creativo", cat_ats:"ATS", cat_timeline:"Línea de tiempo", cat_sidebar:"Barra lateral",
+    sample_summary:"Gerente de marketing orientado a resultados con más de 8 años de experiencia en estrategia de marca y liderazgo de equipos multidisciplinares. Capaz de convertir datos en crecimiento."
+  },
+  fr: {
+    dash_title:"Créateur de CV", dash_sub:"Créez des CV professionnels en quelques minutes. Tout reste sur cet appareil.",
+    dash_create:"+ Nouveau CV", dash_language:"Langue", dash_my_resumes:"Mes CV",
+    dash_empty:"Pas encore de CV — créez le premier ci-dessus.",
+    feat_1:"20 modèles professionnels", feat_2:"CV illimités", feat_3:"Sans abonnement",
+    feat_4:"Fonctionne hors ligne", feat_5:"Export PDF",
+    saved_label:"Toutes les modifications sont enregistrées", saving_label:"Enregistrement…",
+    btn_sample:"Charger un exemple", btn_template:"Choisir un modèle", btn_print:"Imprimer", btn_pdf:"Télécharger le PDF",
+    tpl_modal_title:"Choisir un modèle", settings_language:"Langue",
+    onboard_title:"Bienvenue", onboard_sub:"Trois étapes pour votre premier CV.",
+    onboard_step1:"Saisissez vos informations", onboard_step2:"Choisissez un modèle", onboard_step3:"Téléchargez votre CV",
+    onboard_cta:"Commencer",
+    sec_personal:"Informations personnelles", sec_summary:"Profil professionnel", sec_experience:"Expérience professionnelle",
+    sec_education:"Formation", sec_skills:"Compétences", sec_languages:"Langues", sec_certs:"Certifications",
+    sec_projects:"Projets", sec_optional:"Sections optionnelles",
+    fld_photo:"Photo (optionnelle)", fld_fullname:"Nom complet", fld_title:"Titre professionnel", fld_city:"Ville / pays",
+    fld_phone:"Téléphone", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Site web",
+    fld_summary:"2–3 phrases sur vous et vos objectifs",
+    fld_job_title:"Poste", fld_company:"Entreprise", fld_location:"Lieu", fld_start:"Début", fld_end:"Fin (ou «aujourd’hui»)",
+    fld_description:"Réalisations / responsabilités — une par ligne",
+    fld_degree:"Diplôme", fld_school:"Université", fld_edu_desc:"Détails (optionnel)",
+    fld_skills:"Saisissez une compétence et appuyez sur Entrée", fld_languages:"Saisissez une langue et appuyez sur Entrée",
+    fld_certs:"Une certification par ligne", fld_project_name:"Nom du projet", fld_project_desc:"Description",
+    fld_project_link:"Lien (optionnel)", fld_awards:"Un par ligne", fld_volunteer:"Un par ligne",
+    fld_interests:"Un par ligne", fld_references:"Un par ligne, ou «Disponibles sur demande»",
+    add_experience:"+ Ajouter une expérience", add_education:"+ Ajouter une formation", add_project:"+ Ajouter un projet",
+    opt_awards:"Récompenses", opt_volunteer:"Bénévolat", opt_interests:"Centres d’intérêt", opt_references:"Références",
+    delete:"Supprimer", rename:"Renommer", duplicate:"Dupliquer", edit:"Ouvrir",
+    confirm_delete:"Supprimer ce CV ? Action irréversible.",
+    prompt_rename:"Nouveau nom pour ce CV :",
+    untitled:"CV sans titre", updated:"Mis à jour",
+    cat_all:"Tous", cat_classic:"Classique", cat_modern:"Moderne", cat_minimal:"Minimaliste", cat_executive:"Exécutif",
+    cat_creative:"Créatif", cat_ats:"ATS", cat_timeline:"Chronologie", cat_sidebar:"Barre latérale",
+    sample_summary:"Responsable marketing axé résultats avec plus de 8 ans d’expérience en stratégie de marque et gestion d’équipes transversales. Capable de transformer les données en croissance."
+  },
+  pt: {
+    dash_title:"Criador de CV", dash_sub:"Crie currículos profissionais em minutos. Tudo fica neste dispositivo.",
+    dash_create:"+ Novo CV", dash_language:"Idioma", dash_my_resumes:"Meus currículos",
+    dash_empty:"Nenhum CV ainda — crie o primeiro acima.",
+    feat_1:"20 modelos profissionais", feat_2:"CV ilimitados", feat_3:"Sem assinatura",
+    feat_4:"Funciona offline", feat_5:"Exportar em PDF",
+    saved_label:"Todas as alterações foram salvas", saving_label:"Salvando…",
+    btn_sample:"Carregar exemplo", btn_template:"Escolher modelo", btn_print:"Imprimir", btn_pdf:"Baixar PDF",
+    tpl_modal_title:"Escolher modelo", settings_language:"Idioma",
+    onboard_title:"Bem-vindo", onboard_sub:"Três passos para o seu primeiro CV.",
+    onboard_step1:"Insira suas informações", onboard_step2:"Escolha um modelo", onboard_step3:"Baixe seu CV",
+    onboard_cta:"Começar",
+    sec_personal:"Informações pessoais", sec_summary:"Perfil profissional", sec_experience:"Experiência profissional",
+    sec_education:"Educação", sec_skills:"Habilidades", sec_languages:"Idiomas", sec_certs:"Certificados",
+    sec_projects:"Projetos", sec_optional:"Seções opcionais",
+    fld_photo:"Foto (opcional)", fld_fullname:"Nome completo", fld_title:"Título profissional", fld_city:"Cidade / país",
+    fld_phone:"Telefone", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Website",
+    fld_summary:"2–3 frases sobre você e seus objetivos",
+    fld_job_title:"Cargo", fld_company:"Empresa", fld_location:"Local", fld_start:"Início", fld_end:"Fim (ou «atual»)",
+    fld_description:"Conquistas / responsabilidades — uma por linha",
+    fld_degree:"Grau", fld_school:"Universidade", fld_edu_desc:"Detalhes (opcional)",
+    fld_skills:"Digite uma habilidade e pressione Enter", fld_languages:"Digite um idioma e pressione Enter",
+    fld_certs:"Uma certificação por linha", fld_project_name:"Nome do projeto", fld_project_desc:"Descrição",
+    fld_project_link:"Link (opcional)", fld_awards:"Um por linha", fld_volunteer:"Um por linha",
+    fld_interests:"Um por linha", fld_references:"Um por linha, ou «Disponíveis mediante solicitação»",
+    add_experience:"+ Adicionar experiência", add_education:"+ Adicionar educação", add_project:"+ Adicionar projeto",
+    opt_awards:"Prêmios", opt_volunteer:"Voluntariado", opt_interests:"Interesses", opt_references:"Referências",
+    delete:"Excluir", rename:"Renomear", duplicate:"Duplicar", edit:"Abrir",
+    confirm_delete:"Excluir este CV? Isso não pode ser desfeito.",
+    prompt_rename:"Novo nome para este CV:",
+    untitled:"CV sem título", updated:"Atualizado",
+    cat_all:"Todos", cat_classic:"Clássico", cat_modern:"Moderno", cat_minimal:"Minimalista", cat_executive:"Executivo",
+    cat_creative:"Criativo", cat_ats:"ATS", cat_timeline:"Linha do tempo", cat_sidebar:"Barra lateral",
+    sample_summary:"Gerente de marketing orientado a resultados, com mais de 8 anos de experiência em estratégia de marca e liderança de equipes multifuncionais. Capaz de transformar dados em crescimento."
+  },
+  it: {
+    dash_title:"Crea CV", dash_sub:"Crea curriculum professionali in pochi minuti. Tutto resta su questo dispositivo.",
+    dash_create:"+ Nuovo CV", dash_language:"Lingua", dash_my_resumes:"I miei curriculum",
+    dash_empty:"Nessun CV ancora — crea il primo qui sopra.",
+    feat_1:"20 modelli professionali", feat_2:"CV illimitati", feat_3:"Nessun abbonamento",
+    feat_4:"Funziona offline", feat_5:"Esporta in PDF",
+    saved_label:"Tutte le modifiche salvate", saving_label:"Salvataggio…",
+    btn_sample:"Carica esempio", btn_template:"Scegli modello", btn_print:"Stampa", btn_pdf:"Scarica PDF",
+    tpl_modal_title:"Scegli modello", settings_language:"Lingua",
+    onboard_title:"Benvenuto", onboard_sub:"Tre passi per il tuo primo CV.",
+    onboard_step1:"Inserisci i tuoi dati", onboard_step2:"Scegli un modello", onboard_step3:"Scarica il tuo CV",
+    onboard_cta:"Inizia",
+    sec_personal:"Dati personali", sec_summary:"Profilo professionale", sec_experience:"Esperienza lavorativa",
+    sec_education:"Istruzione", sec_skills:"Competenze", sec_languages:"Lingue", sec_certs:"Certificazioni",
+    sec_projects:"Progetti", sec_optional:"Sezioni opzionali",
+    fld_photo:"Foto (opzionale)", fld_fullname:"Nome completo", fld_title:"Titolo professionale", fld_city:"Città / paese",
+    fld_phone:"Telefono", fld_email:"Email", fld_linkedin:"LinkedIn", fld_website:"Sito web",
+    fld_summary:"2–3 frasi su di te e i tuoi obiettivi",
+    fld_job_title:"Posizione", fld_company:"Azienda", fld_location:"Luogo", fld_start:"Inizio", fld_end:"Fine (o «attuale»)",
+    fld_description:"Risultati / responsabilità — uno per riga",
+    fld_degree:"Titolo", fld_school:"Università", fld_edu_desc:"Dettagli (opzionale)",
+    fld_skills:"Inserisci una competenza e premi Invio", fld_languages:"Inserisci una lingua e premi Invio",
+    fld_certs:"Una certificazione per riga", fld_project_name:"Nome del progetto", fld_project_desc:"Descrizione",
+    fld_project_link:"Link (opzionale)", fld_awards:"Uno per riga", fld_volunteer:"Uno per riga",
+    fld_interests:"Uno per riga", fld_references:"Uno per riga, o «Disponibili su richiesta»",
+    add_experience:"+ Aggiungi esperienza", add_education:"+ Aggiungi istruzione", add_project:"+ Aggiungi progetto",
+    opt_awards:"Riconoscimenti", opt_volunteer:"Volontariato", opt_interests:"Interessi", opt_references:"Referenze",
+    delete:"Elimina", rename:"Rinomina", duplicate:"Duplica", edit:"Apri",
+    confirm_delete:"Eliminare questo CV? L'operazione non può essere annullata.",
+    prompt_rename:"Nuovo nome per questo CV:",
+    untitled:"CV senza titolo", updated:"Aggiornato",
+    cat_all:"Tutti", cat_classic:"Classico", cat_modern:"Moderno", cat_minimal:"Minimale", cat_executive:"Executive",
+    cat_creative:"Creativo", cat_ats:"ATS", cat_timeline:"Cronologia", cat_sidebar:"Barra laterale",
+    sample_summary:"Marketing manager orientato ai risultati con oltre 8 anni di esperienza in strategia di marca e leadership di team interfunzionali. Capace di trasformare i dati in crescita."
+  }
+};
+
+let LANG = localStorage.getItem('rb_lang') || 'en';
+function t(key){ return (I18N[LANG] && I18N[LANG][key]) || I18N.en[key] || key; }
+function applyStaticTranslations(){
+  document.getElementById('html-root').lang = LANG;
+  document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t(el.getAttribute('data-t')); });
+}
+
+const STORAGE_KEY = 'rb_resumes_v1';
+const Store = {
+  getAll(){
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch(e){ return []; }
+  },
+  saveAll(list){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); return true; }
+    catch(e){ return false; }
+  },
+  get(id){ return this.getAll().find(r => r.id === id) || null; },
+  upsert(resume){
+    const list = this.getAll();
+    const idx = list.findIndex(r => r.id === resume.id);
+    resume.updatedAt = Date.now();
+    if (idx >= 0) list[idx] = resume; else list.push(resume);
+    this.saveAll(list);
+  },
+  remove(id){ this.saveAll(this.getAll().filter(r => r.id !== id)); },
+  newId(){ return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+};
+
+function blankResume(){
+  return {
+    id: Store.newId(),
+    name: t('untitled'),
+    templateId: 'classic-navy',
+    updatedAt: Date.now(),
+    data: {
+      fullName:'', position:'', city:'', phone:'', email:'', linkedin:'', website:'', photo:'',
+      summary:'',
+      experience:[], education:[], skills:[], languages:[], certifications:[], projects:[],
+      awards:[], volunteer:[], interests:[], references:[]
+    }
+  };
+}
+
+function sampleResume(){
+  const r = blankResume();
+  r.name = 'Anna Novak — Marketing Manager';
+  r.data = {
+    fullName:'Anna Novak', position:'Marketing Manager', city:'Tallinn, Estonia',
+    phone:'+372 555 12345', email:'anna.novak@email.com', linkedin:'linkedin.com/in/anna-novak', website:'',
+    photo:'',
+    summary:t('sample_summary'),
+    experience:[
+      {title:'Marketing Manager', company:'Northwind Retail', location:'Tallinn', start:'2021', end:'Present',
+       description:'Grew organic traffic 64% in 18 months\nLaunched 3 product campaigns across 5 markets\nManaged a team of 4 marketers and a €300k annual budget'},
+      {title:'Marketing Specialist', company:'Baltic Media Group', location:'Riga', start:'2018', end:'2021',
+       description:'Built the company\'s first content calendar and editorial process\nRan paid social campaigns with a 3.2x average ROAS'}
+    ],
+    education:[{degree:'BA in Marketing', school:'University of Tartu', location:'Tartu', start:'2014', end:'2018', description:''}],
+    skills:['Brand strategy','SEO','Google Ads','Team leadership','Analytics','Content strategy'],
+    languages:['English — fluent','Estonian — native','Russian — conversational'],
+    certifications:['Google Ads Certified','HubSpot Content Marketing'],
+    projects:[{name:'Rebrand 2023', description:'Led full visual identity refresh across web and retail.', link:''}],
+    awards:['Marketing Team of the Year, Northwind Retail, 2023'],
+    volunteer:['Mentor, Women in Marketing Estonia'],
+    interests:['Running','Baltic ceramics','Chess'],
+    references:['Available upon request']
+  };
+  return r;
+}
+
+const FONTS = {
+  f1:{display:"Georgia, 'Times New Roman', serif", body:"Georgia, 'Times New Roman', serif"},
+  f2:{display:"'Palatino Linotype', Palatino, 'Book Antiqua', serif", body:"'Palatino Linotype', Palatino, 'Book Antiqua', serif"},
+  f3:{display:"'Segoe UI', Roboto, Arial, sans-serif", body:"'Segoe UI', Roboto, Arial, sans-serif"},
+  f4:{display:"'Trebuchet MS', sans-serif", body:"'Trebuchet MS', sans-serif"},
+  f5:{display:"Verdana, Geneva, sans-serif", body:"Verdana, Geneva, sans-serif"},
+  f6:{display:"Arial, Helvetica, sans-serif", body:"Arial, Helvetica, sans-serif"}
+};
+
+const TEMPLATES = [
+  {id:'classic-navy', name:'Classic — Navy', cat:'classic', structure:'classic', accent:'#1c2f4a', font:'f1', titleStyle:'underline', photo:false},
+  {id:'classic-forest', name:'Classic — Forest', cat:'classic', structure:'classic', accent:'#2e4a3d', font:'f1', titleStyle:'rule', photo:false},
+  {id:'classic-wine', name:'Classic — Wine', cat:'classic', structure:'classic', accent:'#6a2b3a', font:'f2', titleStyle:'box', photo:true},
+  {id:'classic-charcoal', name:'Classic — Charcoal', cat:'classic', structure:'classic', accent:'#23262b', font:'f4', titleStyle:'plain', photo:false},
+  {id:'modern-cobalt', name:'Modern — Cobalt', cat:'modern', structure:'modern', accent:'#2a4f7c', font:'f3', titleStyle:'box', photo:true},
+  {id:'modern-coral', name:'Modern — Coral', cat:'modern', structure:'modern', accent:'#c1502e', font:'f4', titleStyle:'tag', photo:true},
+  {id:'modern-graphite', name:'Modern — Graphite', cat:'modern', structure:'modern', accent:'#3a3f47', font:'f3', titleStyle:'rule', photo:false},
+  {id:'minimal-ink', name:'Minimal — Ink', cat:'minimal', structure:'minimal', accent:'#22262e', font:'f6', titleStyle:'plain', photo:false},
+  {id:'minimal-sand', name:'Minimal — Sand', cat:'minimal', structure:'minimal', accent:'#6b5b45', font:'f5', titleStyle:'plain', photo:false},
+  {id:'executive-navy', name:'Executive — Navy', cat:'executive', structure:'executive', accent:'#1b2a44', font:'f2', titleStyle:'underline', photo:false},
+  {id:'executive-charcoal', name:'Executive — Charcoal', cat:'executive', structure:'executive', accent:'#2b2b2b', font:'f1', titleStyle:'underline', photo:false},
+  {id:'creative-plum', name:'Creative — Plum', cat:'creative', structure:'creative-left', accent:'#5b3358', font:'f3', titleStyle:'tag', photo:true},
+  {id:'creative-teal', name:'Creative — Teal', cat:'creative', structure:'creative-right', accent:'#1f6f6a', font:'f4', titleStyle:'box', photo:true},
+  {id:'ats-clean', name:'ATS — Clean', cat:'ats', structure:'ats', accent:'#111111', font:'f6', titleStyle:'plain', photo:false},
+  {id:'ats-professional', name:'ATS — Professional', cat:'ats', structure:'ats', accent:'#1c2230', font:'f5', titleStyle:'underline', photo:false},
+  {id:'ats-modern', name:'ATS — Modern', cat:'ats', structure:'ats', accent:'#1c2230', font:'f3', titleStyle:'rule', photo:false},
+  {id:'timeline-charcoal', name:'Timeline — Charcoal', cat:'timeline', structure:'timeline', accent:'#23262b', font:'f4', titleStyle:'plain', photo:false},
+  {id:'timeline-teal', name:'Timeline — Teal', cat:'timeline', structure:'timeline', accent:'#1f6f6a', font:'f1', titleStyle:'underline', photo:false},
+  {id:'sidebar-slate', name:'Sidebar — Slate', cat:'sidebar', structure:'sidebar-left', accent:'#3a4e6b', font:'f3', titleStyle:'underline', photo:true},
+  {id:'sidebar-brass', name:'Sidebar — Brass', cat:'sidebar', structure:'sidebar-right', accent:'#8a6a2f', font:'f1', titleStyle:'rule', photo:true}
+];
+const CATEGORIES = ['all','classic','modern','minimal','executive','creative','ats','timeline','sidebar'];
+
+function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+function linesToBullets(text){
+  return (text || '').split('\n').map(s => s.trim()).filter(Boolean).map(s => `<li>${esc(s)}</li>`).join('');
+}
+
+function buildResumeInner(data, tpl){
+  const allowPhoto = tpl.photo && tpl.structure !== 'ats' && data.photo;
+  const photoBlock = allowPhoto ? `<img class="doc-photo" src="${data.photo}" alt="">` : '';
+  const contactItems = [data.city, data.phone, data.email, data.linkedin, data.website].filter(Boolean);
+  const contactHtml = contactItems.map(c => `<li>${esc(c)}</li>`).join('');
+
+  const expHtml = (data.experience || []).map(e => `
+    <div class="item-block">
+      <div class="item-title">${esc(e.title)}${e.company ? ' — ' + esc(e.company) : ''}</div>
+      <div class="item-sub">${[esc(e.location), [esc(e.start), esc(e.end)].filter(Boolean).join(' – ')].filter(Boolean).join(' · ')}</div>
+      <ul class="item-bullets">${linesToBullets(e.description)}</ul>
+    </div>`).join('');
+
+  const eduHtml = (data.education || []).map(e => `
+    <div class="item-block">
+      <div class="item-title">${esc(e.degree)}${e.school ? ' — ' + esc(e.school) : ''}</div>
+      <div class="item-sub">${[esc(e.location), [esc(e.start), esc(e.end)].filter(Boolean).join(' – ')].filter(Boolean).join(' · ')}</div>
+      ${e.description ? `<div>${esc(e.description)}</div>` : ''}
+    </div>`).join('');
+
+  const skillsHtml = (data.skills || []).map(s => `<li>${esc(s)}</li>`).join('');
+  const langHtml = (data.languages || []).map(s => `<li>${esc(s)}</li>`).join('');
+  const certsBlock = (data.certifications || []).length
+    ? `<div class="body-block sec-certs"><div class="sec-title">${t('sec_certs')}</div><ul class="plain-list">${(data.certifications||[]).map(c=>`<li>${esc(c)}</li>`).join('')}</ul></div>`
+    : `<div class="sec-certs"></div>`;
+
+  const projectsHtml = (data.projects || []).filter(p => p.name || p.description).map(p => `
+    <div class="item-block">
+      <div class="item-title">${esc(p.name)}</div>
+      ${p.description ? `<div>${esc(p.description)}</div>` : ''}
+      ${p.link ? `<div class="item-sub">${esc(p.link)}</div>` : ''}
+    </div>`).join('');
+
+  function extraListSection(title, items){
+    if (!items || !items.length) return '';
+    return `<div class="body-block"><div class="sec-title">${esc(title)}</div><ul class="plain-list">${items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`;
+  }
+
+  const extraHtml = [
+    data.projects && data.projects.some(p=>p.name||p.description) ? `<div class="body-block"><div class="sec-title">${t('sec_projects')}</div>${projectsHtml}</div>` : '',
+    extraListSection(t('opt_awards'), data.awards),
+    extraListSection(t('opt_volunteer'), data.volunteer),
+    extraListSection(t('opt_interests'), data.interests),
+    extraListSection(t('opt_references'), data.references)
+  ].join('');
+
+  return `
+    <div class="resume-header">
+      ${photoBlock}
+      <div class="name">${esc(data.fullName)}</div>
+      <div class="role">${esc(data.position)}</div>
+    </div>
+    <div class="resume-body">
+      <div class="body-block sec-contact"><div class="sec-title">Contact</div><ul class="contact-list">${contactHtml}</ul></div>
+      <div class="body-block sec-profile"><div class="sec-title">${t('sec_summary')}</div><div>${esc(data.summary)}</div></div>
+      <div class="body-block sec-experience"><div class="sec-title">${t('sec_experience')}</div>${expHtml}</div>
+      <div class="body-block sec-education"><div class="sec-title">${t('sec_education')}</div>${eduHtml}</div>
+      <div class="body-block sec-skills"><div class="sec-title">${t('sec_skills')}</div><ul class="tag-list">${skillsHtml}</ul></div>
+      <div class="body-block sec-languages"><div class="sec-title">${t('sec_languages')}</div><ul class="tag-list">${langHtml}</ul></div>
+      ${certsBlock}
+    </div>
+    ${extraHtml ? `<div class="extra-sections">${extraHtml}</div>` : ''}
+  `;
+}
+
+function renderInto(el, tpl, data){
+  const f = FONTS[tpl.font];
+  el.dataset.structure = tpl.structure;
+  el.dataset.titleStyle = tpl.titleStyle;
+  el.style.setProperty('--doc-accent', tpl.accent);
+  el.style.setProperty('--doc-display-font', f.display);
+  el.style.setProperty('--doc-body-font', f.body);
+  el.innerHTML = buildResumeInner(data, tpl);
+}
+
+let currentResume = null;
+let saveTimer = null;
+
+function showScreen(name){
+  document.getElementById('screen-dashboard').classList.toggle('hidden', name !== 'dashboard');
+  document.getElementById('screen-editor').classList.toggle('hidden', name !== 'editor');
+}
+
+function renderDashboard(){
+  const list = Store.getAll().sort((a,b) => b.updatedAt - a.updatedAt);
+  const grid = document.getElementById('resume-grid');
+  const empty = document.getElementById('empty-state');
+  grid.innerHTML = '';
+  empty.classList.toggle('hidden', list.length > 0);
+
+  list.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'resume-card';
+    const date = new Date(r.updatedAt).toLocaleDateString(LANG === 'en' ? 'en-US' : LANG);
+    card.innerHTML = `
+      <div class="resume-card-name">${esc(r.name || t('untitled'))}</div>
+      <div class="resume-card-meta">${t('updated')} ${date}</div>
+      <div class="resume-card-actions">
+        <button class="btn btn-ghost btn-sm act-edit">${t('edit')}</button>
+        <button class="btn btn-ghost btn-sm act-dup">${t('duplicate')}</button>
+        <button class="btn btn-ghost btn-sm act-rename">${t('rename')}</button>
+        <button class="btn btn-danger btn-sm act-del">${t('delete')}</button>
+      </div>`;
+    card.querySelector('.act-edit').addEventListener('click', (e) => { e.stopPropagation(); openEditor(r.id); });
+    card.querySelector('.act-dup').addEventListener('click', (e) => { e.stopPropagation(); duplicateResume(r.id); });
+    card.querySelector('.act-rename').addEventListener('click', (e) => { e.stopPropagation(); renameResume(r.id); });
+    card.querySelector('.act-del').addEventListener('click', (e) => { e.stopPropagation(); deleteResume(r.id); });
+    card.addEventListener('click', () => openEditor(r.id));
+    grid.appendChild(card);
+  });
+}
+
+function duplicateResume(id){
+  const original = Store.get(id);
+  if (!original) return;
+  const copy = JSON.parse(JSON.stringify(original));
+  copy.id = Store.newId();
+  copy.name = original.name + ' (copy)';
+  copy.updatedAt = Date.now();
+  Store.upsert(copy);
+  renderDashboard();
+}
+
+function renameResume(id){
+  const r = Store.get(id);
+  if (!r) return;
+  const name = prompt(t('prompt_rename'), r.name);
+  if (name === null) return;
+  r.name = name.trim() || t('untitled');
+  Store.upsert(r);
+  renderDashboard();
+}
+
+function deleteResume(id){
+  if (!confirm(t('confirm_delete'))) return;
+  Store.remove(id);
+  renderDashboard();
+}
+
+function openEditor(id){
+  currentResume = Store.get(id);
+  if (!currentResume) return;
+  document.getElementById('editor-name-input').value = currentResume.name;
+  renderEditorForm();
+  updatePreview();
+  showScreen('editor');
+}
+
+function scheduleSave(){
+  const indicator = document.getElementById('saved-indicator');
+  indicator.textContent = t('saving_label');
+  indicator.classList.add('show');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    Store.upsert(currentResume);
+    indicator.textContent = t('saved_label');
+    setTimeout(() => indicator.classList.remove('show'), 1500);
+  }, 500);
+}
+
+function updatePreview(){
+  const tpl = TEMPLATES.find(x => x.id === currentResume.templateId) || TEMPLATES[0];
+  renderInto(document.getElementById('preview-target'), tpl, currentResume.data);
+}
+
+function field(id, labelKey, type, value, extra){
+  const isTextarea = type === 'textarea';
+  return `
+    <div class="field">
+      <label for="${id}">${t(labelKey)}</label>
+      ${isTextarea
+        ? `<textarea id="${id}" data-field="${id}" ${extra||''}>${esc(value)}</textarea>`
+        : `<input id="${id}" data-field="${id}" type="${type}" value="${esc(value)}" ${extra||''}>`}
+    </div>`;
+}
+
+function renderEditorForm(){
+  const d = currentResume.data;
+  const pane = document.getElementById('editor-form-pane');
+
+  pane.innerHTML = `
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_personal')}</div>
+      <div class="field">
+        <label>${t('fld_photo')}</label>
+        <div class="photo-row">
+          <img id="photo-preview" class="photo-preview-img" src="${d.photo || ''}" alt="">
+          <input id="photo-input" type="file" accept="image/*">
+          ${d.photo ? `<button class="icon-btn" id="photo-remove" title="${t('delete')}">&times;</button>` : ''}
+        </div>
+      </div>
+      ${field('fullName','fld_fullname','text', d.fullName)}
+      <div class="two-col">
+        ${field('position','fld_title','text', d.position)}
+        ${field('city','fld_city','text', d.city)}
+      </div>
+      <div class="two-col">
+        ${field('phone','fld_phone','tel', d.phone)}
+        ${field('email','fld_email','email', d.email)}
+      </div>
+      <div class="two-col">
+        ${field('linkedin','fld_linkedin','text', d.linkedin)}
+        ${field('website','fld_website','text', d.website)}
+      </div>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_summary')}</div>
+      ${field('summary','fld_summary','textarea', d.summary)}
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_experience')}</div>
+      <div id="experience-list"></div>
+      <button class="add-link-btn" id="add-experience">${t('add_experience')}</button>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_education')}</div>
+      <div id="education-list"></div>
+      <button class="add-link-btn" id="add-education">${t('add_education')}</button>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_skills')}</div>
+      <div class="chip-input-box" id="skills-box" data-array="skills"><input type="text" placeholder="${t('fld_skills')}"></div>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_languages')}</div>
+      <div class="chip-input-box" id="languages-box" data-array="languages"><input type="text" placeholder="${t('fld_languages')}"></div>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_certs')}</div>
+      <textarea data-field="certifications-text" placeholder="${t('fld_certs')}" style="width:100%; min-height:64px; font-family:inherit; font-size:14px; padding:9px 11px; border:1px solid var(--line); border-radius:4px; background:var(--panel-2);">${esc((d.certifications||[]).join('\n'))}</textarea>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_projects')}</div>
+      <div id="projects-list"></div>
+      <button class="add-link-btn" id="add-project">${t('add_project')}</button>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title">${t('sec_optional')}</div>
+      <div class="field"><label>${t('opt_awards')}</label><textarea data-field="awards-text" placeholder="${t('fld_awards')}">${esc((d.awards||[]).join('\n'))}</textarea></div>
+      <div class="field"><label>${t('opt_volunteer')}</label><textarea data-field="volunteer-text" placeholder="${t('fld_volunteer')}">${esc((d.volunteer||[]).join('\n'))}</textarea></div>
+      <div class="field"><label>${t('opt_interests')}</label><textarea data-field="interests-text" placeholder="${t('fld_interests')}">${esc((d.interests||[]).join('\n'))}</textarea></div>
+      <div class="field"><label>${t('opt_references')}</label><textarea data-field="references-text" placeholder="${t('fld_references')}">${esc((d.references||[]).join('\n'))}</textarea></div>
+    </div>
+  `;
+
+  renderRepeatableExperience();
+  renderRepeatableEducation();
+  renderRepeatableProjects();
+  renderChips('skills-box', d.skills);
+  renderChips('languages-box', d.languages);
+
+  pane.querySelectorAll('[data-field]').forEach(el => {
+    const key = el.dataset.field;
+    el.addEventListener('input', () => {
+      if (key === 'certifications-text') d.certifications = el.value.split('\n').map(s=>s.trim()).filter(Boolean);
+      else if (key === 'awards-text') d.awards = el.value.split('\n').map(s=>s.trim()).filter(Boolean);
+      else if (key === 'volunteer-text') d.volunteer = el.value.split('\n').map(s=>s.trim()).filter(Boolean);
+      else if (key === 'interests-text') d.interests = el.value.split('\n').map(s=>s.trim()).filter(Boolean);
+      else if (key === 'references-text') d.references = el.value.split('\n').map(s=>s.trim()).filter(Boolean);
+      else d[key] = el.value;
+      updatePreview(); scheduleSave();
+    });
+  });
+
+  document.getElementById('add-experience').addEventListener('click', () => {
+    d.experience.push({title:'',company:'',location:'',start:'',end:'',description:''});
+    renderRepeatableExperience(); updatePreview(); scheduleSave();
+  });
+  document.getElementById('add-education').addEventListener('click', () => {
+    d.education.push({degree:'',school:'',location:'',start:'',end:'',description:''});
+    renderRepeatableEducation(); updatePreview(); scheduleSave();
+  });
+  document.getElementById('add-project').addEventListener('click', () => {
+    d.projects.push({name:'',description:'',link:''});
+    renderRepeatableProjects(); updatePreview(); scheduleSave();
+  });
+
+  const photoInput = document.getElementById('photo-input');
+  photoInput.addEventListener('change', () => {
+    const file = photoInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => { d.photo = ev.target.result; renderEditorForm(); updatePreview(); scheduleSave(); };
+    reader.readAsDataURL(file);
+  });
+  const photoRemove = document.getElementById('photo-remove');
+  if (photoRemove) photoRemove.addEventListener('click', () => { d.photo=''; renderEditorForm(); updatePreview(); scheduleSave(); });
+}
+
+function renderRepeatableExperience(){
+  const d = currentResume.data;
+  const box = document.getElementById('experience-list');
+  box.innerHTML = d.experience.map((e, i) => `
+    <div class="repeat-item" data-idx="${i}">
+      <div class="repeat-item-head"><span>#${i+1}</span><button class="icon-btn del-exp" data-idx="${i}">&times;</button></div>
+      <div class="two-col">
+        <div class="field"><label>${t('fld_job_title')}</label><input type="text" data-arr="experience" data-idx="${i}" data-key="title" value="${esc(e.title)}"></div>
+        <div class="field"><label>${t('fld_company')}</label><input type="text" data-arr="experience" data-idx="${i}" data-key="company" value="${esc(e.company)}"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>${t('fld_location')}</label><input type="text" data-arr="experience" data-idx="${i}" data-key="location" value="${esc(e.location)}"></div>
+        <div class="two-col" style="grid-template-columns:1fr 1fr; gap:6px;">
+          <div class="field"><label>${t('fld_start')}</label><input type="text" data-arr="experience" data-idx="${i}" data-key="start" value="${esc(e.start)}"></div>
+          <div class="field"><label>${t('fld_end')}</label><input type="text" data-arr="experience" data-idx="${i}" data-key="end" value="${esc(e.end)}"></div>
+        </div>
+      </div>
+      <div class="field"><label>${t('fld_description')}</label><textarea data-arr="experience" data-idx="${i}" data-key="description">${esc(e.description)}</textarea></div>
+    </div>`).join('');
+  wireRepeatable(box, 'experience', renderRepeatableExperience);
+}
+
+function renderRepeatableEducation(){
+  const d = currentResume.data;
+  const box = document.getElementById('education-list');
+  box.innerHTML = d.education.map((e, i) => `
+    <div class="repeat-item" data-idx="${i}">
+      <div class="repeat-item-head"><span>#${i+1}</span><button class="icon-btn del-exp" data-idx="${i}">&times;</button></div>
+      <div class="two-col">
+        <div class="field"><label>${t('fld_degree')}</label><input type="text" data-arr="education" data-idx="${i}" data-key="degree" value="${esc(e.degree)}"></div>
+        <div class="field"><label>${t('fld_school')}</label><input type="text" data-arr="education" data-idx="${i}" data-key="school" value="${esc(e.school)}"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>${t('fld_location')}</label><input type="text" data-arr="education" data-idx="${i}" data-key="location" value="${esc(e.location)}"></div>
+        <div class="two-col" style="grid-template-columns:1fr 1fr; gap:6px;">
+          <div class="field"><label>${t('fld_start')}</label><input type="text" data-arr="education" data-idx="${i}" data-key="start" value="${esc(e.start)}"></div>
+          <div class="field"><label>${t('fld_end')}</label><input type="text" data-arr="education" data-idx="${i}" data-key="end" value="${esc(e.end)}"></div>
+        </div>
+      </div>
+      <div class="field"><label>${t('fld_edu_desc')}</label><textarea data-arr="education" data-idx="${i}" data-key="description">${esc(e.description)}</textarea></div>
+    </div>`).join('');
+  wireRepeatable(box, 'education', renderRepeatableEducation);
+}
+
+function renderRepeatableProjects(){
+  const d = currentResume.data;
+  const box = document.getElementById('projects-list');
+  box.innerHTML = d.projects.map((p, i) => `
+    <div class="repeat-item" data-idx="${i}">
+      <div class="repeat-item-head"><span>#${i+1}</span><button class="icon-btn del-exp" data-idx="${i}">&times;</button></div>
+      <div class="field"><label>${t('fld_project_name')}</label><input type="text" data-arr="projects" data-idx="${i}" data-key="name" value="${esc(p.name)}"></div>
+      <div class="field"><label>${t('fld_project_desc')}</label><textarea data-arr="projects" data-idx="${i}" data-key="description">${esc(p.description)}</textarea></div>
+      <div class="field"><label>${t('fld_project_link')}</label><input type="text" data-arr="projects" data-idx="${i}" data-key="link" value="${esc(p.link)}"></div>
+    </div>`).join('');
+  wireRepeatable(box, 'projects', renderRepeatableProjects);
+}
+
+function wireRepeatable(box, arrName, rerender){
+  box.querySelectorAll('[data-arr]').forEach(el => {
+    el.addEventListener('input', () => {
+      const idx = Number(el.dataset.idx), key = el.dataset.key;
+      currentResume.data[arrName][idx][key] = el.value;
+      updatePreview(); scheduleSave();
+    });
+  });
+  box.querySelectorAll('.del-exp').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.dataset.idx);
+      currentResume.data[arrName].splice(idx, 1);
+      rerender(); updatePreview(); scheduleSave();
+    });
+  });
+}
+
+function renderChips(boxId, items){
+  const box = document.getElementById(boxId);
+  const arrKey = box.dataset.array;
+  const input = box.querySelector('input');
+  box.querySelectorAll('.chip').forEach(c => c.remove());
+  (items || []).forEach((val, i) => {
+    const chip = document.createElement('span');
+    chip.className = 'chip';
+    chip.innerHTML = `${esc(val)}<button type="button" data-i="${i}">&times;</button>`;
+    chip.querySelector('button').addEventListener('click', () => {
+      currentResume.data[arrKey].splice(i, 1);
+      renderChips(boxId, currentResume.data[arrKey]);
+      updatePreview(); scheduleSave();
+    });
+    box.insertBefore(chip, input);
+  });
+  input.onkeydown = (e) => {
+    if (e.key === 'Enter' || e.key === ','){
+      e.preventDefault();
+      const val = input.value.trim();
+      if (val){
+        currentResume.data[arrKey].push(val);
+        input.value = '';
+        renderChips(boxId, currentResume.data[arrKey]);
+        updatePreview(); scheduleSave();
+      }
+    }
+  };
+}
+
+let currentFilter = 'all';
+function openTemplateModal(){
+  buildFilterRow();
+  buildTplGrid();
+  document.getElementById('template-modal').classList.remove('hidden');
+}
+function buildFilterRow(){
+  const row = document.getElementById('filter-row');
+  row.innerHTML = CATEGORIES.map(c => `<button class="filter-chip ${c===currentFilter?'active':''}" data-cat="${c}">${t('cat_'+c)}</button>`).join('');
+  row.querySelectorAll('.filter-chip').forEach(btn => {
+    btn.addEventListener('click', () => { currentFilter = btn.dataset.cat; openTemplateModal(); });
+  });
+}
+function buildTplGrid(){
+  const grid = document.getElementById('tpl-grid');
+  grid.innerHTML = '';
+  const list = TEMPLATES.filter(tpl => currentFilter === 'all' || tpl.cat === currentFilter);
+  list.forEach(tpl => {
+    const card = document.createElement('div');
+    card.className = 'tpl-card' + (tpl.id === currentResume.templateId ? ' selected' : '');
+    card.innerHTML = `<div class="tpl-frame"><div class="resume-doc"></div></div><div class="tpl-label"><div class="tpl-name">${esc(tpl.name)}</div><div class="tpl-cat">${t('cat_'+tpl.cat)}</div></div>`;
+    renderInto(card.querySelector('.resume-doc'), tpl, currentResume.data);
+    card.addEventListener('click', () => {
+      currentResume.templateId = tpl.id;
+      updatePreview(); scheduleSave();
+      document.getElementById('template-modal').classList.add('hidden');
+    });
+    grid.appendChild(card);
+  });
+}
+
+function doPrint(){
+  const tpl = TEMPLATES.find(x => x.id === currentResume.templateId) || TEMPLATES[0];
+  renderInto(document.getElementById('print-target'), tpl, currentResume.data);
+  document.getElementById('print-target').classList.remove('hidden');
+  window.print();
+}
+
+document.getElementById('btn-create-resume').addEventListener('click', () => {
+  const r = blankResume();
+  Store.upsert(r);
+  openEditor(r.id);
+});
+document.getElementById('btn-back-dashboard').addEventListener('click', () => { renderDashboard(); showScreen('dashboard'); });
+document.getElementById('editor-name-input').addEventListener('input', (e) => {
+  currentResume.name = e.target.value; scheduleSave();
+});
+document.getElementById('btn-load-sample').addEventListener('click', () => {
+  const s = sampleResume();
+  currentResume.data = s.data;
+  if (!currentResume.name || currentResume.name === t('untitled')) {
+    currentResume.name = s.name;
+    document.getElementById('editor-name-input').value = s.name;
+  }
+  renderEditorForm(); updatePreview(); scheduleSave();
+});
+document.getElementById('btn-choose-template').addEventListener('click', openTemplateModal);
+document.getElementById('btn-close-template-modal').addEventListener('click', () => document.getElementById('template-modal').classList.add('hidden'));
+document.getElementById('btn-print').addEventListener('click', doPrint);
+document.getElementById('btn-download-pdf').addEventListener('click', doPrint);
+document.getElementById('btn-open-language').addEventListener('click', () => document.getElementById('language-modal').classList.remove('hidden'));
+document.getElementById('btn-close-language-modal').addEventListener('click', () => document.getElementById('language-modal').classList.add('hidden'));
+document.querySelectorAll('#language-modal [data-lang]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    LANG = btn.dataset.lang;
+    localStorage.setItem('rb_lang', LANG);
+    applyStaticTranslations();
+    renderDashboard();
+    if (currentResume) { renderEditorForm(); updatePreview(); }
+    document.getElementById('language-modal').classList.add('hidden');
+  });
+});
+document.getElementById('btn-onboard-done').addEventListener('click', () => {
+  localStorage.setItem('rb_onboarded', '1');
+  document.getElementById('onboard-modal').classList.add('hidden');
+});
+
+applyStaticTranslations();
+renderDashboard();
+showScreen('dashboard');
+if (!localStorage.getItem('rb_onboarded')){
+  document.getElementById('onboard-modal').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
