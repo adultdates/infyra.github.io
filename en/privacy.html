@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Privacy Policy - Infyra News</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        body { background:#0b0f19; color:#fff; font-family:Inter,Arial; line-height:1.6; margin:0; }
+        .container { max-width:900px; margin:40px auto; padding:20px; }
+        h1 { font-size:32px; margin-bottom:20px; color:#4facfe; }
+        h2 { font-size:24px; margin:30px 0 15px; color:#a0a8b8; }
+        p, li { margin-bottom:10px; color:#e0e6f0; }
+        a { color:#4facfe; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .updated { color:#6a7480; margin-bottom:30px; font-style:italic; }
+        .logo { font-size:28px; font-weight:700; background:linear-gradient(90deg,#4facfe,#a855f7); -webkit-background-clip:text;-webkit-text-fill-color:transparent; text-decoration:none; }
+        header { padding:15px 30px; background:#0e1424; border-bottom:1px solid #1e2638; }
+        ul { padding-left:20px; }
+    </style>
+
+    <script src="../app.js"></script>
+    <script src="../privacy-translations.js"></script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Infyra</a>
+    </header>
+    
+    <div class="container">
+        <h1 id="title">Privacy Policy</h1>
+        <div class="updated" id="updated">Last updated: February 15, 2026</div>
+        
+        <p id="intro">This Privacy Policy explains how Infyra News (hereinafter "we", "us" or "our") collects, uses and protects your personal information when using our website.</p>
+        
+        <h2 id="section1">1. What data we collect</h2>
+        <p id="section1Intro">When you visit our site, the following data is automatically collected:</p>
+        <ul id="section1List">
+            <li id="item1"><strong>Cookies</strong> — small text files stored on your device containing information about your preferences and actions on the site;</li>
+            <li id="item2"><strong>Anonymized visit data</strong> — traffic sources, session duration, pages viewed (using web analytics services);</li>
+            <li id="item3"><strong>Technical information</strong> — device type, browser version, IP address (without personal identification);</li>
+            <li id="item4"><strong>Form data</strong> — if you contact us through the contact form, we collect your name and email.</li>
+        </ul>
+        
+        <h2 id="section2">2. How we use your data</h2>
+        <p id="section2Intro">The collected data is used exclusively for:</p>
+        <ul id="section2List">
+            <li id="use1">Ensuring the operation and improving the functionality of the site;</li>
+            <li id="use2">Analyzing user behavior to optimize content;</li>
+            <li id="use3">Personalizing advertising (via Google AdSense and other advertising partners);</li>
+            <li id="use4">Statistical and marketing analysis of the audience;</li>
+            <li id="use5">Responding to your requests through the contact form.</li>
+        </ul>
+        
+        <h2 id="section3">3. Cookies</h2>
+        <p id="cookieIntro">We use cookies for:</p>
+        <ul id="cookieList">
+            <li id="cookie1">Ensuring the functioning of the site (technical cookies);</li>
+            <li id="cookie2">Collecting statistics (analytical cookies);</li>
+            <li id="cookie3">Displaying personalized advertising (marketing cookies).</li>
+        </ul>
+        <p id="cookieText">You can change your cookie settings in your browser at any time or disable them. By continuing to use our site, you consent to the use of cookies.</p>
+        
+        <h2 id="section4">4. Google AdSense and advertising</h2>
+        <p id="adsenseText">Our site uses Google AdSense to display ads. Google may use cookies to display personalized ads based on your previous visits. You can disable ad personalization at <a href="https://adssettings.google.com" target="_blank">adssettings.google.com</a>.</p>
+        
+        <h2 id="section5">5. Transfer of data to third parties</h2>
+        <p id="thirdPartyText">We do not sell or transfer your personal data to third parties, except for the use of web analytics services and advertising partners (Google AdSense), who process data in accordance with their privacy policies.</p>
+        
+        <h2 id="section6">6. Data protection</h2>
+        <p id="securityText">We take necessary technical and organizational measures to protect your data from unauthorized access, leakage or alteration.</p>
+        
+        <h2 id="section7">7. Your rights</h2>
+        <p id="rightsText">You have the right to:</p>
+        <ul id="rightsList">
+            <li id="right1">Disable cookies in your browser settings;</li>
+            <li id="right2">Request information about your personal data and request its deletion;</li>
+            <li id="right3">Opt out of personalized advertising in Google settings.</li>
+        </ul>
+        
+        <h2 id="section8">8. Contact information</h2>
+        <p id="contactText">For all questions related to data processing, you can contact us through the <a href="contact.html" id="contactLink">feedback form</a>. We will respond as soon as possible.</p>
+        
+        <h2 id="section9">9. Policy changes</h2>
+        <p id="changesText">We reserve the right to make changes to this Privacy Policy. The current version is always available on this page.</p>
+    </div>
+
+    <script>
+        
+
+        // ===== Translate page content =====
+        function translatePrivacyPage() {
+            const lang = window.lang || 'en';
+            const t = PRIVACY_TRANSLATIONS[lang] || PRIVACY_TRANSLATIONS.en;
+
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('updated').textContent = t.updated;
+            document.getElementById('intro').innerHTML = t.intro;
+            
+            document.getElementById('section1').textContent = t.section1;
+            document.getElementById('section1Intro').textContent = t.section1Intro;
+            document.getElementById('item1').innerHTML = t.item1;
+            document.getElementById('item2').innerHTML = t.item2;
+            document.getElementById('item3').innerHTML = t.item3;
+            document.getElementById('item4').innerHTML = t.item4;
+            
+            document.getElementById('section2').textContent = t.section2;
+            document.getElementById('section2Intro').textContent = t.section2Intro;
+            document.getElementById('use1').textContent = t.use1;
+            document.getElementById('use2').textContent = t.use2;
+            document.getElementById('use3').textContent = t.use3;
+            document.getElementById('use4').textContent = t.use4;
+            document.getElementById('use5').textContent = t.use5;
+            
+            document.getElementById('section3').textContent = t.section3;
+            document.getElementById('cookieIntro').textContent = t.cookieIntro;
+            document.getElementById('cookie1').textContent = t.cookie1;
+            document.getElementById('cookie2').textContent = t.cookie2;
+            document.getElementById('cookie3').textContent = t.cookie3;
+            document.getElementById('cookieText').textContent = t.cookieText;
+            
+            document.getElementById('section4').textContent = t.section4;
+            document.getElementById('adsenseText').innerHTML = t.adsenseText;
+            
+            document.getElementById('section5').textContent = t.section5;
+            document.getElementById('thirdPartyText').textContent = t.thirdPartyText;
+            
+            document.getElementById('section6').textContent = t.section6;
+            document.getElementById('securityText').textContent = t.securityText;
+            
+            document.getElementById('section7').textContent = t.section7;
+            document.getElementById('rightsText').textContent = t.rightsText;
+            document.getElementById('right1').textContent = t.right1;
+            document.getElementById('right2').textContent = t.right2;
+            document.getElementById('right3').textContent = t.right3;
+            
+            document.getElementById('section8').textContent = t.section8;
+            document.getElementById('contactText').innerHTML = t.contactText;
+            
+            document.getElementById('section9').textContent = t.section9;
+            document.getElementById('changesText').textContent = t.changesText;
+        }
+
+        // Wait for app.js to initialize
+        let checkInterval = setInterval(function() {
+            if (typeof window.lang !== 'undefined') {
+                clearInterval(checkInterval);
+                translatePrivacyPage();
+            }
+        }, 50);
+
+        window.addEventListener('languageChanged', translatePrivacyPage);
+    </script>
+</body>
+</html>
+        
+        
+        
+        
+        
+        
+        
+       
+                     
+     

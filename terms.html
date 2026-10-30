@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Terms of Service - Infyra News</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background:#0b0f19; color:#fff; font-family:Inter,Arial; line-height:1.6; margin:0; }
+        .container { max-width:900px; margin:40px auto; padding:20px; }
+        h1 { font-size:32px; margin-bottom:20px; color:#4facfe; }
+        h2 { font-size:24px; margin:30px 0 15px; color:#a0a8b8; }
+        p, li { margin-bottom:10px; color:#e0e6f0; }
+        a { color:#4facfe; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .updated { color:#6a7480; margin-bottom:30px; }
+        .logo { font-size:28px; font-weight:700; background:linear-gradient(90deg,#4facfe,#a855f7); -webkit-background-clip:text;-webkit-text-fill-color:transparent; text-decoration:none; }
+        header { padding:15px 30px; background:#0e1424; border-bottom:1px solid #1e2638; }
+        ul { padding-left:20px; }
+    </style>
+
+    <script src="app.js"></script>
+    <script src="terms-translations.js"></script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Infyra</a>
+    </header>
+    
+    <div class="container">
+        <h1 id="title">Terms of Service</h1>
+        <div class="updated" id="updated">Last updated: February 15, 2026</div>
+        
+        <p id="intro">Welcome to Infyra News. By using our site, you agree to these Terms of Service.</p>
+        
+        <h2 id="section1">1. General Provisions</h2>
+        <p id="generalText">Infyra News provides access to news materials for personal non-commercial use. All materials are protected by copyright.</p>
+        
+        <h2 id="section2">2. Use of Content</h2>
+        <p id="contentText">You may view, copy and print site materials for personal use. Prohibited:</p>
+        <ul id="contentList">
+            <li id="prohibit1">Copying and distributing materials for commercial purposes;</li>
+            <li id="prohibit2">Modification or processing of content;</li>
+            <li id="prohibit3">Use of materials in violation of copyright;</li>
+            <li id="prohibit4">Automated data collection (parsing).</li>
+        </ul>
+        
+        <h2 id="section3">3. Links to Third-Party Sites</h2>
+        <p id="linksText">Our site may contain links to external resources. We are not responsible for their content and privacy policies.</p>
+        
+        <h2 id="section4">4. Disclaimer</h2>
+        <p id="disclaimerText">News materials are provided "as is". We do not guarantee absolute accuracy of information and are not responsible for possible losses from using the site.</p>
+        
+        <h2 id="section5">5. Changes to Terms</h2>
+        <p id="changesText">We reserve the right to change these Terms of Service. The current version is always available on this page.</p>
+        
+        <h2 id="section6">6. Contacts</h2>
+        <p id="contactText">For all questions related to the use of the site, you can contact us through the <a href="contact.html" id="contactLink">feedback form</a>.</p>
+    </div>
+    <script>
+        
+
+        function translateTermsPage() {
+            const lang = window.lang || 'en';
+            const t = TERMS_TRANSLATIONS[lang] || TERMS_TRANSLATIONS.en;
+
+            document.getElementById('pageTitle').textContent = t.title;
+            document.getElementById('title').textContent = t.mainTitle;
+            document.getElementById('updated').textContent = t.updated;
+            document.getElementById('intro').textContent = t.intro;
+            
+            document.getElementById('section1').textContent = t.section1;
+            document.getElementById('generalText').textContent = t.generalText;
+            
+            document.getElementById('section2').textContent = t.section2;
+            document.getElementById('contentText').textContent = t.contentText;
+            document.getElementById('prohibit1').textContent = t.prohibit1;
+            document.getElementById('prohibit2').textContent = t.prohibit2;
+            document.getElementById('prohibit3').textContent = t.prohibit3;
+            document.getElementById('prohibit4').textContent = t.prohibit4;
+            
+            document.getElementById('section3').textContent = t.section3;
+            document.getElementById('linksText').textContent = t.linksText;
+            
+            document.getElementById('section4').textContent = t.section4;
+            document.getElementById('disclaimerText').textContent = t.disclaimerText;
+            
+            document.getElementById('section5').textContent = t.section5;
+            document.getElementById('changesText').textContent = t.changesText;
+            
+            document.getElementById('section6').textContent = t.section6;
+            document.getElementById('contactText').innerHTML = t.contactText;
+        }
+
+        let checkInterval = setInterval(function() {
+            if (typeof window.lang !== 'undefined') {
+                clearInterval(checkInterval);
+                translateTermsPage();
+            }
+        }, 50);
+
+        window.addEventListener('languageChanged', translateTermsPage);
+    </script>
+</body>
+</html>
+        
+        
+        
+        
+        
+        
+        

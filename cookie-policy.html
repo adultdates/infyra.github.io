@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Cookie Policy - Infyra News</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background:#0b0f19; color:#fff; font-family:Inter,Arial; line-height:1.6; margin:0; }
+        .container { max-width:900px; margin:40px auto; padding:20px; }
+        h1 { font-size:32px; margin-bottom:20px; color:#4facfe; }
+        h2 { font-size:24px; margin:30px 0 15px; color:#a0a8b8; }
+        h3 { font-size:20px; margin:20px 0 10px; color:#4facfe; }
+        p, li { margin-bottom:10px; color:#e0e6f0; }
+        a { color:#4facfe; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .updated { color:#6a7480; margin-bottom:30px; }
+        .logo { font-size:28px; font-weight:700; background:linear-gradient(90deg,#4facfe,#a855f7); -webkit-background-clip:text;-webkit-text-fill-color:transparent; text-decoration:none; }
+        header { padding:15px 30px; background:#0e1424; border-bottom:1px solid #1e2638; }
+        ul { padding-left:20px; }
+    </style>
+
+    <script src="app.js"></script>
+    <script src="cookie-policy-translations.js"></script>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">Infyra</a>
+    </header>
+    
+    <div class="container">
+        <h1 id="title">Cookie Policy</h1>
+        <div class="updated" id="updated">Last updated: February 15, 2026</div>
+        
+        <p id="intro">This Policy explains what cookies are and how we use them.</p>
+        
+        <h2 id="whatAre">What are cookies?</h2>
+        <p id="whatAreText">Cookies are small text files that are stored on your device when you visit websites. They allow the site to remember your preferences.</p>
+        
+        <h2 id="whatWeUse">What cookies we use</h2>
+        
+        <h3 id="technical">1. Technical cookies</h3>
+        <p id="technicalText">Necessary for the site to function. Cannot be disabled.</p>
+        
+        <h3 id="analytical">2. Analytical cookies</h3>
+        <p id="analyticalText">Collect anonymous information about user behavior to improve the site.</p>
+        
+        <h3 id="marketing">3. Marketing cookies</h3>
+        <p id="marketingText">Used by Google AdSense to display personalized advertising.</p>
+        
+        <h2 id="howManage">How to manage cookies</h2>
+        <p id="manageText">You can manage cookies in your browser settings:</p>
+        <ul id="browserList">
+            <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" id="chrome">Google Chrome</a></li>
+            <li><a href="https://support.mozilla.org/en-US/kb/delete-cookies-remove-info-websites-stored" target="_blank" id="firefox">Mozilla Firefox</a></li>
+            <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank" id="safari">Safari</a></li>
+            <li><a href="https://support.microsoft.com/en-us/microsoft-edge/delete-cookies-in-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" id="edge">Microsoft Edge</a></li>
+        </ul>
+        
+        <h2 id="optOut">Opt out of personalized advertising</h2>
+        <p id="optOutText">You can disable ad personalization on the <a href="https://adssettings.google.com" target="_blank" id="googleAdsLink">Google Ads Settings</a> page.</p>
+        
+        <h2 id="contact">Contacts</h2>
+        <p id="contactText">If you have questions, contact us through the <a href="contact.html" id="contactLink">feedback form</a>.</p>
+    </div>
+
+    <script>
+        
+
+        const allLangs = Object.keys(window.LANGUAGES || {});
+        allLangs.forEach(langCode => {
+            if (!COOKIE_TRANSLATIONS[langCode]) {
+                COOKIE_TRANSLATIONS[langCode] = COOKIE_TRANSLATIONS.en;
+            }
+        });
+
+        function translateCookiePage() {
+            const lang = window.lang || 'en';
+            const t = COOKIE_TRANSLATIONS[lang] || COOKIE_TRANSLATIONS.en;
+
+            document.getElementById('pageTitle').textContent = t.title;
+            document.getElementById('title').textContent = t.mainTitle;
+            document.getElementById('updated').textContent = t.updated;
+            document.getElementById('intro').textContent = t.intro;
+            
+            document.getElementById('whatAre').textContent = t.whatAre;
+            document.getElementById('whatAreText').textContent = t.whatAreText;
+            
+            document.getElementById('whatWeUse').textContent = t.whatWeUse;
+            document.getElementById('technical').textContent = t.technical;
+            document.getElementById('technicalText').textContent = t.technicalText;
+            document.getElementById('analytical').textContent = t.analytical;
+            document.getElementById('analyticalText').textContent = t.analyticalText;
+            document.getElementById('marketing').textContent = t.marketing;
+            document.getElementById('marketingText').textContent = t.marketingText;
+            
+            document.getElementById('howManage').textContent = t.howManage;
+            document.getElementById('manageText').textContent = t.manageText;
+            document.getElementById('chrome').textContent = t.chrome;
+            document.getElementById('firefox').textContent = t.firefox;
+            document.getElementById('safari').textContent = t.safari;
+            document.getElementById('edge').textContent = t.edge;
+            
+            document.getElementById('optOut').textContent = t.optOut;
+            document.getElementById('optOutText').innerHTML = t.optOutText;
+            
+            document.getElementById('contact').textContent = t.contact;
+            document.getElementById('contactText').innerHTML = t.contactText;
+        }
+
+        let checkInterval = setInterval(function() {
+            if (typeof window.lang !== 'undefined') {
+                clearInterval(checkInterval);
+                translateCookiePage();
+            }
+        }, 50);
+
+        window.addEventListener('languageChanged', translateCookiePage);
+    </script>
+</body>
+</html>
